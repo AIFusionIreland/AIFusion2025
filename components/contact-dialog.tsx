@@ -44,17 +44,27 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     setSubmitStatus("idle")
 
     try {
-      // Simulate sending email without opening email app
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Create mailto link with form data
+      const subject = encodeURIComponent("Contact Form Submission - AI Fusion")
+      const body = encodeURIComponent(`
+New Contact Form Submission
 
-      // In a real application, this would be an API call to send the email
-      // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) })
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
+Phone: ${formData.phone.trim() || "Not provided"}
+
+Message:
+${formData.message.trim()}
+
+---
+This message was submitted through the AI Fusion contact dialog.
+      `)
+
+      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
 
       setSubmitStatus("success")
       setShowSuccessPopup(true)
       setFormData({ name: "", email: "", phone: "", message: "" })
-
-      // Remove the auto-close timeout - let user close manually
     } catch (error) {
       setSubmitStatus("error")
     } finally {

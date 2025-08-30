@@ -36,8 +36,24 @@ export default function AIForBusinessPage() {
     setIsSubmitting(true)
 
     try {
-      // Simulate sending email (in a real app, this would be an API call)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Create mailto link with form data
+      const subject = encodeURIComponent("Business Consultation Request - AI Fusion")
+      const body = encodeURIComponent(`
+New Business Consultation Request
+
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
+Company: ${formData.company.trim() || "Not provided"}
+Industry: ${formData.industry || "Not provided"}
+
+Message:
+${formData.message.trim()}
+
+---
+This consultation request was submitted through the AI Fusion Business page.
+      `)
+
+      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
 
       // Show success dialog
       setShowSuccessDialog(true)

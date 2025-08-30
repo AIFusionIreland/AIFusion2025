@@ -80,10 +80,31 @@ export default function Home() {
     setEnrollSubmitStatus("idle")
 
     try {
-      // Simulate sending email (in a real app, this would be an API call)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Create mailto link with form data
+      const subject = encodeURIComponent("AI Course Enrollment Request - AI Fusion Homepage")
+      const body = encodeURIComponent(`
+New AI Course Enrollment Request
 
-      setEnrollSubmitStatus("success")
+Name: ${enrollFormData.firstName.trim()} ${enrollFormData.lastName.trim()}
+Email: ${enrollFormData.email.trim()}
+Phone: ${enrollFormData.phone.trim()}
+Organization: ${enrollFormData.organization.trim() || "Not provided"}
+Payment Option: ${enrollFormData.paymentOption}
+AI Experience Level: ${enrollFormData.experience}
+
+Goals:
+${enrollFormData.goals.trim() || "Not provided"}
+
+---
+This enrollment request was submitted through the AI Fusion homepage banner.
+    `)
+
+      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
+
+      // Show success dialog
+      setIsEnrollSuccessDialogOpen(true)
+
+      // Reset form
       setEnrollFormData({
         firstName: "",
         lastName: "",
@@ -95,9 +116,8 @@ export default function Home() {
         goals: "",
       })
 
-      // Close enrollment form and show success dialog
+      // Close enrollment form
       setIsEnrollDialogOpen(false)
-      setIsEnrollSuccessDialogOpen(true)
     } catch (error) {
       setEnrollSubmitStatus("error")
     } finally {
@@ -1544,16 +1564,21 @@ function ContactForm() {
     setIsSubmitting(true)
 
     // Create the mailto link with the form data
-    const subject = `Contact from ${name.trim()}`
-    const body = `Name: ${name.trim()}
+    const subject = encodeURIComponent("Contact Form Submission - AI Fusion Homepage")
+    const body = encodeURIComponent(`
+New Contact Form Submission
+
+Name: ${name.trim()}
 Email: ${email.trim()}
 
 Message:
-${message.trim()}`
-    const mailtoLink = `mailto:info@aifusion.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+${message.trim()}
 
-    // Open the user's email client
-    window.location.href = mailtoLink
+---
+This message was submitted through the AI Fusion homepage contact form.
+  `)
+
+    window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
 
     // Show success message
     setTimeout(() => {

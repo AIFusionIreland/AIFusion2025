@@ -84,8 +84,26 @@ export default function UpcomingCoursesPage() {
     setSubmitStatus("idle")
 
     try {
-      // Simulate sending email (in a real app, this would be an API call)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Create mailto link with form data
+      const subject = encodeURIComponent("AI Course Enrollment Request - AI Fusion")
+      const body = encodeURIComponent(`
+New AI Course Enrollment Request
+
+Name: ${formData.firstName.trim()} ${formData.lastName.trim()}
+Email: ${formData.email.trim()}
+Phone: ${formData.phone.trim()}
+Organization: ${formData.organization.trim() || "Not provided"}
+Payment Option: ${formData.paymentOption}
+AI Experience Level: ${formData.experience}
+
+Goals:
+${formData.goals.trim() || "Not provided"}
+
+---
+This enrollment request was submitted through the AI Fusion Upcoming Courses page.
+      `)
+
+      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
 
       setSubmitStatus("success")
       setFormData({
@@ -130,8 +148,24 @@ export default function UpcomingCoursesPage() {
     setOnlineSubmitStatus("idle")
 
     try {
-      // Simulate sending email (in a real app, this would be an API call)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Create mailto link with form data
+      const subject = encodeURIComponent("Online AI Taster Course Enrollment - AI Fusion")
+      const body = encodeURIComponent(`
+New Online AI Taster Course Enrollment
+
+Name: ${onlineFormData.firstName.trim()} ${onlineFormData.lastName.trim()}
+Email: ${onlineFormData.email.trim()}
+Phone: ${onlineFormData.phone.trim()}
+AI Experience Level: ${onlineFormData.experience}
+
+What interests you about AI:
+${onlineFormData.goals.trim() || "Not provided"}
+
+---
+This enrollment request was submitted through the AI Fusion Online Taster Course section.
+      `)
+
+      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
 
       setOnlineSubmitStatus("success")
       setOnlineFormData({

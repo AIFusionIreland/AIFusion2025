@@ -56,15 +56,15 @@ export default function AITrainingPage() {
     setSubmitStatus("idle")
 
     try {
-      const subject = encodeURIComponent("AI Training Enrollment Request")
+      const subject = encodeURIComponent("AI Training Enrollment Request - AI Fusion")
       const body = encodeURIComponent(`
 New AI Training Enrollment Request
 
-Name: ${formData.name}
-Email: ${formData.email}
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
 
 Message:
-${formData.message}
+${formData.message.trim() || "No additional message provided"}
 
 ---
 This enrollment request was submitted through the AI Fusion AI Training page.
