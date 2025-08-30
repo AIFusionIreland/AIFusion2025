@@ -10,7 +10,7 @@ const AIFusionLogo: React.FC<AIFusionLogoProps> = ({ className = "h-10 w-10", ci
   return (
     <div className={`${className} flex items-center justify-center`}>
       <Image
-        src="/images/ai-fusion-new-logo.jpg"
+        src="/images/ai-fusion-new-brand-logo.jpg"
         alt="AI Fusion - AI made simple, Innovation for everyone"
         width={400}
         height={400}

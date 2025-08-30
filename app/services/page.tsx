@@ -33,13 +33,8 @@ export default function ServicesPage() {
               Locafy
             </Link>
             <Link
-              href="/#contact"
+              href="mailto:infi@aifusion.ie?subject=Contact%20Inquiry%20from%20Services%20Page"
               className="text-sm font-medium text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-              onClick={(e) => {
-                e.preventDefault()
-                // Navigate to home page first, then scroll to contact
-                window.location.href = "/#contact"
-              }}
             >
               Contact
             </Link>
@@ -343,11 +338,14 @@ export default function ServicesPage() {
                 Let's discuss how our AI services can help you achieve your goals and stay ahead of the competition.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild className="rounded-full px-8 py-6 bg-purple-600 hover:bg-purple-700 text-white text-lg">
-                  <Link href="https://stan.store/AIFusion" target="_blank" rel="noopener noreferrer">
-                    Get Started Today
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
+                <Button
+                  className="rounded-full px-8 py-6 bg-purple-600 hover:bg-purple-700 text-white text-lg"
+                  onClick={() =>
+                    window.open("mailto:infi@aifusion.ie?subject=Get%20Started%20with%20AI%20Fusion", "_blank")
+                  }
+                >
+                  Get Started Today
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button
                   asChild

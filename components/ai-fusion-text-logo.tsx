@@ -11,8 +11,8 @@ const AIFusionTextLogo: React.FC<AIFusionTextLogoProps> = ({ className = "h-10",
     <div className={`flex items-center ${className}`}>
       <div className="h-full aspect-square">
         <Image
-          src="/images/ai-fusion-new-logo.jpg"
-          alt="AI Fusion Logo"
+          src="/images/ai-fusion-new-brand-logo.jpg"
+          alt="AI Fusion - AI Made Simple. Innovation for Everyone"
           width={400}
           height={400}
           className="h-full w-auto object-contain"

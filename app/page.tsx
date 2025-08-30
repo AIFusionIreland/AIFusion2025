@@ -1,8 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
   ArrowRight,
@@ -12,59 +10,161 @@ import {
   Smartphone,
   Store,
   Calendar,
-  User,
   AlertCircle,
   CheckCircle,
+  MapPin,
+  Users,
+  Star,
 } from "lucide-react"
 import AIFusionLogo from "@/components/ai-fusion-logo"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import PricingDialog from "@/components/pricing-dialog"
+import SiteHeader from "@/components/site-header"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Check } from "lucide-react"
 
 export default function Home() {
+  const [isPricingOpen, setIsPricingOpen] = useState(false)
+  const router = useRouter()
+  const [isEnrollDialogOpen, setIsEnrollDialogOpen] = useState(false)
+  const [enrollFormData, setEnrollFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    organization: "",
+    paymentOption: "",
+    experience: "",
+    goals: "",
+  })
+  const [isEnrollSubmitting, setIsEnrollSubmitting] = useState(false)
+  const [enrollSubmitStatus, setEnrollSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [isEnrollSuccessDialogOpen, setIsEnrollSuccessDialogOpen] = useState(false)
+
+  // Ensure page starts at top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  const handleNavigation = (path: string) => {
+    router.push(path)
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }, 100)
+  }
+
+  const handleEnrollInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setEnrollFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleEnrollSelectChange = (name: string, value: string) => {
+    setEnrollFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleEnrollSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsEnrollSubmitting(true)
+    setEnrollSubmitStatus("idle")
+
+    try {
+      // Simulate sending email (in a real app, this would be an API call)
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      setEnrollSubmitStatus("success")
+      setEnrollFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        organization: "",
+        paymentOption: "",
+        experience: "",
+        goals: "",
+      })
+
+      // Close enrollment form and show success dialog
+      setIsEnrollDialogOpen(false)
+      setIsEnrollSuccessDialogOpen(true)
+    } catch (error) {
+      setEnrollSubmitStatus("error")
+    } finally {
+      setIsEnrollSubmitting(false)
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-navy-975">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-navy-800 bg-navy-975/95 backdrop-blur-md">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <AIFusionTextLogo className="h-12" showText={true} />
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link
-              href="#services"
-              className="text-sm font-medium text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Services
-            </Link>
-            <Link
-              href="#about"
-              className="text-sm font-medium text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              About
-            </Link>
-            <Link
-              href="#locafy"
-              className="text-sm font-medium text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Locafy
-            </Link>
-            <Link
-              href="#contact"
-              className="text-sm font-medium text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById("contact")?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                })
-              }}
-            >
-              Contact
-            </Link>
-          </nav>
+      <SiteHeader />
+
+      {/* Hero Banner */}
+      <section className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 py-4 md:py-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 to-indigo-800/20"></div>
+
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-2 left-10 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
+          <div
+            className="absolute top-6 right-20 w-1.5 h-1.5 bg-white/40 rounded-full animate-pulse"
+            style={{ animationDelay: "0.5s" }}
+          ></div>
+          <div
+            className="absolute bottom-3 left-1/4 w-1 h-1 bg-white/25 rounded-full animate-pulse"
+            style={{ animationDelay: "1s" }}
+          ></div>
+          <div
+            className="absolute bottom-2 right-1/3 w-2 h-2 bg-white/35 rounded-full animate-pulse"
+            style={{ animationDelay: "1.5s" }}
+          ></div>
         </div>
-      </header>
+
+        <div className="container px-4 md:px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div className="flex-1 text-center lg:text-left">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
+                Level Up with AI—Join Our In-Person Training in Buncrana!
+              </h2>
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-white/90">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-yellow-300" />
+                  <span className="font-semibold">Starting Sept 23rd</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-yellow-300" />
+                  <span className="font-medium">Buncrana, Ireland</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-yellow-300" />
+                  <span className="font-medium">Limited Spots Available</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-center mt-4 lg:mt-0">
+              <Button
+                onClick={() => setIsEnrollDialogOpen(true)}
+                className="bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                <Star className="mr-2 h-5 w-5" />
+                Reserve Your Spot
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <main className="flex-1">
         {/* Welcome Section */}
@@ -73,6 +173,16 @@ export default function Home() {
 
           {/* Custom CSS for complex animations */}
           <style jsx>{`
+            html {
+              scroll-behavior: smooth;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              html {
+                scroll-behavior: auto;
+              }
+            }
+
             @keyframes floatAndRotate {
               0% { transform: perspective(1000px) rotateX(15deg) rotateY(-20deg) translateY(0px) translateX(0px); }
               25% { transform: perspective(1000px) rotateX(10deg) rotateY(-15deg) translateY(-15px) translateX(10px); }
@@ -117,6 +227,29 @@ export default function Home() {
               100% { 
                 transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateY(0px) translateX(0px) scale(1);
                 filter: drop-shadow(0 25px 50px rgba(0,0,0,0.3)) brightness(1.1) contrast(1.1) hue-rotate(0deg);
+              }
+            }
+
+            @keyframes aiBrainPulse {
+              0% { 
+                transform: perspective(1000px) rotateX(10deg) rotateY(-15deg) rotateZ(3deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 30px 60px rgba(0,255,255,0.4)) brightness(1.2) contrast(1.3) hue-rotate(0deg) saturate(1.2);
+              }
+              25% { 
+                transform: perspective(1000px) rotateX(15deg) rotateY(-10deg) rotateZ(-2deg) translateY(-18px) translateX(12px) scale(1.08);
+                filter: drop-shadow(0 40px 80px rgba(255,100,0,0.5)) brightness(1.4) contrast(1.5) hue-rotate(30deg) saturate(1.4);
+              }
+              50% { 
+                transform: perspective(1000px) rotateX(5deg) rotateY(-20deg) rotateZ(4deg) translateY(-25px) translateX(-8px) scale(1.03);
+                filter: drop-shadow(0 50px 100px rgba(147,51,234,0.6)) brightness(1.6) contrast(1.7) hue-rotate(60deg) saturate(1.6);
+              }
+              75% { 
+                transform: perspective(1000px) rotateX(20deg) rotateY(-5deg) rotateZ(-1deg) translateY(-12px) translateX(18px) scale(1.12);
+                filter: drop-shadow(0 35px 70px rgba(0,255,150,0.45)) brightness(1.3) contrast(1.4) hue-rotate(45deg) saturate(1.3);
+              }
+              100% { 
+                transform: perspective(1000px) rotateX(10deg) rotateY(-15deg) rotateZ(3deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 30px 60px rgba(0,255,255,0.4)) brightness(1.2) contrast(1.3) hue-rotate(0deg) saturate(1.2);
               }
             }
             
@@ -300,6 +433,7 @@ export default function Home() {
             .laptop-float { animation: laptopFloat 7s ease-in-out infinite; }
             .robot-dance { animation: robotDance 5s ease-in-out infinite; }
             .brain-pulse { animation: brainPulse 8s ease-in-out infinite; }
+            .ai-brain-pulse { animation: aiBrainPulse 9s ease-in-out infinite; }
             .world-map-orbit { animation: worldMapOrbit 12s ease-in-out infinite; }
             .representative-float { animation: representativeFloat 9s ease-in-out infinite; }
             .robot-teaching-float { animation: robotTeachingFloat 10s ease-in-out infinite; }
@@ -310,6 +444,54 @@ export default function Home() {
             .orbital-spin { animation: orbitalSpin 12s linear infinite; }
             .neural-glow { animation: neuralGlow 2s ease-in-out infinite; }
             .data-stream { animation: dataStream 3s ease-in-out infinite; }
+
+            @keyframes locafyLogoFloat {
+              0% { 
+                transform: perspective(1000px) rotateX(8deg) rotateY(15deg) rotateZ(2deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
+              }
+              25% { 
+                transform: perspective(1000px) rotateX(12deg) rotateY(20deg) rotateZ(-1deg) translateY(-10px) translateX(5px) scale(1.03);
+                filter: drop-shadow(0 25px 50px rgba(0,0,0,0.35)) brightness(1.1) contrast(1.1);
+              }
+              50% { 
+                transform: perspective(1000px) rotateX(5deg) rotateY(10deg) rotateZ(3deg) translateY(-15px) translateX(-8px) scale(1.02);
+                filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4)) brightness(1.15) contrast(1.15);
+              }
+              75% { 
+                transform: perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(0deg) translateY(-5px) translateX(10px) scale(1.04);
+                filter: drop-shadow(0 22px 45px rgba(0,0,0,0.32)) brightness(1.08) contrast(1.08);
+              }
+              100% { 
+                transform: perspective(1000px) rotateX(8deg) rotateY(15deg) rotateZ(2deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
+              }
+            }
+
+            @keyframes robotMathFloat {
+              0% { 
+                transform: perspective(1000px) rotateX(5deg) rotateY(-10deg) rotateZ(1deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 25px 50px rgba(0,0,0,0.4)) brightness(1.1) contrast(1.1) hue-rotate(0deg);
+              }
+              25% { 
+                transform: perspective(1000px) rotateX(8deg) rotateY(-5deg) rotateZ(-1deg) translateY(-15px) translateX(8px) scale(1.03);
+                filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45)) brightness(1.15) contrast(1.15) hue-rotate(15deg);
+              }
+              50% { 
+                transform: perspective(1000px) rotateX(2deg) rotateY(-15deg) rotateZ(2deg) translateY(-25px) translateX(-5px) scale(1.01);
+                filter: drop-shadow(0 35px 70px rgba(0,0,0,0.5)) brightness(1.2) contrast(1.2) hue-rotate(30deg);
+              }
+              75% { 
+                transform: perspective(1000px) rotateX(10deg) rotateY(-2deg) rotateZ(-0.5deg) translateY(-10px) translateX(12px) scale(1.04);
+                filter: drop-shadow(0 28px 55px rgba(0,0,0,0.42)) brightness(1.12) contrast(1.12) hue-rotate(20deg);
+              }
+              100% { 
+                transform: perspective(1000px) rotateX(5deg) rotateY(-10deg) rotateZ(1deg) translateY(0px) translateX(0px) scale(1);
+                filter: drop-shadow(0 25px 50px rgba(0,0,0,0.4)) brightness(1.1) contrast(1.1) hue-rotate(0deg);
+              }
+            }
+
+            .robot-math-float { animation: robotMathFloat 11s ease-in-out infinite; }
           `}</style>
 
           {/* Floating 3D Elements - Redesigned Layout */}
@@ -444,6 +626,57 @@ export default function Home() {
               </div>
             </div>
 
+            {/* New AI Brain Circuit - Center Right of Logo */}
+            <div className="absolute top-1/3 right-1/4 transform -translate-y-1/2 translate-x-8 ai-brain-pulse z-25">
+              <div className="relative group">
+                <div className="w-28 h-20 md:w-32 md:h-24 lg:w-40 lg:h-28 rounded-2xl overflow-hidden shadow-2xl transform transition-transform group-hover:scale-110 bg-gradient-to-br from-cyan-900/20 to-orange-900/20 backdrop-blur-sm border-2 border-cyan-400/30">
+                  <img
+                    src="/images/ai-brain-circuit.jpeg"
+                    alt="3D AI Brain on Circuit Board - representing the fusion of human intelligence and artificial intelligence technology"
+                    className="w-full h-full object-cover"
+                    style={{
+                      filter:
+                        "drop-shadow(0 30px 60px rgba(0,255,255,0.4)) brightness(1.2) contrast(1.3) saturate(1.2)",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-orange-400/10 rounded-2xl"></div>
+                </div>
+
+                {/* AI Brain glow effects */}
+                <div
+                  className="absolute -top-2 -left-2 w-3 h-3 bg-cyan-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "0s" }}
+                ></div>
+                <div
+                  className="absolute -top-1 -right-2 w-2 h-2 bg-orange-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "0.6s" }}
+                ></div>
+                <div
+                  className="absolute -bottom-2 -left-1 w-2 h-2 bg-purple-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "1.2s" }}
+                ></div>
+                <div
+                  className="absolute -bottom-1 -right-2 w-3 h-3 bg-blue-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "1.8s" }}
+                ></div>
+
+                {/* Circuit connection lines */}
+                <div className="absolute top-1/2 -left-12 w-12 h-1 bg-gradient-to-r from-cyan-400/60 to-transparent neural-glow"></div>
+                <div className="absolute top-1/2 -right-12 w-12 h-1 bg-gradient-to-l from-orange-400/60 to-transparent neural-glow"></div>
+                <div className="absolute -top-8 left-1/2 w-1 h-8 bg-gradient-to-b from-purple-400/60 to-transparent neural-glow"></div>
+                <div className="absolute -bottom-8 left-1/2 w-1 h-8 bg-gradient-to-t from-blue-400/60 to-transparent neural-glow"></div>
+
+                {/* AI indicators */}
+                <div className="absolute -top-3 -left-3 text-cyan-400 text-sm animate-pulse">🧠</div>
+                <div
+                  className="absolute -bottom-3 -right-3 text-orange-400 text-sm animate-pulse"
+                  style={{ animationDelay: "1s" }}
+                >
+                  ⚡
+                </div>
+              </div>
+            </div>
+
             {/* Middle Row - Right Side */}
             <div className="absolute top-1/2 right-4 transform -translate-y-1/2 md:right-8 lg:right-16 world-map-orbit z-15">
               <div className="relative group">
@@ -479,6 +712,66 @@ export default function Home() {
                 >
                   📡
                 </div>
+              </div>
+            </div>
+
+            {/* New Robot Teaching Math - moved up and further to the right */}
+            <div className="absolute top-1/4 right-1/6 transform -translate-x-1/2 -translate-y-1/2 robot-math-float z-15">
+              <div className="relative group">
+                <div className="w-32 h-20 md:w-36 md:h-24 lg:w-44 lg:h-28 rounded-full overflow-hidden shadow-2xl transform transition-transform group-hover:scale-110 bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-sm border-2 border-white/20">
+                  <img
+                    src="/images/robot-teaching-math.jpg"
+                    alt="Advanced AI robot teaching mathematics - representing AI education, machine learning, and intelligent tutoring systems"
+                    className="w-full h-full object-cover"
+                    style={{
+                      filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.4)) brightness(1.1) contrast(1.1)",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-purple-600/10 rounded-full"></div>
+                </div>
+
+                {/* Mathematical glow effects */}
+                <div
+                  className="absolute -top-1 -left-1 w-2 h-2 bg-cyan-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "0s" }}
+                ></div>
+                <div
+                  className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-blue-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "0.8s" }}
+                ></div>
+                <div
+                  className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-purple-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "1.4s" }}
+                ></div>
+                <div
+                  className="absolute -bottom-1 -right-1 w-2 h-2 bg-indigo-400 rounded-full neural-glow shadow-lg"
+                  style={{ animationDelay: "2s" }}
+                ></div>
+
+                {/* Mathematical symbols floating around */}
+                <div className="absolute -top-3 -left-3 text-cyan-400 text-sm animate-pulse">∑</div>
+                <div
+                  className="absolute -top-3 -right-3 text-blue-400 text-sm animate-pulse"
+                  style={{ animationDelay: "0.5s" }}
+                >
+                  π
+                </div>
+                <div
+                  className="absolute -bottom-3 -left-3 text-purple-400 text-sm animate-pulse"
+                  style={{ animationDelay: "1s" }}
+                >
+                  ∫
+                </div>
+                <div
+                  className="absolute -bottom-3 -right-3 text-indigo-400 text-sm animate-pulse"
+                  style={{ animationDelay: "1.5s" }}
+                >
+                  √
+                </div>
+
+                {/* Connection lines */}
+                <div className="absolute top-1/2 -left-8 w-8 h-0.5 bg-gradient-to-r from-cyan-400/60 to-transparent neural-glow"></div>
+                <div className="absolute top-1/2 -right-8 w-8 h-0.5 bg-gradient-to-l from-blue-400/60 to-transparent neural-glow"></div>
               </div>
             </div>
 
@@ -647,17 +940,33 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Call to Action Button */}
+              {/* Two-line subheading */}
+              <div className="animate-text-slide-up" style={{ animationDelay: "1.2s" }}>
+                <p className="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed drop-shadow-md text-center">
+                  Personalized AI training for individuals - in person or online.
+                  <br />
+                  Plus AI consulting that unlocks business efficiency and automation.
+                </p>
+              </div>
+
+              {/* Split-key buttons */}
               <div className="animate-text-slide-up" style={{ animationDelay: "1.5s" }}>
-                <Button
-                  asChild
-                  className="rounded-full px-8 py-4 md:px-10 md:py-5 bg-white text-navy-800 hover:bg-gray-100 font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975"
-                >
-                  <Link href="https://stan.store/AIFusion" target="_blank" rel="noopener noreferrer">
-                    Get Started Today
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+                  <Button
+                    onClick={() => handleNavigation("/ai-training")}
+                    className="w-full sm:w-auto rounded-full px-8 py-4 md:px-10 md:py-5 bg-white text-navy-800 hover:bg-gray-100 font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975"
+                  >
+                    Learn AI (Courses)
                     <ArrowRight className="ml-3 h-5 w-5" />
-                  </Link>
-                </Button>
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigation("/business")}
+                    className="w-full sm:w-auto rounded-full px-8 py-4 md:px-10 md:py-5 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy-975"
+                  >
+                    Consult with Us (For Businesses)
+                    <ArrowRight className="ml-3 h-5 w-5" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -689,28 +998,6 @@ export default function Home() {
                   way they work, create, and grow.
                 </p>
               </div>
-              <div className="flex gap-4 mt-8">
-                <Button
-                  asChild
-                  className="rounded-full px-6 py-6 bg-white text-navy-800 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950"
-                >
-                  <Link href="/services">
-                    Learn More
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  className="rounded-full px-6 py-6 bg-navy-900 text-white hover:bg-navy-800 border-0 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950"
-                  onClick={() => {
-                    document.getElementById("contact")?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    })
-                  }}
-                >
-                  Contact Us
-                </Button>
-              </div>
             </div>
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="rounded-2xl overflow-hidden shadow-sm">
@@ -731,63 +1018,12 @@ export default function Home() {
         <section id="services" className="py-24 bg-navy-975">
           <div className="container px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">AI Solutions for Everyone</h2>
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">AI Solutions for Business</h2>
               <p className="text-xl text-gray-200 max-w-2xl">
-                We provide comprehensive AI services tailored to your specific needs.
+                We provide comprehensive AI implementation and development services tailored to your business needs.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex flex-col items-center space-y-4 bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
-                <div className="rounded-full bg-purple-200 p-4">
-                  <BookOpen className="h-6 w-6 text-purple-800" />
-                </div>
-                <h3 className="text-xl font-medium text-white">AI Education</h3>
-                <p className="text-center text-gray-200">
-                  Comprehensive training programs for businesses, schools, and entrepreneurs to understand and leverage
-                  AI technologies.
-                </p>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <div className="mt-4 rounded-xl overflow-hidden w-full cursor-pointer transition-transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950">
-                      <img
-                        src="/images/ai-education-friendly.jpg"
-                        alt="Woman learning AI technology with friendly robot assistant - representing accessible, hands-on AI education"
-                        className="w-full h-auto object-cover aspect-video"
-                      />
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[625px] bg-navy-900 border-navy-800">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl font-medium text-center mb-4 text-white">
-                        AI Education at AI Fusion
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <p className="text-gray-200">
-                        At AI Fusion, we bring the transformative power of artificial intelligence into the hands of
-                        individuals, small businesses, entrepreneurs, and professionals. Our mission is simple: to make
-                        AI accessible, practical, and impactful, no matter your technical expertise.
-                      </p>
-                      <p className="text-gray-200">
-                        Through our tailored courses, we teach the skills you need to leverage AI for your websites,
-                        social media, and business strategies. Whether you're looking to optimize your online presence,
-                        create engaging content, or solve everyday challenges with AI-powered hacks, we provide the
-                        tools and knowledge to help you thrive.
-                      </p>
-                      <p className="text-gray-200">
-                        At AI Fusion, it's not just about learning AI—it's about fusing innovation into your daily life
-                        and business success. Join us to explore the creative and empowering possibilities of artificial
-                        intelligence, and see how it can elevate your ideas to new heights.
-                      </p>
-                    </div>
-                    <div className="mt-6 flex justify-center">
-                      <Button className="rounded-full px-6 py-6 bg-purple-600 hover:bg-purple-700 text-white focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950">
-                        Learn More About Our Courses
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col items-center space-y-4 bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
                 <div className="rounded-full bg-purple-200 p-4">
                   <Code className="h-6 w-6 text-purple-800" />
@@ -870,81 +1106,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Locafy Section */}
-        <section id="locafy" className="py-24 bg-white relative">
-          {/* Add subtle border to separate from navy sections */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-
-          <div className="container px-4 md:px-6 max-w-5xl">
-            <div className="text-center mb-16">
-              <img src="/images/locafy-logo.png" alt="Locafy Logo" className="w-32 h-auto mx-auto mb-4" />
-              <p className="text-xl font-medium text-green-600">Live Local, Love Local</p>
-            </div>
-
-            {/* Locafy Photo */}
-            <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 mb-16">
-              <img src="/images/locafy-menu-screen.png" alt="Locafy App Interface" className="w-full h-auto" />
-            </div>
-
-            <div className="grid grid-cols-1 gap-16 lg:grid-cols-1 items-center">
-              <div className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-gray-900">
-                  Introducing Locafy - Coming Soon......
-                </h2>
-                <p className="text-xl text-gray-700">
-                  Locafy helps bring communities together by sharing local knowledge, asking and answering local
-                  questions, and is location-based on user eircode.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="rounded-full bg-green-100 p-3 mt-1">
-                      <MessageSquare className="h-5 w-5 text-green-700" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">Ask-a-Fy</h3>
-                      <p className="text-gray-600 mt-1">
-                        Connect with your community by asking and answering local questions
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="rounded-full bg-green-100 p-3 mt-1">
-                      <Store className="h-5 w-5 text-green-700" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">Local Business</h3>
-                      <p className="text-gray-600 mt-1">Discover businesses near you and support your local economy</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="rounded-full bg-green-100 p-3 mt-1">
-                      <Calendar className="h-5 w-5 text-green-700" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">Local Events</h3>
-                      <p className="text-gray-600 mt-1">Stay updated on what's happening near you in your community</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4">
-                    <div className="rounded-full bg-green-100 p-3 mt-1">
-                      <User className="h-5 w-5 text-green-700" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-gray-900">My Profile</h3>
-                      <p className="text-gray-600 mt-1">Personalize your experience and make it yours</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Success Stories Section */}
         <section className="py-24 bg-navy-950">
           <div className="container px-4 md:px-6 max-w-6xl">
@@ -955,41 +1116,9 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Nancy's Barn Success Story */}
-              <div className="bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-medium mb-2 text-white">Nancy's Barn</h3>
-                  <p className="text-gray-300 font-medium">Traditional Irish Restaurant & Hospitality</p>
-                </div>
-
-                {/* Add Nancy's Barn image */}
-                <div className="mb-6 rounded-xl overflow-hidden">
-                  <img
-                    src="/images/nancys-barn.png"
-                    alt="Nancy's Barn - Traditional Irish restaurant exterior showcasing rustic charm and welcoming atmosphere"
-                    className="w-full h-48 object-cover transition-transform hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-gray-200 leading-relaxed">
-                    "AI Fusion transformed how we connect with our local community and manage our restaurant operations.
-                    Their training helped us implement AI tools for social media marketing, customer engagement, and
-                    inventory management."
-                  </p>
-                  <div className="pt-4 border-t border-navy-800">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
-                      Restaurant & Hospitality Industry
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+            <div className="flex justify-center">
               {/* Recovery Isle Success Story */}
-              <div className="bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
+              <div className="bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800 max-w-2xl">
                 <div className="mb-6">
                   <h3 className="text-2xl font-medium mb-2 text-white">Recovery_Isle</h3>
                   <p className="text-gray-300 font-medium">Sports Therapy and Massage Clinic</p>
@@ -1031,6 +1160,11 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                <div className="text-center mt-6 p-4 bg-navy-800 rounded-lg border border-navy-700">
+                  <div className="text-3xl font-bold text-purple-400 mb-2">60%</div>
+                  <div className="text-sm text-gray-300">Time Saved on Admin Tasks</div>
+                  <p className="text-xs text-gray-400 mt-2">Allowing more focus on client care</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1038,35 +1172,12 @@ export default function Home() {
 
         {/* Contact Section */}
         <section id="contact" className="py-24 bg-navy-975 relative">
-          {/* Scroll indicator animation */}
+          {/*  Scroll indicator animation */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
             <div className="w-1 h-8 bg-gradient-to-b from-purple-400 to-transparent rounded-full animate-pulse"></div>
           </div>
 
           <div className="container px-4 md:px-6 max-w-5xl">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-              {/* Enhanced heading with animation */}
-              <div className="space-y-6 animate-fade-in">
-                <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">
-                  Ready to Transform Your Business?
-                </h2>
-                <p className="text-xl text-gray-200 max-w-2xl">
-                  Contact us today to learn how AI Fusion can help you implement AI solutions and scale your business.
-                </p>
-                <div className="flex items-center justify-center">
-                  <Button
-                    asChild
-                    className="rounded-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975"
-                  >
-                    <Link href="https://stan.store/AIFusion" target="_blank" rel="noopener noreferrer">
-                      Visit AI Fusion Store
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-
             {/* Enhanced contact form container */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="rounded-2xl overflow-hidden shadow-sm">
@@ -1092,21 +1203,228 @@ export default function Home() {
           </div>
           <p className="text-sm text-gray-300">© {new Date().getFullYear()} AI Fusion. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link
-              href="#"
+            <button
+              onClick={() => handleNavigation("/privacy")}
               className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
             >
               Privacy Policy
-            </Link>
-            <Link
-              href="#"
+            </button>
+            <button
+              onClick={() => handleNavigation("/terms")}
               className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
             >
               Terms of Service
-            </Link>
+            </button>
           </div>
         </div>
       </footer>
+
+      {/* Pricing Dialog */}
+      <PricingDialog isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
+      {/* Enrollment Dialog */}
+      <Dialog open={isEnrollDialogOpen} onOpenChange={setIsEnrollDialogOpen}>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] bg-navy-900 border-navy-800 overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="text-white">Enroll in AI Course</DialogTitle>
+            <DialogDescription className="text-gray-300">
+              Reserve your spot in our upcoming AI training course. We'll confirm your enrollment and send Revolut
+              payment details within 24 hours.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="overflow-y-auto max-h-[70vh] px-1">
+            <form onSubmit={handleEnrollSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="firstName" className="text-gray-200">
+                    First Name *
+                  </Label>
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    placeholder="John"
+                    required
+                    value={enrollFormData.firstName}
+                    onChange={handleEnrollInputChange}
+                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lastName" className="text-gray-200">
+                    Last Name *
+                  </Label>
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Doe"
+                    required
+                    value={enrollFormData.lastName}
+                    onChange={handleEnrollInputChange}
+                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="email" className="text-gray-200">
+                  Email *
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  required
+                  value={enrollFormData.email}
+                  onChange={handleEnrollInputChange}
+                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone" className="text-gray-200">
+                  Phone Number *
+                </Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="+353 XX XXX XXXX"
+                  required
+                  value={enrollFormData.phone}
+                  onChange={handleEnrollInputChange}
+                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <Label htmlFor="organization" className="text-gray-200">
+                  Organization (Optional)
+                </Label>
+                <Input
+                  id="organization"
+                  name="organization"
+                  placeholder="Your business or organization"
+                  value={enrollFormData.organization}
+                  onChange={handleEnrollInputChange}
+                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
+                />
+              </div>
+              <div>
+                <Label htmlFor="paymentOption" className="text-gray-200">
+                  Payment Option *
+                </Label>
+                <Select onValueChange={(value) => handleEnrollSelectChange("paymentOption", value)}>
+                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                    <SelectValue placeholder="Select payment option" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-navy-800 border-navy-700">
+                    <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
+                      Early Bird (€149) - Book by Sept 12th
+                    </SelectItem>
+                    <SelectItem value="full" className="text-white hover:bg-navy-700">
+                      Pay in Full (€199)
+                    </SelectItem>
+                    <SelectItem value="group" className="text-white hover:bg-navy-700">
+                      Group Discount (€130)
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="experience" className="text-gray-200">
+                  AI Experience Level *
+                </Label>
+                <Select onValueChange={(value) => handleEnrollSelectChange("experience", value)}>
+                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                    <SelectValue placeholder="Select your experience level" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-navy-800 border-navy-700">
+                    <SelectItem value="beginner" className="text-white hover:bg-navy-700">
+                      Complete Beginner
+                    </SelectItem>
+                    <SelectItem value="some" className="text-white hover:bg-navy-700">
+                      Some Experience
+                    </SelectItem>
+                    <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
+                      Intermediate
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="goals" className="text-gray-200">
+                  What do you hope to achieve? (Optional)
+                </Label>
+                <Textarea
+                  id="goals"
+                  name="goals"
+                  placeholder="Tell us about your goals for using AI in your work or projects..."
+                  rows={3}
+                  value={enrollFormData.goals}
+                  onChange={handleEnrollInputChange}
+                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400 resize-none"
+                />
+              </div>
+
+              {enrollSubmitStatus === "error" && (
+                <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
+                  <p className="text-red-200 text-sm">
+                    ✗ There was an error submitting your request. Please try again.
+                  </p>
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsEnrollDialogOpen(false)}
+                  className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={
+                    isEnrollSubmitting ||
+                    !enrollFormData.firstName ||
+                    !enrollFormData.lastName ||
+                    !enrollFormData.email ||
+                    !enrollFormData.phone ||
+                    !enrollFormData.paymentOption ||
+                    !enrollFormData.experience
+                  }
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isEnrollSubmitting ? "Submitting..." : "Reserve My Spot"}
+                </Button>
+              </div>
+              <p className="text-sm text-gray-400 text-center">
+                We'll confirm your spot and send Revolut payment details within 24 hours.
+              </p>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Enrollment Success Dialog */}
+      <Dialog open={isEnrollSuccessDialogOpen} onOpenChange={setIsEnrollSuccessDialogOpen}>
+        <DialogContent className="sm:max-w-[400px] bg-navy-900 border-navy-800">
+          <div className="text-center py-6">
+            <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-full mb-6 mx-auto">
+              <Check className="h-8 w-8 text-green-800" />
+            </div>
+            <DialogTitle className="text-2xl font-medium text-white mb-4">Enrollment Request Sent!</DialogTitle>
+            <p className="text-gray-300 mb-6">
+              Thank you for your interest in our AI course. We'll confirm your spot and send Revolut payment details
+              within 24 hours.
+            </p>
+            <Button
+              onClick={() => setIsEnrollSuccessDialogOpen(false)}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
@@ -1227,7 +1545,11 @@ function ContactForm() {
 
     // Create the mailto link with the form data
     const subject = `Contact from ${name.trim()}`
-    const body = `Name: ${name.trim()}\nEmail: ${email.trim()}\n\nMessage:\n${message.trim()}`
+    const body = `Name: ${name.trim()}
+Email: ${email.trim()}
+
+Message:
+${message.trim()}`
     const mailtoLink = `mailto:info@aifusion.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
     // Open the user's email client
@@ -1280,9 +1602,95 @@ function ContactForm() {
   }
 
   return (
-    <div className="relative">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+      {/* Name Input */}
+      <div>
+        <label htmlFor="name" className="text-sm font-medium block mb-2 text-gray-300">
+          Your Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => handleNameChange(e.target.value)}
+          onBlur={() => handleBlur("name")}
+          className={getInputStyling("name", !!errors.name)}
+        />
+        {errors.name && touched.name && (
+          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+            <AlertCircle className="h-4 w-4" />
+            {errors.name}
+          </p>
+        )}
+      </div>
+
+      {/* Email Input */}
+      <div>
+        <label htmlFor="email" className="text-sm font-medium block mb-2 text-gray-300">
+          Your Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => handleEmailChange(e.target.value)}
+          onBlur={() => handleBlur("email")}
+          className={getInputStyling("email", !!errors.email)}
+        />
+        {errors.email && touched.email && (
+          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+            <AlertCircle className="h-4 w-4" />
+            {errors.email}
+          </p>
+        )}
+      </div>
+
+      {/* Message Input */}
+      <div>
+        <label htmlFor="message" className="text-sm font-medium block mb-2 text-gray-300">
+          Message
+        </label>
+        <textarea
+          id="message"
+          placeholder="Tell us about your project or inquiry..."
+          value={message}
+          onChange={(e) => handleMessageChange(e.target.value)}
+          onBlur={() => handleBlur("message")}
+          className={getTextareaStyling(!!errors.message)}
+        />
+        {errors.message && touched.message && (
+          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+            <AlertCircle className="h-4 w-4" />
+            {errors.message}
+          </p>
+        )}
+      </div>
+
+      {/* Submit Button */}
+      <Button
+        type="submit"
+        disabled={isSubmitting || !isFormValid()}
+        className={`w-full h-12 rounded-full text-white focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950 transition-all duration-200 ${
+          isFormValid() && !isSubmitting
+            ? "bg-purple-600 hover:bg-purple-700 transform hover:scale-[1.02]"
+            : "bg-gray-600 cursor-not-allowed"
+        }`}
+      >
+        {isSubmitting ? (
+          <div className="flex items-center">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+            Sending Message...
+          </div>
+        ) : (
+          "Send Message"
+        )}
+      </Button>
+
+      {/* Success Message */}
       {showSuccess && (
-        <div className="absolute top-0 left-0 right-0 bg-green-800 border border-green-600 text-green-200 px-4 py-3 rounded-lg mb-4 animate-fade-in z-10">
+        <div className="bg-green-800 border border-green-600 text-green-200 px-4 py-3 rounded-lg">
           <div className="flex items-center">
             <CheckCircle className="w-4 h-4 mr-2" />
             <div>
@@ -1292,120 +1700,6 @@ function ContactForm() {
           </div>
         </div>
       )}
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Name Field */}
-        <div className="space-y-2">
-          <label
-            htmlFor="name"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-white flex items-center"
-          >
-            Name *{!errors.name && touched.name && name && <CheckCircle className="w-4 h-4 ml-2 text-green-400" />}
-          </label>
-          <input
-            id="name"
-            value={name}
-            onChange={(e) => handleNameChange(e.target.value)}
-            onBlur={() => handleBlur("name")}
-            required
-            className={getInputStyling("name", !!errors.name)}
-            placeholder="Enter your full name"
-            maxLength={50}
-          />
-          {errors.name && touched.name && (
-            <div className="flex items-center text-red-400 text-sm mt-1">
-              <AlertCircle className="w-4 h-4 mr-1" />
-              {errors.name}
-            </div>
-          )}
-          <div className="text-xs text-gray-400 mt-1">{name.length}/50 characters</div>
-        </div>
-
-        {/* Email Field */}
-        <div className="space-y-2">
-          <label
-            htmlFor="email"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-white flex items-center"
-          >
-            Email *{!errors.email && touched.email && email && <CheckCircle className="w-4 h-4 ml-2 text-green-400" />}
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => handleEmailChange(e.target.value)}
-            onBlur={() => handleBlur("email")}
-            required
-            className={getInputStyling("email", !!errors.email)}
-            placeholder="Enter your email address"
-            maxLength={100}
-          />
-          {errors.email && touched.email && (
-            <div className="flex items-center text-red-400 text-sm mt-1">
-              <AlertCircle className="w-4 h-4 mr-1" />
-              {errors.email}
-            </div>
-          )}
-          <div className="text-xs text-gray-400 mt-1">{email.length}/100 characters</div>
-        </div>
-
-        {/* Message Field */}
-        <div className="space-y-2">
-          <label
-            htmlFor="message"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-white flex items-center"
-          >
-            Message *
-            {!errors.message && touched.message && message && <CheckCircle className="w-4 h-4 ml-2 text-green-400" />}
-          </label>
-          <textarea
-            id="message"
-            value={message}
-            onChange={(e) => handleMessageChange(e.target.value)}
-            onBlur={() => handleBlur("message")}
-            required
-            className={getTextareaStyling(!!errors.message)}
-            placeholder="Tell us about your project, questions, or how we can help you..."
-            maxLength={1000}
-          />
-          {errors.message && touched.message && (
-            <div className="flex items-center text-red-400 text-sm mt-1">
-              <AlertCircle className="w-4 h-4 mr-1" />
-              {errors.message}
-            </div>
-          )}
-          <div className="text-xs text-gray-400 mt-1">
-            {message.length}/1000 characters {message.length >= 10 && `• Minimum 10 characters ✓`}
-          </div>
-        </div>
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          disabled={isSubmitting || !isFormValid()}
-          className={`w-full h-12 rounded-full text-white focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950 transition-all duration-200 ${
-            isFormValid() && !isSubmitting
-              ? "bg-purple-600 hover:bg-purple-700 transform hover:scale-[1.02]"
-              : "bg-gray-600 cursor-not-allowed"
-          }`}
-        >
-          {isSubmitting ? (
-            <div className="flex items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              Sending Message...
-            </div>
-          ) : (
-            "Send Message"
-          )}
-        </Button>
-
-        {/* Form Status */}
-        <div className="text-center">
-          <p className="text-xs text-gray-400">
-            All fields are required. Your information will be sent securely to info@aifusion.ie
-          </p>
-        </div>
-      </form>
-    </div>
+    </form>
   )
 }
