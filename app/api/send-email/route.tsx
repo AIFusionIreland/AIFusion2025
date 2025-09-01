@@ -1,10 +1,29 @@
-import { Resend } from "resend"
 import { type NextRequest, NextResponse } from "next/server"
+import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend only when the API key is available
+let resend: Resend | null = null
+
+function getResendInstance() {
+  if (!resend && process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return resend
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Resend API key is available
+    if (!process.env.RESEND_API_KEY) {
+      console.error("RESEND_API_KEY is not configured")
+      return NextResponse.json({ error: "Email service is not configured" }, { status: 500 })
+    }
+
+    const resendInstance = getResendInstance()
+    if (!resendInstance) {
+      return NextResponse.json({ error: "Email service initialization failed" }, { status: 500 })
+    }
+
     const body = await request.json()
     const {
       name,
@@ -20,12 +39,7 @@ export async function POST(request: NextRequest) {
       industry,
     } = body
 
-    // Validate required fields
-    if (!name || !email || !inquiryType) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
-    }
-
-    // Create different email subjects and content based on inquiry type
+    // Create different email subjects based on inquiry type
     let subject = ""
     let emailContent = ""
 
@@ -37,12 +51,8 @@ export async function POST(request: NextRequest) {
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-          
-          <h3>Message:</h3>
+          <p><strong>Message:</strong></p>
           <p>${message}</p>
-          
-          <hr>
-          <p><em>This inquiry was submitted through the AI Fusion contact dialog.</em></p>
         `
         break
 
@@ -56,12 +66,8 @@ export async function POST(request: NextRequest) {
           <p><strong>Organization:</strong> ${organization || "Not provided"}</p>
           <p><strong>Payment Option:</strong> ${paymentOption || "Not selected"}</p>
           <p><strong>AI Experience Level:</strong> ${experience || "Not selected"}</p>
-          
-          <h3>Goals:</h3>
+          <p><strong>Goals:</strong></p>
           <p>${goals || "Not provided"}</p>
-          
-          <hr>
-          <p><em>This enrollment request was submitted through the AI Fusion contact dialog.</em></p>
         `
         break
 
@@ -75,12 +81,8 @@ export async function POST(request: NextRequest) {
           <p><strong>Organization:</strong> ${organization || "Not provided"}</p>
           <p><strong>Payment Option:</strong> ${paymentOption || "Not selected"}</p>
           <p><strong>AI Experience Level:</strong> ${experience || "Not selected"}</p>
-          
-          <h3>Goals:</h3>
+          <p><strong>Goals:</strong></p>
           <p>${goals || "Not provided"}</p>
-          
-          <hr>
-          <p><em>This enrollment request was submitted through the AI Fusion contact dialog.</em></p>
         `
         break
 
@@ -93,43 +95,47 @@ export async function POST(request: NextRequest) {
           <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
           <p><strong>Company:</strong> ${company || "Not provided"}</p>
           <p><strong>Industry:</strong> ${industry || "Not provided"}</p>
-          
-          <h3>Message:</h3>
+          <p><strong>Message:</strong></p>
           <p>${message}</p>
-          
-          <hr>
-          <p><em>This business inquiry was submitted through the AI Fusion contact dialog.</em></p>
         `
         break
 
       default:
-        subject = "New Contact Form Submission - AI Fusion"
+        subject = "Contact Form Submission - AI Fusion"
         emailContent = `
-          <h2>New Contact Form Submission</h2>
+          <h2>Contact Form Submission</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-          
-          <h3>Message:</h3>
+          <p><strong>Message:</strong></p>
           <p>${message}</p>
-          
-          <hr>
-          <p><em>This inquiry was submitted through the AI Fusion website.</em></p>
         `
     }
 
     // Send email using Resend
-    const data = await resend.emails.send({
-      from: "AI Fusion Contact <noreply@aifusion.ie>",
+    const { data, error } = await resendInstance.emails.send({
+      from: "AI Fusion Website <noreply@aifusion.ie>",
       to: ["info@aifusion.ie"],
       subject: subject,
-      html: emailContent,
-      replyTo: email, // This allows you to reply directly to the person who submitted the form
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          ${emailContent}
+          <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+          <p style="color: #666; font-size: 12px;">
+            This inquiry was submitted through the AI Fusion website contact form.
+          </p>
+        </div>
+      `,
     })
 
-    return NextResponse.json({ success: true, data })
+    if (error) {
+      console.error("Resend error:", error)
+      return NextResponse.json({ error: "Failed to send email" }, { status: 500 })
+    }
+
+    return NextResponse.json({ message: "Email sent successfully", id: data?.id }, { status: 200 })
   } catch (error) {
-    console.error("Error sending email:", error)
-    return NextResponse.json({ error: "Failed to send email" }, { status: 500 })
+    console.error("API error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }
