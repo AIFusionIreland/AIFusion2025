@@ -187,115 +187,57 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     }
 
     setIsSubmitting(true)
+    setErrors({})
 
     try {
-      // Create different email subjects based on inquiry type
-      let subject = ""
-      let emailBody = ""
-
-      switch (formData.inquiryType) {
-        case "general":
-          subject = "General Inquiry - AI Fusion"
-          emailBody = `
-General Inquiry
-
-Name: ${formData.name.trim()}
-Email: ${formData.email.trim()}
-Phone: ${formData.phone.trim() || "Not provided"}
-
-Message:
-${formData.message.trim()}
-
----
-This inquiry was submitted through the AI Fusion contact dialog.
-          `
-          break
-
-        case "course-online":
-          subject = "Online Course Enrollment Request - AI Fusion"
-          emailBody = `
-Online Course Enrollment Request
-
-Name: ${formData.name.trim()}
-Email: ${formData.email.trim()}
-Phone: ${formData.phone.trim()}
-Organization: ${formData.organization.trim() || "Not provided"}
-Payment Option: ${formData.paymentOption || "Not selected"}
-AI Experience Level: ${formData.experience || "Not selected"}
-
-Goals:
-${formData.goals.trim() || "Not provided"}
-
----
-This enrollment request was submitted through the AI Fusion contact dialog.
-          `
-          break
-
-        case "course-inperson":
-          subject = "In-Person Course Enrollment Request - AI Fusion"
-          emailBody = `
-In-Person Course Enrollment Request
-
-Name: ${formData.name.trim()}
-Email: ${formData.email.trim()}
-Phone: ${formData.phone.trim()}
-Organization: ${formData.organization.trim() || "Not provided"}
-Payment Option: ${formData.paymentOption || "Not selected"}
-AI Experience Level: ${formData.experience || "Not selected"}
-
-Goals:
-${formData.goals.trim() || "Not provided"}
-
----
-This enrollment request was submitted through the AI Fusion contact dialog.
-          `
-          break
-
-        case "business":
-          subject = "Business Consultation Inquiry - AI Fusion"
-          emailBody = `
-Business Consultation Inquiry
-
-Name: ${formData.name.trim()}
-Email: ${formData.email.trim()}
-Phone: ${formData.phone.trim() || "Not provided"}
-Company: ${formData.company.trim() || "Not provided"}
-Industry: ${formData.industry.trim() || "Not provided"}
-
-Message:
-${formData.message.trim()}
-
----
-This business inquiry was submitted through the AI Fusion contact dialog.
-          `
-          break
-      }
-
-      const mailtoUrl = `mailto:info@aifusion.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`
-      window.open(mailtoUrl, "_blank")
-
-      setSubmitStatus("success")
-      setShowSuccessPopup(true)
-
-      // Reset form
-      setFormData({
-        inquiryType: "",
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-        organization: "",
-        paymentOption: "",
-        experience: "",
-        goals: "",
-        company: "",
-        industry: "",
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          message: formData.message.trim(),
+          inquiryType: formData.inquiryType,
+          organization: formData.organization.trim(),
+          paymentOption: formData.paymentOption,
+          experience: formData.experience,
+          goals: formData.goals.trim(),
+          company: formData.company.trim(),
+          industry: formData.industry.trim(),
+        }),
       })
-      setErrors({})
-      setTouched({})
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        setShowSuccessPopup(true)
+
+        // Reset form
+        setFormData({
+          inquiryType: "",
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          organization: "",
+          paymentOption: "",
+          experience: "",
+          goals: "",
+          company: "",
+          industry: "",
+        })
+        setErrors({})
+        setTouched({})
+      } else {
+        const errorData = await response.json()
+        setSubmitStatus("error")
+        setErrors({ submit: errorData.error || "Failed to send message. Please try again." })
+      }
     } catch (error) {
       setSubmitStatus("error")
-      setErrors({ submit: "Error preparing email. Please try again." })
+      setErrors({ submit: "Network error. Please check your connection and try again." })
     } finally {
       setIsSubmitting(false)
     }
