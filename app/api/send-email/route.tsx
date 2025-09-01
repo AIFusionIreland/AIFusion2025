@@ -1,16 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
-// Initialize Resend only when the API key is available
-let resend: Resend | null = null
-
-function getResendInstance() {
-  if (!resend && process.env.RESEND_API_KEY) {
-    resend = new Resend(process.env.RESEND_API_KEY)
-  }
-  return resend
-}
-
 export async function POST(request: NextRequest) {
   try {
     // Check if Resend API key is available
@@ -19,10 +9,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email service is not configured" }, { status: 500 })
     }
 
-    const resendInstance = getResendInstance()
-    if (!resendInstance) {
-      return NextResponse.json({ error: "Email service initialization failed" }, { status: 500 })
-    }
+    // Initialize Resend with the API key
+    const resend = new Resend(process.env.RESEND_API_KEY)
 
     const body = await request.json()
     const {
@@ -113,7 +101,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
-    const { data, error } = await resendInstance.emails.send({
+    const { data, error } = await resend.emails.send({
       from: "AI Fusion Website <noreply@aifusion.ie>",
       to: ["info@aifusion.ie"],
       subject: subject,
