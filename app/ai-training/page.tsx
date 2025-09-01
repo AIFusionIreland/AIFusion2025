@@ -370,6 +370,15 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                     <span className="text-gray-200">Recorded sessions for review</span>
                   </li>
                 </ul>
+                <div className="mt-6">
+                  <Link
+                    href="/upcoming-courses"
+                    className="inline-flex items-center text-purple-600 hover:text-purple-500 font-medium transition-colors"
+                  >
+                    View Upcoming Online Courses
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </div>
                 <div className="bg-purple-100 p-4 rounded-lg">
                   <p className="text-purple-800 font-medium">Perfect for: Busy professionals and remote learners</p>
                 </div>

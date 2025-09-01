@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { X, Phone, Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { X, Phone, Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react"
 import { useState } from "react"
 import Image from "next/image"
 
@@ -17,37 +18,186 @@ interface ContactDialogProps {
 }
 
 interface ContactFormData {
+  inquiryType: string
   name: string
   email: string
   phone: string
   message: string
+  organization: string
+  paymentOption: string
+  experience: string
+  goals: string
+  company: string
+  industry: string
+}
+
+interface ValidationErrors {
+  name?: string
+  email?: string
+  phone?: string
+  message?: string
+  submit?: string
 }
 
 export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
   const [formData, setFormData] = useState<ContactFormData>({
+    inquiryType: "",
     name: "",
     email: "",
     phone: "",
     message: "",
+    organization: "",
+    paymentOption: "",
+    experience: "",
+    goals: "",
+    company: "",
+    industry: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [errors, setErrors] = useState<ValidationErrors>({})
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
+
+  // Validation functions
+  const validateName = (value: string): string | undefined => {
+    if (!value.trim()) return "Name is required"
+    if (value.trim().length < 2) return "Name must be at least 2 characters"
+    if (value.trim().length > 50) return "Name must be less than 50 characters"
+    if (!/^[a-zA-Z\s'-]+$/.test(value.trim())) return "Name can only contain letters, spaces, hyphens, and apostrophes"
+    return undefined
+  }
+
+  const validateEmail = (value: string): string | undefined => {
+    if (!value.trim()) return "Email is required"
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(value.trim())) return "Please enter a valid email address"
+    if (value.length > 100) return "Email must be less than 100 characters"
+    return undefined
+  }
+
+  const validatePhone = (value: string): string | undefined => {
+    if (!value.trim()) return "Phone number is required"
+    const phoneRegex = /^[+]?[1-9][\d\s\-()]{7,15}$/
+    if (!phoneRegex.test(value.replace(/[\s\-()]/g, ""))) {
+      return "Please enter a valid phone number"
+    }
+    return undefined
+  }
+
+  const validateMessage = (value: string): string | undefined => {
+    if (!value.trim()) return "Message is required"
+    if (value.trim().length < 10) return "Message must be at least 10 characters"
+    if (value.trim().length > 1000) return "Message must be less than 1000 characters"
+    return undefined
+  }
 
   const handleInputChange = (field: keyof ContactFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+
+    if (touched[field]) {
+      let error: string | undefined
+      switch (field) {
+        case "name":
+          error = validateName(value)
+          break
+        case "email":
+          error = validateEmail(value)
+          break
+        case "phone":
+          error = validatePhone(value)
+          break
+        case "message":
+          error = validateMessage(value)
+          break
+      }
+      setErrors((prev) => ({ ...prev, [field]: error }))
+    }
+  }
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }))
+
+    let error: string | undefined
+    switch (field) {
+      case "name":
+        error = validateName(formData.name)
+        break
+      case "email":
+        error = validateEmail(formData.email)
+        break
+      case "phone":
+        error = validatePhone(formData.phone)
+        break
+      case "message":
+        error = validateMessage(formData.message)
+        break
+    }
+    setErrors((prev) => ({ ...prev, [field]: error }))
+  }
+
+  const isFormValid = () => {
+    const nameError = validateName(formData.name)
+    const emailError = validateEmail(formData.email)
+
+    // Phone is required for course enrollments
+    let phoneError: string | undefined
+    if (formData.inquiryType.startsWith("course-")) {
+      phoneError = validatePhone(formData.phone)
+    }
+
+    // Message is required for general and business inquiries
+    let messageError: string | undefined
+    if (formData.inquiryType === "general" || formData.inquiryType === "business") {
+      messageError = validateMessage(formData.message)
+    }
+
+    return !nameError && !emailError && !phoneError && !messageError && formData.inquiryType
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Mark all fields as touched
+    setTouched({ name: true, email: true, phone: true, message: true })
+
+    // Validate all fields
+    const nameError = validateName(formData.name)
+    const emailError = validateEmail(formData.email)
+
+    let phoneError: string | undefined
+    if (formData.inquiryType.startsWith("course-")) {
+      phoneError = validatePhone(formData.phone)
+    }
+
+    let messageError: string | undefined
+    if (formData.inquiryType === "general" || formData.inquiryType === "business") {
+      messageError = validateMessage(formData.message)
+    }
+
+    setErrors({
+      name: nameError,
+      email: emailError,
+      phone: phoneError,
+      message: messageError,
+    })
+
+    if (nameError || emailError || phoneError || messageError || !formData.inquiryType) {
+      return
+    }
+
     setIsSubmitting(true)
-    setSubmitStatus("idle")
 
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("Contact Form Submission - AI Fusion")
-      const body = encodeURIComponent(`
-New Contact Form Submission
+      // Create different email subjects based on inquiry type
+      let subject = ""
+      let emailBody = ""
+
+      switch (formData.inquiryType) {
+        case "general":
+          subject = "General Inquiry - AI Fusion"
+          emailBody = `
+General Inquiry
 
 Name: ${formData.name.trim()}
 Email: ${formData.email.trim()}
@@ -57,25 +207,118 @@ Message:
 ${formData.message.trim()}
 
 ---
-This message was submitted through the AI Fusion contact dialog.
-      `)
+This inquiry was submitted through the AI Fusion contact dialog.
+          `
+          break
 
-      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
+        case "course-online":
+          subject = "Online Course Enrollment Request - AI Fusion"
+          emailBody = `
+Online Course Enrollment Request
+
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
+Phone: ${formData.phone.trim()}
+Organization: ${formData.organization.trim() || "Not provided"}
+Payment Option: ${formData.paymentOption || "Not selected"}
+AI Experience Level: ${formData.experience || "Not selected"}
+
+Goals:
+${formData.goals.trim() || "Not provided"}
+
+---
+This enrollment request was submitted through the AI Fusion contact dialog.
+          `
+          break
+
+        case "course-inperson":
+          subject = "In-Person Course Enrollment Request - AI Fusion"
+          emailBody = `
+In-Person Course Enrollment Request
+
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
+Phone: ${formData.phone.trim()}
+Organization: ${formData.organization.trim() || "Not provided"}
+Payment Option: ${formData.paymentOption || "Not selected"}
+AI Experience Level: ${formData.experience || "Not selected"}
+
+Goals:
+${formData.goals.trim() || "Not provided"}
+
+---
+This enrollment request was submitted through the AI Fusion contact dialog.
+          `
+          break
+
+        case "business":
+          subject = "Business Consultation Inquiry - AI Fusion"
+          emailBody = `
+Business Consultation Inquiry
+
+Name: ${formData.name.trim()}
+Email: ${formData.email.trim()}
+Phone: ${formData.phone.trim() || "Not provided"}
+Company: ${formData.company.trim() || "Not provided"}
+Industry: ${formData.industry.trim() || "Not provided"}
+
+Message:
+${formData.message.trim()}
+
+---
+This business inquiry was submitted through the AI Fusion contact dialog.
+          `
+          break
+      }
+
+      const mailtoUrl = `mailto:info@aifusion.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`
+      window.open(mailtoUrl, "_blank")
 
       setSubmitStatus("success")
       setShowSuccessPopup(true)
-      setFormData({ name: "", email: "", phone: "", message: "" })
+
+      // Reset form
+      setFormData({
+        inquiryType: "",
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+        organization: "",
+        paymentOption: "",
+        experience: "",
+        goals: "",
+        company: "",
+        industry: "",
+      })
+      setErrors({})
+      setTouched({})
     } catch (error) {
       setSubmitStatus("error")
+      setErrors({ submit: "Error preparing email. Please try again." })
     } finally {
       setIsSubmitting(false)
     }
   }
 
   const handleClose = () => {
-    setFormData({ name: "", email: "", phone: "", message: "" })
+    setFormData({
+      inquiryType: "",
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      organization: "",
+      paymentOption: "",
+      experience: "",
+      goals: "",
+      company: "",
+      industry: "",
+    })
     setSubmitStatus("idle")
     setShowSuccessPopup(false)
+    setErrors({})
+    setTouched({})
     onClose()
   }
 
@@ -87,10 +330,22 @@ This message was submitted through the AI Fusion contact dialog.
     }, 300)
   }
 
+  const getInputStyling = (fieldName: string, hasError: boolean) => {
+    const baseClasses =
+      "bg-navy-800 border-navy-700 text-white placeholder-gray-400 focus:ring-purple-400 focus:border-purple-400"
+
+    if (hasError && touched[fieldName]) {
+      return `${baseClasses} border-red-500 focus:ring-red-400 focus:border-red-400`
+    } else if (!hasError && touched[fieldName] && formData[fieldName as keyof ContactFormData]) {
+      return `${baseClasses} border-green-500 focus:ring-green-400 focus:border-green-400`
+    }
+    return baseClasses
+  }
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-        <DialogContent className="sm:max-w-[800px] max-h-[90vh] p-0 bg-navy-900 border-navy-800 overflow-hidden">
+        <DialogContent className="sm:max-w-[900px] max-h-[90vh] p-0 bg-navy-900 border-navy-800 overflow-hidden">
           <DialogHeader className="p-6 border-b border-navy-800 flex flex-row items-center justify-between">
             <DialogTitle className="text-2xl font-medium text-white">Contact AI Fusion</DialogTitle>
             <Button
@@ -181,77 +436,342 @@ This message was submitted through the AI Fusion contact dialog.
                   <h3 className="text-xl font-semibold text-white mb-4">Send us a Message</h3>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Display submission error if any */}
+                    {errors.submit && (
+                      <div className="bg-red-900/20 border border-red-500 rounded-md p-3">
+                        <p className="text-red-400 text-sm flex items-center gap-2">
+                          <AlertCircle className="h-4 w-4" />
+                          {errors.submit}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Inquiry Type Selection */}
+                    <div>
+                      <Label htmlFor="inquiryType" className="text-gray-200">
+                        What can we help you with? *
+                      </Label>
+                      <Select
+                        onValueChange={(value) => handleInputChange("inquiryType", value)}
+                        value={formData.inquiryType}
+                      >
+                        <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                          <SelectValue placeholder="Select inquiry type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-navy-800 border-navy-700">
+                          <SelectItem value="general" className="text-white hover:bg-navy-700">
+                            General Inquiry
+                          </SelectItem>
+                          <SelectItem value="course-online" className="text-white hover:bg-navy-700">
+                            Book Online Course
+                          </SelectItem>
+                          <SelectItem value="course-inperson" className="text-white hover:bg-navy-700">
+                            Book In-Person Course
+                          </SelectItem>
+                          <SelectItem value="business" className="text-white hover:bg-navy-700">
+                            Business Consultation Inquiry
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Basic Contact Information */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="name" className="text-sm font-medium text-gray-200">
-                          Name *
+                        <Label htmlFor="name" className="text-gray-200">
+                          Full Name *
                         </Label>
                         <Input
                           id="name"
                           type="text"
-                          required
+                          placeholder="Your full name"
                           value={formData.name}
                           onChange={(e) => handleInputChange("name", e.target.value)}
-                          className="bg-navy-800 border-navy-700 text-white placeholder:text-gray-400 focus:border-purple-500"
-                          placeholder="Your full name"
+                          onBlur={() => handleBlur("name")}
+                          className={getInputStyling("name", !!errors.name)}
                         />
+                        {errors.name && touched.name && (
+                          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+                            <AlertCircle className="h-4 w-4" />
+                            {errors.name}
+                          </p>
+                        )}
                       </div>
+
                       <div>
-                        <Label htmlFor="phone" className="text-sm font-medium text-gray-200">
-                          Phone
+                        <Label htmlFor="email" className="text-gray-200">
+                          Email *
                         </Label>
                         <Input
-                          id="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => handleInputChange("phone", e.target.value)}
-                          className="bg-navy-800 border-navy-700 text-white placeholder:text-gray-400 focus:border-purple-500"
-                          placeholder="Your phone number"
+                          id="email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          onBlur={() => handleBlur("email")}
+                          className={getInputStyling("email", !!errors.email)}
                         />
+                        {errors.email && touched.email && (
+                          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+                            <AlertCircle className="h-4 w-4" />
+                            {errors.email}
+                          </p>
+                        )}
                       </div>
                     </div>
 
+                    {/* Phone field - required for courses, optional for others */}
                     <div>
-                      <Label htmlFor="email" className="text-sm font-medium text-gray-200">
-                        Email *
+                      <Label htmlFor="phone" className="text-gray-200">
+                        Phone Number {formData.inquiryType.startsWith("course-") ? "*" : "(Optional)"}
                       </Label>
                       <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="bg-navy-800 border-navy-700 text-white placeholder:text-gray-400 focus:border-purple-500"
-                        placeholder="your.email@example.com"
+                        id="phone"
+                        type="tel"
+                        placeholder="+353 XX XXX XXXX"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                        onBlur={() => handleBlur("phone")}
+                        className={getInputStyling("phone", !!errors.phone)}
                       />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="message" className="text-sm font-medium text-gray-200">
-                        Message *
-                      </Label>
-                      <Textarea
-                        id="message"
-                        required
-                        value={formData.message}
-                        onChange={(e) => handleInputChange("message", e.target.value)}
-                        className="bg-navy-800 border-navy-700 text-white placeholder:text-gray-400 focus:border-purple-500 min-h-[120px] resize-none"
-                        placeholder="Tell us about your AI needs, questions, or how we can help your business..."
-                      />
-                    </div>
-
-                    {/* Error Message */}
-                    {submitStatus === "error" && (
-                      <div className="bg-red-900/50 border border-red-700 rounded-lg p-3">
-                        <p className="text-red-200 text-sm">
-                          There was an error sending your message. Please try again.
+                      {errors.phone && touched.phone && (
+                        <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+                          <AlertCircle className="h-4 w-4" />
+                          {errors.phone}
                         </p>
+                      )}
+                    </div>
+
+                    {/* Course-specific fields */}
+                    {formData.inquiryType === "course-online" && (
+                      <>
+                        <div>
+                          <Label htmlFor="organization" className="text-gray-200">
+                            Organization (Optional)
+                          </Label>
+                          <Input
+                            id="organization"
+                            placeholder="Your business or organization"
+                            value={formData.organization}
+                            onChange={(e) => handleInputChange("organization", e.target.value)}
+                            className={getInputStyling("organization", false)}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="paymentOption" className="text-gray-200">
+                              Course Payment
+                            </Label>
+                            <Select
+                              onValueChange={(value) => handleInputChange("paymentOption", value)}
+                              value={formData.paymentOption}
+                            >
+                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                                <SelectValue placeholder="Select payment option" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="full" className="text-white hover:bg-navy-700">
+                                  Online Course (€30)
+                                </SelectItem>
+                                <SelectItem value="consultation" className="text-white hover:bg-navy-700">
+                                  Need consultation first
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div>
+                            <Label htmlFor="experience" className="text-gray-200">
+                              AI Experience Level
+                            </Label>
+                            <Select
+                              onValueChange={(value) => handleInputChange("experience", value)}
+                              value={formData.experience}
+                            >
+                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                                <SelectValue placeholder="Select your experience level" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="beginner" className="text-white hover:bg-navy-700">
+                                  Complete Beginner
+                                </SelectItem>
+                                <SelectItem value="some" className="text-white hover:bg-navy-700">
+                                  Some Experience
+                                </SelectItem>
+                                <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
+                                  Intermediate
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="goals" className="text-gray-200">
+                            Learning Goals (Optional)
+                          </Label>
+                          <Textarea
+                            id="goals"
+                            placeholder="What do you hope to achieve with AI training?"
+                            rows={3}
+                            value={formData.goals}
+                            onChange={(e) => handleInputChange("goals", e.target.value)}
+                            className={`${getInputStyling("goals", false)} resize-none`}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {/* In-Person Course specific fields */}
+                    {formData.inquiryType === "course-inperson" && (
+                      <>
+                        <div>
+                          <Label htmlFor="organization" className="text-gray-200">
+                            Organization (Optional)
+                          </Label>
+                          <Input
+                            id="organization"
+                            placeholder="Your business or organization"
+                            value={formData.organization}
+                            onChange={(e) => handleInputChange("organization", e.target.value)}
+                            className={getInputStyling("organization", false)}
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="paymentOption" className="text-gray-200">
+                              Course Payment
+                            </Label>
+                            <Select
+                              onValueChange={(value) => handleInputChange("paymentOption", value)}
+                              value={formData.paymentOption}
+                            >
+                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                                <SelectValue placeholder="Select payment option" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
+                                  Early Bird (€149) - Book by Sept 12th
+                                </SelectItem>
+                                <SelectItem value="full" className="text-white hover:bg-navy-700">
+                                  Pay in Full (€199)
+                                </SelectItem>
+                                <SelectItem value="group" className="text-white hover:bg-navy-700">
+                                  Group Discount (€130) - 3+ employees
+                                </SelectItem>
+                                <SelectItem value="consultation" className="text-white hover:bg-navy-700">
+                                  Need consultation first
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div>
+                            <Label htmlFor="experience" className="text-gray-200">
+                              AI Experience Level
+                            </Label>
+                            <Select
+                              onValueChange={(value) => handleInputChange("experience", value)}
+                              value={formData.experience}
+                            >
+                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                                <SelectValue placeholder="Select your experience level" />
+                              </SelectTrigger>
+                              <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="beginner" className="text-white hover:bg-navy-700">
+                                  Complete Beginner
+                                </SelectItem>
+                                <SelectItem value="some" className="text-white hover:bg-navy-700">
+                                  Some Experience
+                                </SelectItem>
+                                <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
+                                  Intermediate
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="goals" className="text-gray-200">
+                            Learning Goals (Optional)
+                          </Label>
+                          <Textarea
+                            id="goals"
+                            placeholder="What do you hope to achieve with AI training?"
+                            rows={3}
+                            value={formData.goals}
+                            onChange={(e) => handleInputChange("goals", e.target.value)}
+                            className={`${getInputStyling("goals", false)} resize-none`}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {/* Business consultation fields */}
+                    {formData.inquiryType === "business" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="company" className="text-gray-200">
+                            Company (Optional)
+                          </Label>
+                          <Input
+                            id="company"
+                            placeholder="Your company name"
+                            value={formData.company}
+                            onChange={(e) => handleInputChange("company", e.target.value)}
+                            className={getInputStyling("company", false)}
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="industry" className="text-gray-200">
+                            Industry (Optional)
+                          </Label>
+                          <Input
+                            id="industry"
+                            placeholder="Your industry"
+                            value={formData.industry}
+                            onChange={(e) => handleInputChange("industry", e.target.value)}
+                            className={getInputStyling("industry", false)}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Message field - required for general and business inquiries */}
+                    {(formData.inquiryType === "general" || formData.inquiryType === "business") && (
+                      <div>
+                        <Label htmlFor="message" className="text-gray-200">
+                          Message *
+                        </Label>
+                        <Textarea
+                          id="message"
+                          placeholder={
+                            formData.inquiryType === "business"
+                              ? "Tell us about your business needs and how we can help..."
+                              : "Tell us about your inquiry..."
+                          }
+                          rows={4}
+                          value={formData.message}
+                          onChange={(e) => handleInputChange("message", e.target.value)}
+                          onBlur={() => handleBlur("message")}
+                          className={`${getInputStyling("message", !!errors.message)} resize-none`}
+                        />
+                        {errors.message && touched.message && (
+                          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+                            <AlertCircle className="h-4 w-4" />
+                            {errors.message}
+                          </p>
+                        )}
                       </div>
                     )}
 
                     <Button
                       type="submit"
-                      disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+                      disabled={isSubmitting || !isFormValid()}
                       className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? (
@@ -266,6 +786,9 @@ This message was submitted through the AI Fusion contact dialog.
                         </div>
                       )}
                     </Button>
+                    <p className="text-sm text-gray-400 text-center">
+                      Your message will be sent directly to our team at info@aifusion.ie
+                    </p>
                   </form>
                 </div>
               </div>

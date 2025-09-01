@@ -2,50 +2,20 @@
 
 import type React from "react"
 import { Button } from "@/components/ui/button"
-import {
-  ArrowRight,
-  BookOpen,
-  Code,
-  MessageSquare,
-  Smartphone,
-  Store,
-  Calendar,
-  AlertCircle,
-  CheckCircle,
-  MapPin,
-  Users,
-  Star,
-} from "lucide-react"
+import { BookOpen, Code, MessageSquare, Smartphone, Store, Calendar, MapPin, Users, Star } from "lucide-react"
 import AIFusionLogo from "@/components/ai-fusion-logo"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import PricingDialog from "@/components/pricing-dialog"
 import SiteHeader from "@/components/site-header"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Check } from "lucide-react"
+import ContactDialog from "@/components/contact-dialog"
 
 export default function Home() {
   const [isPricingOpen, setIsPricingOpen] = useState(false)
   const router = useRouter()
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
   const [isEnrollDialogOpen, setIsEnrollDialogOpen] = useState(false)
-  const [enrollFormData, setEnrollFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    organization: "",
-    paymentOption: "",
-    experience: "",
-    goals: "",
-  })
-  const [isEnrollSubmitting, setIsEnrollSubmitting] = useState(false)
-  const [enrollSubmitStatus, setEnrollSubmitStatus] = useState<"idle" | "success" | "error">("idle")
-  const [isEnrollSuccessDialogOpen, setIsEnrollSuccessDialogOpen] = useState(false)
 
   // Ensure page starts at top when component mounts
   useEffect(() => {
@@ -59,70 +29,11 @@ export default function Home() {
     }, 100)
   }
 
-  const handleEnrollInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setEnrollFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleEnrollSelectChange = (name: string, value: string) => {
-    setEnrollFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
   const handleEnrollSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsEnrollSubmitting(true)
-    setEnrollSubmitStatus("idle")
-
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("AI Course Enrollment Request - AI Fusion Homepage")
-      const body = encodeURIComponent(`
-New AI Course Enrollment Request
-
-Name: ${enrollFormData.firstName.trim()} ${enrollFormData.lastName.trim()}
-Email: ${enrollFormData.email.trim()}
-Phone: ${enrollFormData.phone.trim()}
-Organization: ${enrollFormData.organization.trim() || "Not provided"}
-Payment Option: ${enrollFormData.paymentOption}
-AI Experience Level: ${enrollFormData.experience}
-
-Goals:
-${enrollFormData.goals.trim() || "Not provided"}
-
----
-This enrollment request was submitted through the AI Fusion homepage banner.
-    `)
-
-      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
-
-      // Show success dialog
-      setIsEnrollSuccessDialogOpen(true)
-
-      // Reset form
-      setEnrollFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        organization: "",
-        paymentOption: "",
-        experience: "",
-        goals: "",
-      })
-
-      // Close enrollment form
-      setIsEnrollDialogOpen(false)
-    } catch (error) {
-      setEnrollSubmitStatus("error")
-    } finally {
-      setIsEnrollSubmitting(false)
-    }
+    // Open the contact dialog instead of handling enrollment separately
+    setIsEnrollDialogOpen(false)
+    setIsContactDialogOpen(true)
   }
 
   return (
@@ -175,7 +86,7 @@ This enrollment request was submitted through the AI Fusion homepage banner.
 
             <div className="flex justify-center mt-4 lg:mt-0">
               <Button
-                onClick={() => setIsEnrollDialogOpen(true)}
+                onClick={() => setIsContactDialogOpen(true)}
                 className="bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 <Star className="mr-2 h-5 w-5" />
@@ -968,26 +879,6 @@ This enrollment request was submitted through the AI Fusion homepage banner.
                   Plus AI consulting that unlocks business efficiency and automation.
                 </p>
               </div>
-
-              {/* Split-key buttons */}
-              <div className="animate-text-slide-up" style={{ animationDelay: "1.5s" }}>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
-                  <Button
-                    onClick={() => handleNavigation("/ai-training")}
-                    className="w-full sm:w-auto rounded-full px-8 py-4 md:px-10 md:py-5 bg-white text-navy-800 hover:bg-gray-100 font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975"
-                  >
-                    Learn AI (Courses)
-                    <ArrowRight className="ml-3 h-5 w-5" />
-                  </Button>
-                  <Button
-                    onClick={() => handleNavigation("/business")}
-                    className="w-full sm:w-auto rounded-full px-8 py-4 md:px-10 md:py-5 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy-975"
-                  >
-                    Consult with Us (For Businesses)
-                    <ArrowRight className="ml-3 h-5 w-5" />
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -1003,9 +894,6 @@ This enrollment request was submitted through the AI Fusion homepage banner.
           </div>
           <div className="container px-4 md:px-6 max-w-5xl relative z-10">
             <div className="flex flex-col items-center text-center space-y-8">
-              <div className="mb-6">
-                <AIFusionLogo className="h-40 w-40 md:h-48 md:w-48 mx-auto" />
-              </div>
               <h1 className="text-4xl md:text-6xl font-medium tracking-tight text-white">
                 AI made simple.
                 <span className="block mt-2">Innovation for Everyone.</span>
@@ -1189,30 +1077,6 @@ This enrollment request was submitted through the AI Fusion homepage banner.
             </div>
           </div>
         </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="py-24 bg-navy-975 relative">
-          {/*  Scroll indicator animation */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
-            <div className="w-1 h-8 bg-gradient-to-b from-purple-400 to-transparent rounded-full animate-pulse"></div>
-          </div>
-
-          <div className="container px-4 md:px-6 max-w-5xl">
-            {/* Enhanced contact form container */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden shadow-sm">
-                <img src="/images/contact-us.jpg" alt="Contact AI Fusion" className="w-full h-auto" />
-              </div>
-              <div className="space-y-6">
-                {/* Contact form with enhanced styling */}
-                <div className="bg-navy-900 p-8 rounded-2xl border border-navy-800 shadow-sm">
-                  <h3 className="text-2xl font-semibold mb-6 text-center text-white">Send us a Message</h3>
-                  <ContactForm />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       {/* Footer */}
@@ -1241,490 +1105,8 @@ This enrollment request was submitted through the AI Fusion homepage banner.
 
       {/* Pricing Dialog */}
       <PricingDialog isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
-      {/* Enrollment Dialog */}
-      <Dialog open={isEnrollDialogOpen} onOpenChange={setIsEnrollDialogOpen}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] bg-navy-900 border-navy-800 overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle className="text-white">Enroll in AI Course</DialogTitle>
-            <DialogDescription className="text-gray-300">
-              Reserve your spot in our upcoming AI training course. We'll confirm your enrollment and send Revolut
-              payment details within 24 hours.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="overflow-y-auto max-h-[70vh] px-1">
-            <form onSubmit={handleEnrollSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="firstName" className="text-gray-200">
-                    First Name *
-                  </Label>
-                  <Input
-                    id="firstName"
-                    name="firstName"
-                    placeholder="John"
-                    required
-                    value={enrollFormData.firstName}
-                    onChange={handleEnrollInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="lastName" className="text-gray-200">
-                    Last Name *
-                  </Label>
-                  <Input
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Doe"
-                    required
-                    value={enrollFormData.lastName}
-                    onChange={handleEnrollInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="email" className="text-gray-200">
-                  Email *
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="john@example.com"
-                  required
-                  value={enrollFormData.email}
-                  onChange={handleEnrollInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="phone" className="text-gray-200">
-                  Phone Number *
-                </Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+353 XX XXX XXXX"
-                  required
-                  value={enrollFormData.phone}
-                  onChange={handleEnrollInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="organization" className="text-gray-200">
-                  Organization (Optional)
-                </Label>
-                <Input
-                  id="organization"
-                  name="organization"
-                  placeholder="Your business or organization"
-                  value={enrollFormData.organization}
-                  onChange={handleEnrollInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="paymentOption" className="text-gray-200">
-                  Payment Option *
-                </Label>
-                <Select onValueChange={(value) => handleEnrollSelectChange("paymentOption", value)}>
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue placeholder="Select payment option" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
-                      Early Bird (€149) - Book by Sept 12th
-                    </SelectItem>
-                    <SelectItem value="full" className="text-white hover:bg-navy-700">
-                      Pay in Full (€199)
-                    </SelectItem>
-                    <SelectItem value="group" className="text-white hover:bg-navy-700">
-                      Group Discount (€130)
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="experience" className="text-gray-200">
-                  AI Experience Level *
-                </Label>
-                <Select onValueChange={(value) => handleEnrollSelectChange("experience", value)}>
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue placeholder="Select your experience level" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="beginner" className="text-white hover:bg-navy-700">
-                      Complete Beginner
-                    </SelectItem>
-                    <SelectItem value="some" className="text-white hover:bg-navy-700">
-                      Some Experience
-                    </SelectItem>
-                    <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
-                      Intermediate
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="goals" className="text-gray-200">
-                  What do you hope to achieve? (Optional)
-                </Label>
-                <Textarea
-                  id="goals"
-                  name="goals"
-                  placeholder="Tell us about your goals for using AI in your work or projects..."
-                  rows={3}
-                  value={enrollFormData.goals}
-                  onChange={handleEnrollInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400 resize-none"
-                />
-              </div>
-
-              {enrollSubmitStatus === "error" && (
-                <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
-                  <p className="text-red-200 text-sm">
-                    ✗ There was an error submitting your request. Please try again.
-                  </p>
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsEnrollDialogOpen(false)}
-                  className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={
-                    isEnrollSubmitting ||
-                    !enrollFormData.firstName ||
-                    !enrollFormData.lastName ||
-                    !enrollFormData.email ||
-                    !enrollFormData.phone ||
-                    !enrollFormData.paymentOption ||
-                    !enrollFormData.experience
-                  }
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isEnrollSubmitting ? "Submitting..." : "Reserve My Spot"}
-                </Button>
-              </div>
-              <p className="text-sm text-gray-400 text-center">
-                We'll confirm your spot and send Revolut payment details within 24 hours.
-              </p>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Enrollment Success Dialog */}
-      <Dialog open={isEnrollSuccessDialogOpen} onOpenChange={setIsEnrollSuccessDialogOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-navy-900 border-navy-800">
-          <div className="text-center py-6">
-            <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-full mb-6 mx-auto">
-              <Check className="h-8 w-8 text-green-800" />
-            </div>
-            <DialogTitle className="text-2xl font-medium text-white mb-4">Enrollment Request Sent!</DialogTitle>
-            <p className="text-gray-300 mb-6">
-              Thank you for your interest in our AI course. We'll confirm your spot and send Revolut payment details
-              within 24 hours.
-            </p>
-            <Button
-              onClick={() => setIsEnrollSuccessDialogOpen(false)}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2"
-            >
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Contact Dialog */}
+      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
     </div>
-  )
-}
-
-interface ValidationErrors {
-  name?: string
-  email?: string
-  message?: string
-}
-
-function ContactForm() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showSuccess, setShowSuccess] = useState(false)
-  const [errors, setErrors] = useState<ValidationErrors>({})
-  const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
-
-  // Real-time validation functions
-  const validateName = (value: string): string | undefined => {
-    if (!value.trim()) return "Name is required"
-    if (value.trim().length < 2) return "Name must be at least 2 characters"
-    if (value.trim().length > 50) return "Name must be less than 50 characters"
-    if (!/^[a-zA-Z\s'-]+$/.test(value.trim())) return "Name can only contain letters, spaces, hyphens, and apostrophes"
-    return undefined
-  }
-
-  const validateEmail = (value: string): string | undefined => {
-    if (!value.trim()) return "Email is required"
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(value.trim())) return "Please enter a valid email address"
-    if (value.length > 100) return "Email must be less than 100 characters"
-    return undefined
-  }
-
-  const validateMessage = (value: string): string | undefined => {
-    if (!value.trim()) return "Message is required"
-    if (value.trim().length < 10) return "Message must be at least 10 characters"
-    if (value.trim().length > 1000) return "Message must be less than 1000 characters"
-    return undefined
-  }
-
-  // Handle field changes with real-time validation
-  const handleNameChange = (value: string) => {
-    setName(value)
-    if (touched.name) {
-      const error = validateName(value)
-      setErrors((prev) => ({ ...prev, name: error }))
-    }
-  }
-
-  const handleEmailChange = (value: string) => {
-    setEmail(value)
-    if (touched.email) {
-      const error = validateEmail(value)
-      setErrors((prev) => ({ ...prev, email: error }))
-    }
-  }
-
-  const handleMessageChange = (value: string) => {
-    setMessage(value)
-    if (touched.message) {
-      const error = validateMessage(value)
-      setErrors((prev) => ({ ...prev, message: error }))
-    }
-  }
-
-  // Handle field blur events
-  const handleBlur = (field: string) => {
-    setTouched((prev) => ({ ...prev, [field]: true }))
-
-    switch (field) {
-      case "name":
-        setErrors((prev) => ({ ...prev, name: validateName(name) }))
-        break
-      case "email":
-        setErrors((prev) => ({ ...prev, email: validateEmail(email) }))
-        break
-      case "message":
-        setErrors((prev) => ({ ...prev, message: validateMessage(message) }))
-        break
-    }
-  }
-
-  // Check if form is valid
-  const isFormValid = () => {
-    const nameError = validateName(name)
-    const emailError = validateEmail(email)
-    const messageError = validateMessage(message)
-
-    return !nameError && !emailError && !messageError
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    // Mark all fields as touched
-    setTouched({ name: true, email: true, message: true })
-
-    // Validate all fields
-    const nameError = validateName(name)
-    const emailError = validateEmail(email)
-    const messageError = validateMessage(message)
-
-    setErrors({
-      name: nameError,
-      email: emailError,
-      message: messageError,
-    })
-
-    // If there are errors, don't submit
-    if (nameError || emailError || messageError) {
-      return
-    }
-
-    setIsSubmitting(true)
-
-    // Create the mailto link with the form data
-    const subject = encodeURIComponent("Contact Form Submission - AI Fusion Homepage")
-    const body = encodeURIComponent(`
-New Contact Form Submission
-
-Name: ${name.trim()}
-Email: ${email.trim()}
-
-Message:
-${message.trim()}
-
----
-This message was submitted through the AI Fusion homepage contact form.
-  `)
-
-    window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
-
-    // Show success message
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setShowSuccess(true)
-      // Reset form
-      setName("")
-      setEmail("")
-      setMessage("")
-      setErrors({})
-      setTouched({})
-      // Hide success message after 5 seconds
-      setTimeout(() => setShowSuccess(false), 5000)
-    }, 1000)
-  }
-
-  // Get input styling based on validation state
-  const getInputStyling = (fieldName: string, hasError: boolean) => {
-    const baseClasses =
-      "flex h-12 w-full rounded-full border px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus:ring-offset-navy-950 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
-
-    if (hasError && touched[fieldName]) {
-      return `${baseClasses} border-red-500 bg-navy-800 focus-visible:ring-red-400`
-    } else if (
-      !hasError &&
-      touched[fieldName] &&
-      (fieldName === "name" ? name : fieldName === "email" ? email : message)
-    ) {
-      return `${baseClasses} border-green-500 bg-navy-800 focus-visible:ring-green-400`
-    } else {
-      return `${baseClasses} border-navy-700 bg-navy-800 focus-visible:ring-purple-400`
-    }
-  }
-
-  const getTextareaStyling = (hasError: boolean) => {
-    const baseClasses =
-      "flex h-32 w-full rounded-2xl border px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus:ring-offset-navy-950 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 resize-none"
-
-    if (hasError && touched.message) {
-      return `${baseClasses} border-red-500 bg-navy-800 focus-visible:ring-red-400`
-    } else if (!hasError && touched.message && message) {
-      return `${baseClasses} border-green-500 bg-navy-800 focus-visible:ring-green-400`
-    } else {
-      return `${baseClasses} border-navy-700 bg-navy-800 focus-visible:ring-purple-400`
-    }
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-      {/* Name Input */}
-      <div>
-        <label htmlFor="name" className="text-sm font-medium block mb-2 text-gray-300">
-          Your Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => handleNameChange(e.target.value)}
-          onBlur={() => handleBlur("name")}
-          className={getInputStyling("name", !!errors.name)}
-        />
-        {errors.name && touched.name && (
-          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
-            <AlertCircle className="h-4 w-4" />
-            {errors.name}
-          </p>
-        )}
-      </div>
-
-      {/* Email Input */}
-      <div>
-        <label htmlFor="email" className="text-sm font-medium block mb-2 text-gray-300">
-          Your Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => handleEmailChange(e.target.value)}
-          onBlur={() => handleBlur("email")}
-          className={getInputStyling("email", !!errors.email)}
-        />
-        {errors.email && touched.email && (
-          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
-            <AlertCircle className="h-4 w-4" />
-            {errors.email}
-          </p>
-        )}
-      </div>
-
-      {/* Message Input */}
-      <div>
-        <label htmlFor="message" className="text-sm font-medium block mb-2 text-gray-300">
-          Message
-        </label>
-        <textarea
-          id="message"
-          placeholder="Tell us about your project or inquiry..."
-          value={message}
-          onChange={(e) => handleMessageChange(e.target.value)}
-          onBlur={() => handleBlur("message")}
-          className={getTextareaStyling(!!errors.message)}
-        />
-        {errors.message && touched.message && (
-          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
-            <AlertCircle className="h-4 w-4" />
-            {errors.message}
-          </p>
-        )}
-      </div>
-
-      {/* Submit Button */}
-      <Button
-        type="submit"
-        disabled={isSubmitting || !isFormValid()}
-        className={`w-full h-12 rounded-full text-white focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-950 transition-all duration-200 ${
-          isFormValid() && !isSubmitting
-            ? "bg-purple-600 hover:bg-purple-700 transform hover:scale-[1.02]"
-            : "bg-gray-600 cursor-not-allowed"
-        }`}
-      >
-        {isSubmitting ? (
-          <div className="flex items-center">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-            Sending Message...
-          </div>
-        ) : (
-          "Send Message"
-        )}
-      </Button>
-
-      {/* Success Message */}
-      {showSuccess && (
-        <div className="bg-green-800 border border-green-600 text-green-200 px-4 py-3 rounded-lg">
-          <div className="flex items-center">
-            <CheckCircle className="w-4 h-4 mr-2" />
-            <div>
-              <p className="font-medium">Message sent successfully!</p>
-              <p className="text-sm text-green-300">We'll get back to you within 24 hours.</p>
-            </div>
-          </div>
-        </div>
-      )}
-    </form>
   )
 }

@@ -1,191 +1,23 @@
 "use client"
-
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  CheckCircle,
-  Target,
-  BookOpen,
-  Lightbulb,
-  ExternalLink,
-  Check,
-} from "lucide-react"
+import ContactDialog from "@/components/contact-dialog"
 import SiteHeader from "@/components/site-header"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import BackToHomeButton from "@/components/back-to-home-button"
+import { Calendar, Clock, MapPin, Users, ExternalLink, CheckCircle, Target, BookOpen, Lightbulb } from "lucide-react"
 
 export default function UpcomingCoursesPage() {
-  const [isEnrollDialogOpen, setIsEnrollDialogOpen] = useState(false)
-  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    organization: "",
-    paymentOption: "",
-    experience: "",
-    goals: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
-
-  const [isOnlineEnrollDialogOpen, setIsOnlineEnrollDialogOpen] = useState(false)
-  const [onlineFormData, setOnlineFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    experience: "",
-    goals: "",
-  })
-  const [isOnlineSubmitting, setIsOnlineSubmitting] = useState(false)
-  const [onlineSubmitStatus, setOnlineSubmitStatus] = useState<"idle" | "success" | "error">("idle")
-  const [isOnlineSuccessDialogOpen, setIsOnlineSuccessDialogOpen] = useState(false)
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
 
   // Ensure page starts at top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus("idle")
-
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("AI Course Enrollment Request - AI Fusion")
-      const body = encodeURIComponent(`
-New AI Course Enrollment Request
-
-Name: ${formData.firstName.trim()} ${formData.lastName.trim()}
-Email: ${formData.email.trim()}
-Phone: ${formData.phone.trim()}
-Organization: ${formData.organization.trim() || "Not provided"}
-Payment Option: ${formData.paymentOption}
-AI Experience Level: ${formData.experience}
-
-Goals:
-${formData.goals.trim() || "Not provided"}
-
----
-This enrollment request was submitted through the AI Fusion Upcoming Courses page.
-      `)
-
-      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
-
-      setSubmitStatus("success")
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        organization: "",
-        paymentOption: "",
-        experience: "",
-        goals: "",
-      })
-
-      // Close enrollment form and show success dialog
-      setIsEnrollDialogOpen(false)
-      setIsSuccessDialogOpen(true)
-    } catch (error) {
-      setSubmitStatus("error")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleOnlineInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setOnlineFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleOnlineSelectChange = (name: string, value: string) => {
-    setOnlineFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
-  }
-
-  const handleOnlineSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsOnlineSubmitting(true)
-    setOnlineSubmitStatus("idle")
-
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("Online AI Taster Course Enrollment - AI Fusion")
-      const body = encodeURIComponent(`
-New Online AI Taster Course Enrollment
-
-Name: ${onlineFormData.firstName.trim()} ${onlineFormData.lastName.trim()}
-Email: ${onlineFormData.email.trim()}
-Phone: ${onlineFormData.phone.trim()}
-AI Experience Level: ${onlineFormData.experience}
-
-What interests you about AI:
-${onlineFormData.goals.trim() || "Not provided"}
-
----
-This enrollment request was submitted through the AI Fusion Online Taster Course section.
-      `)
-
-      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
-
-      setOnlineSubmitStatus("success")
-      setOnlineFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        experience: "",
-        goals: "",
-      })
-
-      // Close enrollment form and show success dialog
-      setIsOnlineEnrollDialogOpen(false)
-      setIsOnlineSuccessDialogOpen(true)
-    } catch (error) {
-      setOnlineSubmitStatus("error")
-    } finally {
-      setIsOnlineSubmitting(false)
-    }
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-navy-975">
@@ -237,7 +69,7 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg rounded-full"
-                onClick={() => setIsEnrollDialogOpen(true)}
+                onClick={() => setIsContactDialogOpen(true)}
               >
                 Reserve Your Spot
               </Button>
@@ -336,7 +168,7 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
                         <p className="text-sm text-gray-300 mb-4">Book by Sept 12th</p>
                         <Button
                           className="w-full bg-green-600 hover:bg-green-700"
-                          onClick={() => setIsEnrollDialogOpen(true)}
+                          onClick={() => setIsContactDialogOpen(true)}
                         >
                           Select Plan
                         </Button>
@@ -349,7 +181,7 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
                         <p className="text-sm text-gray-300 mb-4">Complete 4-week course</p>
                         <Button
                           className="w-full bg-blue-600 hover:bg-blue-700"
-                          onClick={() => setIsEnrollDialogOpen(true)}
+                          onClick={() => setIsContactDialogOpen(true)}
                         >
                           Select Plan
                         </Button>
@@ -365,7 +197,7 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
                         <p className="text-sm text-gray-300 mb-4">3+ people from same organization</p>
                         <Button
                           className="w-full bg-purple-600 hover:bg-purple-700"
-                          onClick={() => setIsEnrollDialogOpen(true)}
+                          onClick={() => setIsContactDialogOpen(true)}
                         >
                           Select Plan
                         </Button>
@@ -571,7 +403,6 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
                     </div>
                   </div>
 
-                  {/* Pricing */}
                   <div className="text-center mb-8">
                     <div className="bg-navy-900 rounded-2xl p-6 border border-purple-500 inline-block">
                       <div className="text-4xl font-bold text-purple-400 mb-2">€30</div>
@@ -584,7 +415,7 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
                     <Button
                       size="lg"
                       className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 text-lg rounded-full"
-                      onClick={() => setIsOnlineEnrollDialogOpen(true)}
+                      onClick={() => setIsContactDialogOpen(true)}
                     >
                       Reserve Your Spot
                     </Button>
@@ -622,380 +453,8 @@ This enrollment request was submitted through the AI Fusion Online Taster Course
         </div>
       </footer>
 
-      {/* Enrollment Dialog */}
-      <Dialog open={isEnrollDialogOpen} onOpenChange={setIsEnrollDialogOpen}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] bg-navy-900 border-navy-800 overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle className="text-white">Enroll in AI Course</DialogTitle>
-            <DialogDescription className="text-gray-300">
-              Reserve your spot in our upcoming AI training course. We'll confirm your enrollment and send Revolut
-              payment details within 24 hours.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="overflow-y-auto max-h-[70vh] px-1">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="firstName" className="text-gray-200">
-                    First Name *
-                  </Label>
-                  <Input
-                    id="firstName"
-                    name="firstName"
-                    placeholder="John"
-                    required
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="lastName" className="text-gray-200">
-                    Last Name *
-                  </Label>
-                  <Input
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Doe"
-                    required
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="email" className="text-gray-200">
-                  Email *
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="john@example.com"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="phone" className="text-gray-200">
-                  Phone Number *
-                </Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+353 XX XXX XXXX"
-                  required
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="organization" className="text-gray-200">
-                  Organization (Optional)
-                </Label>
-                <Input
-                  id="organization"
-                  name="organization"
-                  placeholder="Your business or organization"
-                  value={formData.organization}
-                  onChange={handleInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="paymentOption" className="text-gray-200">
-                  Payment Option *
-                </Label>
-                <Select onValueChange={(value) => handleSelectChange("paymentOption", value)}>
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue placeholder="Select payment option" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
-                      Early Bird (€149) - Book by Sept 12th
-                    </SelectItem>
-                    <SelectItem value="full" className="text-white hover:bg-navy-700">
-                      Pay in Full (€199)
-                    </SelectItem>
-                    <SelectItem value="group" className="text-white hover:bg-navy-700">
-                      Group Discount (€130)
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="experience" className="text-gray-200">
-                  AI Experience Level *
-                </Label>
-                <Select onValueChange={(value) => handleSelectChange("experience", value)}>
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue placeholder="Select your experience level" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="beginner" className="text-white hover:bg-navy-700">
-                      Complete Beginner
-                    </SelectItem>
-                    <SelectItem value="some" className="text-white hover:bg-navy-700">
-                      Some Experience
-                    </SelectItem>
-                    <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
-                      Intermediate
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="goals" className="text-gray-200">
-                  What do you hope to achieve? (Optional)
-                </Label>
-                <Textarea
-                  id="goals"
-                  name="goals"
-                  placeholder="Tell us about your goals for using AI in your work or projects..."
-                  rows={3}
-                  value={formData.goals}
-                  onChange={handleInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400 resize-none"
-                />
-              </div>
-
-              {submitStatus === "error" && (
-                <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
-                  <p className="text-red-200 text-sm">
-                    ✗ There was an error submitting your request. Please try again.
-                  </p>
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsEnrollDialogOpen(false)}
-                  className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={
-                    isSubmitting ||
-                    !formData.firstName ||
-                    !formData.lastName ||
-                    !formData.email ||
-                    !formData.phone ||
-                    !formData.paymentOption ||
-                    !formData.experience
-                  }
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting..." : "Reserve My Spot"}
-                </Button>
-              </div>
-              <p className="text-sm text-gray-400 text-center">
-                We'll confirm your spot and send Revolut payment details within 24 hours.
-              </p>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Success Dialog */}
-      <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-navy-900 border-navy-800">
-          <div className="text-center py-6">
-            <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-full mb-6 mx-auto">
-              <Check className="h-8 w-8 text-green-800" />
-            </div>
-            <DialogTitle className="text-2xl font-medium text-white mb-4">Enrollment Request Sent!</DialogTitle>
-            <p className="text-gray-300 mb-6">
-              Thank you for your interest in our AI course. We'll confirm your spot and send Revolut payment details
-              within 24 hours.
-            </p>
-            <Button
-              onClick={() => setIsSuccessDialogOpen(false)}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2"
-            >
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Online Enrollment Dialog */}
-      <Dialog open={isOnlineEnrollDialogOpen} onOpenChange={setIsOnlineEnrollDialogOpen}>
-        <DialogContent className="sm:max-w-[500px] max-h-[90vh] bg-navy-900 border-navy-800 overflow-hidden flex flex-col">
-          <DialogHeader>
-            <DialogTitle className="text-white">Enroll in Online AI Taster Course</DialogTitle>
-            <DialogDescription className="text-gray-300">
-              Reserve your spot in our 30-minute online AI beginners course. We'll send you the Zoom link and payment
-              details within 24 hours.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="overflow-y-auto max-h-[70vh] px-1">
-            <form onSubmit={handleOnlineSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="onlineFirstName" className="text-gray-200">
-                    First Name *
-                  </Label>
-                  <Input
-                    id="onlineFirstName"
-                    name="firstName"
-                    placeholder="John"
-                    required
-                    value={onlineFormData.firstName}
-                    onChange={handleOnlineInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="onlineLastName" className="text-gray-200">
-                    Last Name *
-                  </Label>
-                  <Input
-                    id="onlineLastName"
-                    name="lastName"
-                    placeholder="Doe"
-                    required
-                    value={onlineFormData.lastName}
-                    onChange={handleOnlineInputChange}
-                    className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                  />
-                </div>
-              </div>
-              <div>
-                <Label htmlFor="onlineEmail" className="text-gray-200">
-                  Email *
-                </Label>
-                <Input
-                  id="onlineEmail"
-                  name="email"
-                  type="email"
-                  placeholder="john@example.com"
-                  required
-                  value={onlineFormData.email}
-                  onChange={handleOnlineInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="onlinePhone" className="text-gray-200">
-                  Phone Number *
-                </Label>
-                <Input
-                  id="onlinePhone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+353 XX XXX XXXX"
-                  required
-                  value={onlineFormData.phone}
-                  onChange={handleOnlineInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <Label htmlFor="onlineExperience" className="text-gray-200">
-                  AI Experience Level *
-                </Label>
-                <Select onValueChange={(value) => handleOnlineSelectChange("experience", value)}>
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue placeholder="Select your experience level" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="complete-beginner" className="text-white hover:bg-navy-700">
-                      Complete Beginner
-                    </SelectItem>
-                    <SelectItem value="some-knowledge" className="text-white hover:bg-navy-700">
-                      Some Knowledge
-                    </SelectItem>
-                    <SelectItem value="curious" className="text-white hover:bg-navy-700">
-                      Just Curious
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="onlineGoals" className="text-gray-200">
-                  What interests you most about AI? (Optional)
-                </Label>
-                <Textarea
-                  id="onlineGoals"
-                  name="goals"
-                  placeholder="Tell us what you'd like to learn about AI..."
-                  rows={3}
-                  value={onlineFormData.goals}
-                  onChange={handleOnlineInputChange}
-                  className="bg-navy-800 border-navy-700 text-white placeholder-gray-400 resize-none"
-                />
-              </div>
-
-              {onlineSubmitStatus === "error" && (
-                <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
-                  <p className="text-red-200 text-sm">
-                    ✗ There was an error submitting your request. Please try again.
-                  </p>
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsOnlineEnrollDialogOpen(false)}
-                  className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={
-                    isOnlineSubmitting ||
-                    !onlineFormData.firstName ||
-                    !onlineFormData.lastName ||
-                    !onlineFormData.email ||
-                    !onlineFormData.phone ||
-                    !onlineFormData.experience
-                  }
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isOnlineSubmitting ? "Submitting..." : "Reserve My Spot"}
-                </Button>
-              </div>
-              <p className="text-sm text-gray-400 text-center">
-                We'll send you the Zoom link and payment details within 24 hours.
-              </p>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Online Success Dialog */}
-      <Dialog open={isOnlineSuccessDialogOpen} onOpenChange={setIsOnlineSuccessDialogOpen}>
-        <DialogContent className="sm:max-w-[400px] bg-navy-900 border-navy-800">
-          <div className="text-center py-6">
-            <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-full mb-6 mx-auto">
-              <Check className="h-8 w-8 text-green-800" />
-            </div>
-            <DialogTitle className="text-2xl font-medium text-white mb-4">Online Course Request Sent!</DialogTitle>
-            <p className="text-gray-300 mb-6">
-              Thank you for your interest in our online AI taster course. We'll send you the Zoom link and payment
-              details within 24 hours.
-            </p>
-            <Button
-              onClick={() => setIsOnlineSuccessDialogOpen(false)}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2"
-            >
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Contact Dialog */}
+      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
     </div>
   )
 }

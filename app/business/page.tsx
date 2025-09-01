@@ -1,77 +1,15 @@
 "use client"
-
-import type React from "react"
 import SiteHeader from "@/components/site-header"
 import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
-import { Brain, TrendingUp, Users, Zap, Target, BarChart3, MessageSquare, CheckCircle, ArrowRight } from "lucide-react"
+import { Brain, TrendingUp, Users, Zap, Target, BarChart3, CheckCircle, ArrowRight } from "lucide-react"
 import ContactDialog from "@/components/contact-dialog"
 
 export default function AIForBusinessPage() {
   const [isContactOpen, setIsContactOpen] = useState(false)
-  const [showSuccessDialog, setShowSuccessDialog] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    industry: "",
-    message: "",
-  })
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("Business Consultation Request - AI Fusion")
-      const body = encodeURIComponent(`
-New Business Consultation Request
-
-Name: ${formData.name.trim()}
-Email: ${formData.email.trim()}
-Company: ${formData.company.trim() || "Not provided"}
-Industry: ${formData.industry || "Not provided"}
-
-Message:
-${formData.message.trim()}
-
----
-This consultation request was submitted through the AI Fusion Business page.
-      `)
-
-      window.open(`mailto:info@aifusion.ie?subject=${subject}&body=${body}`, "_blank")
-
-      // Show success dialog
-      setShowSuccessDialog(true)
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        industry: "",
-        message: "",
-      })
-    } catch (error) {
-      console.error("Error sending consultation request:", error)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
 
   return (
     <div className="min-h-screen bg-navy-950">
@@ -98,24 +36,6 @@ This consultation request was submitted through the AI Fusion Business page.
               innovation in your business. Our expert consultants will guide you through every step of your AI
               transformation journey.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3"
-                onClick={() => setIsContactOpen(true)}
-              >
-                Get Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white px-8 py-3 bg-transparent"
-                onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                Explore Services
-              </Button>
-            </div>
           </div>
         </div>
       </section>
@@ -466,143 +386,16 @@ This consultation request was submitted through the AI Fusion Business page.
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-navy-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Business with AI?</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Schedule a free consultation to discover how AI can revolutionize your operations and drive growth.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button
               size="lg"
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3"
               onClick={() => setIsContactOpen(true)}
             >
-              Schedule Free Consultation
+              Contact Us
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white px-8 py-3 bg-transparent"
-              onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Send Message
-            </Button>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section id="contact-form" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get Your AI Journey Started</h2>
-            <p className="text-xl text-gray-300">
-              Tell us about your business needs and we'll create a customized AI solution for you.
-            </p>
-          </div>
-
-          <Card className="bg-navy-800 border-navy-700">
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="name" className="text-white">
-                      Full Name *
-                    </Label>
-                    <Input
-                      id="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => handleInputChange("name", e.target.value)}
-                      className="bg-navy-700 border-navy-600 text-white"
-                      placeholder="Your full name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-white">
-                      Email Address *
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
-                      className="bg-navy-700 border-navy-600 text-white"
-                      placeholder="your.email@company.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="company" className="text-white">
-                      Company Name
-                    </Label>
-                    <Input
-                      id="company"
-                      value={formData.company}
-                      onChange={(e) => handleInputChange("company", e.target.value)}
-                      className="bg-navy-700 border-navy-600 text-white"
-                      placeholder="Your company name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="industry" className="text-white">
-                      Industry
-                    </Label>
-                    <Select value={formData.industry} onValueChange={(value) => handleInputChange("industry", value)}>
-                      <SelectTrigger className="bg-navy-700 border-navy-600 text-white">
-                        <SelectValue placeholder="Select your industry" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-navy-700 border-navy-600">
-                        <SelectItem value="technology">Technology</SelectItem>
-                        <SelectItem value="healthcare">Healthcare</SelectItem>
-                        <SelectItem value="finance">Finance</SelectItem>
-                        <SelectItem value="retail">Retail</SelectItem>
-                        <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                        <SelectItem value="education">Education</SelectItem>
-                        <SelectItem value="consulting">Consulting</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="message" className="text-white">
-                    Tell us about your AI needs *
-                  </Label>
-                  <Textarea
-                    id="message"
-                    required
-                    value={formData.message}
-                    onChange={(e) => handleInputChange("message", e.target.value)}
-                    className="bg-navy-700 border-navy-600 text-white min-h-[120px]"
-                    placeholder="Describe your business challenges, goals, and how you think AI could help..."
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Sending Request...
-                    </div>
-                  ) : (
-                    <>
-                      Send Consultation Request
-                      <MessageSquare className="ml-2 h-5 w-5" />
-                    </>
-                  )}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
@@ -616,28 +409,6 @@ This consultation request was submitted through the AI Fusion Business page.
       </footer>
 
       <ContactDialog isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-
-      {/* Success Dialog */}
-      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-        <DialogContent className="sm:max-w-md bg-navy-900 border-navy-800">
-          <div className="flex flex-col items-center text-center p-6">
-            <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-              <CheckCircle className="h-8 w-8 text-white" />
-            </div>
-            <DialogTitle className="text-xl font-semibold text-white mb-2">Consultation Request Sent!</DialogTitle>
-            <p className="text-gray-300 mb-6">
-              Thank you for your interest in AI Fusion. We've received your consultation request and will contact you
-              within 24 hours to discuss your AI needs.
-            </p>
-            <Button
-              onClick={() => setShowSuccessDialog(false)}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg"
-            >
-              OK
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }
