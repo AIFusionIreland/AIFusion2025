@@ -23,6 +23,13 @@ export default function UpcomingCoursesPage() {
     <div className="flex flex-col min-h-screen bg-navy-975">
       <SiteHeader />
 
+      {/* First Session Free Banner */}
+      <div className="bg-red-600 py-3">
+        <div className="container px-4 md:px-6">
+          <p className="text-center text-white font-semibold text-lg">First Session Free</p>
+        </div>
+      </div>
+
       <main className="flex-1">
         {/* Hero Section */}
         <section className="py-12 md:py-16 relative overflow-hidden bg-gradient-to-br from-navy-900 via-navy-950 to-purple-950">
@@ -156,6 +163,14 @@ export default function UpcomingCoursesPage() {
                   <CardHeader>
                     <CardTitle className="text-2xl text-center text-white">Course Investment</CardTitle>
                   </CardHeader>
+                  <div className="relative overflow-hidden bg-red-600 py-2 mb-4">
+                    <div className="animate-scroll whitespace-nowrap">
+                      <span className="text-white font-semibold text-lg mx-8">
+                        🎉 Free Introductory Session 🎉 Free Introductory Session 🎉 Free Introductory Session 🎉 Free
+                        Introductory Session 🎉 Free Introductory Session 🎉 Free Introductory Session 🎉
+                      </span>
+                    </div>
+                  </div>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {/* Early Bird */}
@@ -164,8 +179,8 @@ export default function UpcomingCoursesPage() {
                           Limited Time
                         </Badge>
                         <h3 className="text-lg font-semibold mb-2 text-white">Early Bird</h3>
-                        <div className="text-3xl font-bold text-green-400 mb-2">€149</div>
-                        <p className="text-sm text-gray-300 mb-4">Book by Sept 12th</p>
+                        <div className="text-3xl font-bold text-green-400 mb-2">€99</div>
+                        <p className="text-sm text-gray-300 mb-4">Book by Sept 16th</p>
                         <Button
                           className="w-full bg-green-600 hover:bg-green-700"
                           onClick={() => setIsContactDialogOpen(true)}
@@ -177,7 +192,7 @@ export default function UpcomingCoursesPage() {
                       {/* Pay in Full */}
                       <div className="border-2 border-blue-500 rounded-lg p-6 text-center bg-navy-800">
                         <h3 className="text-lg font-semibold mb-2 text-white">Pay in Full</h3>
-                        <div className="text-3xl font-bold text-blue-400 mb-2">€199</div>
+                        <div className="text-3xl font-bold text-blue-400 mb-2">€149</div>
                         <p className="text-sm text-gray-300 mb-4">Complete 4-week course</p>
                         <Button
                           className="w-full bg-blue-600 hover:bg-blue-700"
@@ -193,8 +208,8 @@ export default function UpcomingCoursesPage() {
                           Best Value
                         </Badge>
                         <h3 className="text-lg font-semibold mb-2 text-white">Group Discount</h3>
-                        <div className="text-3xl font-bold text-purple-400 mb-2">€130</div>
-                        <p className="text-sm text-gray-300 mb-4">3+ people from same organization</p>
+                        <div className="text-3xl font-bold text-purple-400 mb-2">€119</div>
+                        <p className="text-sm text-gray-300 mb-4">3+ employees</p>
                         <Button
                           className="w-full bg-purple-600 hover:bg-purple-700"
                           onClick={() => setIsContactDialogOpen(true)}
@@ -360,7 +375,7 @@ export default function UpcomingCoursesPage() {
                         <Calendar className="w-5 h-5 text-purple-400 mr-3" />
                         <div>
                           <p className="font-semibold text-white">Date</p>
-                          <p className="text-gray-200">Wednesday, 10th September</p>
+                          <p className="text-gray-200">Wednesday, 24th September</p>
                         </div>
                       </div>
                       <div className="flex items-center">
@@ -405,7 +420,10 @@ export default function UpcomingCoursesPage() {
 
                   <div className="text-center mb-8">
                     <div className="bg-navy-900 rounded-2xl p-6 border border-purple-500 inline-block">
-                      <div className="text-4xl font-bold text-purple-400 mb-2">€30</div>
+                      <div className="mb-2">
+                        <div className="text-4xl font-bold text-gray-500 line-through mb-1">€30</div>
+                        <div className="text-4xl font-bold text-green-400">FREE</div>
+                      </div>
                       <p className="text-gray-200">30-minute online session</p>
                       <p className="text-sm text-gray-400 mt-2">Perfect introduction to AI</p>
                     </div>
@@ -458,3 +476,16 @@ export default function UpcomingCoursesPage() {
     </div>
   )
 }
+;<style jsx>{`
+  @keyframes scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  .animate-scroll {
+    animation: scroll 15s linear infinite;
+  }
+`}</style>

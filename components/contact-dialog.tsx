@@ -61,15 +61,14 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
 
   // Validation functions
   const validateName = (value: string): string | undefined => {
-    if (!value.trim()) return "Name is required"
+    if (!value || !value.trim()) return "Name is required"
     if (value.trim().length < 2) return "Name must be at least 2 characters"
     if (value.trim().length > 50) return "Name must be less than 50 characters"
-    if (!/^[a-zA-Z\s'-]+$/.test(value.trim())) return "Name can only contain letters, spaces, hyphens, and apostrophes"
     return undefined
   }
 
   const validateEmail = (value: string): string | undefined => {
-    if (!value.trim()) return "Email is required"
+    if (!value || !value.trim()) return "Email is required"
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(value.trim())) return "Please enter a valid email address"
     if (value.length > 100) return "Email must be less than 100 characters"
@@ -77,16 +76,15 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
   }
 
   const validatePhone = (value: string): string | undefined => {
-    if (!value.trim()) return "Phone number is required"
-    const phoneRegex = /^[+]?[1-9][\d\s\-()]{7,15}$/
-    if (!phoneRegex.test(value.replace(/[\s\-()]/g, ""))) {
-      return "Please enter a valid phone number"
-    }
+    if (!value || !value.trim()) return "Phone number is required"
+    // More lenient phone validation
+    const cleanPhone = value.replace(/[\s\-()]/g, "")
+    if (cleanPhone.length < 7) return "Please enter a valid phone number"
     return undefined
   }
 
   const validateMessage = (value: string): string | undefined => {
-    if (!value.trim()) return "Message is required"
+    if (!value || !value.trim()) return "Message is required"
     if (value.trim().length < 10) return "Message must be at least 10 characters"
     if (value.trim().length > 1000) return "Message must be less than 1000 characters"
     return undefined
@@ -94,6 +92,11 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
 
   const handleInputChange = (field: keyof ContactFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+
+    // Clear any previous submit errors when user starts typing
+    if (errors.submit) {
+      setErrors((prev) => ({ ...prev, submit: undefined }))
+    }
 
     if (touched[field]) {
       let error: string | undefined
@@ -136,53 +139,105 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     setErrors((prev) => ({ ...prev, [field]: error }))
   }
 
-  const isFormValid = () => {
-    const nameError = validateName(formData.name)
-    const emailError = validateEmail(formData.email)
+  const getRequiredFields = () => {
+    const required = ["name", "email"]
 
-    // Phone is required for course enrollments
-    let phoneError: string | undefined
     if (formData.inquiryType.startsWith("course-")) {
-      phoneError = validatePhone(formData.phone)
+      required.push("phone")
     }
 
-    // Message is required for general and business inquiries
-    let messageError: string | undefined
     if (formData.inquiryType === "general" || formData.inquiryType === "business") {
-      messageError = validateMessage(formData.message)
+      required.push("message")
     }
 
-    return !nameError && !emailError && !phoneError && !messageError && formData.inquiryType
+    return required
+  }
+
+  const isFormValid = () => {
+    if (!formData.inquiryType) return false
+
+    const requiredFields = getRequiredFields()
+
+    for (const field of requiredFields) {
+      const value = formData[field as keyof ContactFormData]
+      if (!value || !value.trim()) {
+        return false
+      }
+
+      // Check for validation errors
+      switch (field) {
+        case "name":
+          if (validateName(value)) return false
+          break
+        case "email":
+          if (validateEmail(value)) return false
+          break
+        case "phone":
+          if (validatePhone(value)) return false
+          break
+        case "message":
+          if (validateMessage(value)) return false
+          break
+      }
+    }
+
+    return true
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Mark all fields as touched
-    setTouched({ name: true, email: true, phone: true, message: true })
+    console.log("Form submission started")
+    console.log("Form data:", formData)
+    console.log("Required fields:", getRequiredFields())
 
-    // Validate all fields
-    const nameError = validateName(formData.name)
-    const emailError = validateEmail(formData.email)
-
-    let phoneError: string | undefined
-    if (formData.inquiryType.startsWith("course-")) {
-      phoneError = validatePhone(formData.phone)
-    }
-
-    let messageError: string | undefined
-    if (formData.inquiryType === "general" || formData.inquiryType === "business") {
-      messageError = validateMessage(formData.message)
-    }
-
-    setErrors({
-      name: nameError,
-      email: emailError,
-      phone: phoneError,
-      message: messageError,
+    // Mark relevant fields as touched
+    const requiredFields = getRequiredFields()
+    const touchedFields: { [key: string]: boolean } = {}
+    requiredFields.forEach((field) => {
+      touchedFields[field] = true
     })
+    setTouched(touchedFields)
 
-    if (nameError || emailError || phoneError || messageError || !formData.inquiryType) {
+    // Validate all required fields
+    const validationErrors: ValidationErrors = {}
+    let hasErrors = false
+
+    if (!formData.inquiryType) {
+      validationErrors.submit = "Please select an inquiry type"
+      hasErrors = true
+    }
+
+    for (const field of requiredFields) {
+      const value = formData[field as keyof ContactFormData]
+      let error: string | undefined
+
+      switch (field) {
+        case "name":
+          error = validateName(value)
+          break
+        case "email":
+          error = validateEmail(value)
+          break
+        case "phone":
+          error = validatePhone(value)
+          break
+        case "message":
+          error = validateMessage(value)
+          break
+      }
+
+      if (error) {
+        validationErrors[field as keyof ValidationErrors] = error
+        hasErrors = true
+      }
+    }
+
+    console.log("Validation errors:", validationErrors)
+    console.log("Has errors:", hasErrors)
+
+    if (hasErrors) {
+      setErrors(validationErrors)
       return
     }
 
@@ -190,27 +245,37 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     setErrors({})
 
     try {
+      // Prepare the data to send
+      const submitData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        message: formData.message.trim(),
+        subject: `Contact Form - ${formData.inquiryType}`,
+        inquiryType: formData.inquiryType,
+        organization: formData.organization.trim(),
+        paymentOption: formData.paymentOption,
+        experience: formData.experience,
+        goals: formData.goals.trim(),
+        company: formData.company.trim(),
+        industry: formData.industry.trim(),
+      }
+
+      console.log("Sending data:", submitData)
+
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          phone: formData.phone.trim(),
-          message: formData.message.trim(),
-          inquiryType: formData.inquiryType,
-          organization: formData.organization.trim(),
-          paymentOption: formData.paymentOption,
-          experience: formData.experience,
-          goals: formData.goals.trim(),
-          company: formData.company.trim(),
-          industry: formData.industry.trim(),
-        }),
+        body: JSON.stringify(submitData),
       })
 
+      console.log("Response status:", response.status)
+
       if (response.ok) {
+        const result = await response.json()
+        console.log("Success result:", result)
         setSubmitStatus("success")
         setShowSuccessPopup(true)
 
@@ -232,10 +297,12 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
         setTouched({})
       } else {
         const errorData = await response.json()
+        console.log("Error response:", errorData)
         setSubmitStatus("error")
         setErrors({ submit: errorData.error || "Failed to send message. Please try again." })
       }
     } catch (error) {
+      console.error("Network error:", error)
       setSubmitStatus("error")
       setErrors({ submit: "Network error. Please check your connection and try again." })
     } finally {
@@ -388,6 +455,15 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                       </div>
                     )}
 
+                    {/* Debug info - remove this in production */}
+                    {process.env.NODE_ENV === "development" && (
+                      <div className="bg-gray-800 p-2 rounded text-xs text-gray-300">
+                        <p>Debug: Form valid: {isFormValid() ? "Yes" : "No"}</p>
+                        <p>Required fields: {getRequiredFields().join(", ")}</p>
+                        <p>Inquiry type: {formData.inquiryType || "None"}</p>
+                      </div>
+                    )}
+
                     {/* Inquiry Type Selection */}
                     <div>
                       <Label htmlFor="inquiryType" className="text-gray-200">
@@ -514,7 +590,8 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                               </SelectTrigger>
                               <SelectContent className="bg-navy-800 border-navy-700">
                                 <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  Online Course (€30)
+                                  Online Course (<span className="line-through text-gray-400">€30</span>{" "}
+                                  <span className="text-green-400 font-semibold">FREE</span>)
                                 </SelectItem>
                                 <SelectItem value="consultation" className="text-white hover:bg-navy-700">
                                   Need consultation first
@@ -594,14 +671,17 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                                 <SelectValue placeholder="Select payment option" />
                               </SelectTrigger>
                               <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="free" className="text-white hover:bg-navy-700">
+                                  FREE Session on Sept 23rd
+                                </SelectItem>
                                 <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
-                                  Early Bird (€149) - Book by Sept 12th
+                                  Early Bird (€99) - Book by Sept 16th
                                 </SelectItem>
                                 <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  Pay in Full (€199)
+                                  Pay in Full (€149)
                                 </SelectItem>
                                 <SelectItem value="group" className="text-white hover:bg-navy-700">
-                                  Group Discount (€130) - 3+ employees
+                                  Group Discount (€119) - 3+ employees
                                 </SelectItem>
                                 <SelectItem value="consultation" className="text-white hover:bg-navy-700">
                                   Need consultation first

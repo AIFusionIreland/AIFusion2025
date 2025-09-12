@@ -41,6 +41,42 @@ export default function Home() {
       {/* Header */}
       <SiteHeader />
 
+      {/* Scrolling Banner */}
+      <div className="bg-gradient-to-r from-red-500 to-red-600 py-2 overflow-hidden relative z-30">
+        <div className="animate-scroll whitespace-nowrap">
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🎉 FREE First Introductory Session 🎉
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🎉 FREE First Introductory Session 🎉
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🎉 FREE First Introductory Session 🎉
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🎉 FREE First Introductory Session 🎉
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🎉 FREE First Introductory Session 🎉
+          </span>
+        </div>
+
+        <style jsx>{`
+          @keyframes scroll {
+            0% {
+              transform: translateX(100%);
+            }
+            100% {
+              transform: translateX(-100%);
+            }
+          }
+          
+          .animate-scroll {
+            animation: scroll 20s linear infinite;
+          }
+        `}</style>
+      </div>
+
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 py-4 md:py-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 to-indigo-800/20"></div>
