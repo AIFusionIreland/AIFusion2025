@@ -45,19 +45,19 @@ export default function Home() {
       <div className="bg-gradient-to-r from-red-500 to-red-600 py-2 overflow-hidden relative z-30">
         <div className="animate-scroll whitespace-nowrap">
           <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🎉 FREE First Introductory Session 🎉
+            🔴 Fully Booked AI for Beginners session 🔴
           </span>
           <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🎉 FREE First Introductory Session 🎉
+            🔴 Fully Booked AI for Beginners session 🔴
           </span>
           <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🎉 FREE First Introductory Session 🎉
+            🔴 Fully Booked AI for Beginners session 🔴
           </span>
           <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🎉 FREE First Introductory Session 🎉
+            🔴 Fully Booked AI for Beginners session 🔴
           </span>
           <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🎉 FREE First Introductory Session 🎉
+            🔴 Fully Booked AI for Beginners session 🔴
           </span>
         </div>
 
@@ -83,7 +83,7 @@ export default function Home() {
 
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-2 left-10 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
+          <div className="absolute top-2 left-20 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
           <div
             className="absolute top-6 right-20 w-1.5 h-1.5 bg-white/40 rounded-full animate-pulse"
             style={{ animationDelay: "0.5s" }}
@@ -219,7 +219,7 @@ export default function Home() {
                 filter: drop-shadow(0 30px 60px rgba(0,255,255,0.4)) brightness(1.2) contrast(1.3) hue-rotate(0deg) saturate(1.2);
               }
             }
-            
+
             @keyframes worldMapOrbit {
               0% { 
                 transform: perspective(1000px) rotateX(10deg) rotateY(0deg) rotateZ(5deg) translateY(0px) translateX(0px) scale(1);

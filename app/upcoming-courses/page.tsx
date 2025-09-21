@@ -23,11 +23,40 @@ export default function UpcomingCoursesPage() {
     <div className="flex flex-col min-h-screen bg-navy-975">
       <SiteHeader />
 
-      {/* First Session Free Banner */}
-      <div className="bg-red-600 py-3">
-        <div className="container px-4 md:px-6">
-          <p className="text-center text-white font-semibold text-lg">First Session Free</p>
+      {/* Fully Booked Banner */}
+      <div className="bg-gradient-to-r from-red-500 to-red-600 py-2 overflow-hidden relative z-30">
+        <div className="animate-scroll whitespace-nowrap">
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🔴 Fully Booked AI for Beginners session 🔴
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🔴 Fully Booked AI for Beginners session 🔴
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🔴 Fully Booked AI for Beginners session 🔴
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🔴 Fully Booked AI for Beginners session 🔴
+          </span>
+          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
+            🔴 Fully Booked AI for Beginners session 🔴
+          </span>
         </div>
+
+        <style jsx>{`
+          @keyframes scroll {
+            0% {
+              transform: translateX(100%);
+            }
+            100% {
+              transform: translateX(-100%);
+            }
+          }
+          
+          .animate-scroll {
+            animation: scroll 20s linear infinite;
+          }
+        `}</style>
       </div>
 
       <main className="flex-1">
@@ -476,16 +505,3 @@ export default function UpcomingCoursesPage() {
     </div>
   )
 }
-;<style jsx>{`
-  @keyframes scroll {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-  .animate-scroll {
-    animation: scroll 15s linear infinite;
-  }
-`}</style>

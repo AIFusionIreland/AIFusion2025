@@ -589,9 +589,11 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                                 <SelectValue placeholder="Select payment option" />
                               </SelectTrigger>
                               <SelectContent className="bg-navy-800 border-navy-700">
+                                <SelectItem value="free" className="text-white hover:bg-navy-700">
+                                  FREE First Beginners Session
+                                </SelectItem>
                                 <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  Online Course (<span className="line-through text-gray-400">€30</span>{" "}
-                                  <span className="text-green-400 font-semibold">FREE</span>)
+                                  Online Course (€120 - 3 sessions)
                                 </SelectItem>
                                 <SelectItem value="consultation" className="text-white hover:bg-navy-700">
                                   Need consultation first
@@ -672,16 +674,13 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                               </SelectTrigger>
                               <SelectContent className="bg-navy-800 border-navy-700">
                                 <SelectItem value="free" className="text-white hover:bg-navy-700">
-                                  FREE Session on Sept 23rd
-                                </SelectItem>
-                                <SelectItem value="earlyBird" className="text-white hover:bg-navy-700">
-                                  Early Bird (€99) - Book by Sept 16th
+                                  FREE First Beginners Session
                                 </SelectItem>
                                 <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  Pay in Full (€149)
+                                  In-Person Course (€120 - 3 sessions)
                                 </SelectItem>
                                 <SelectItem value="group" className="text-white hover:bg-navy-700">
-                                  Group Discount (€119) - 3+ employees
+                                  Group Discount (€99 - 3 sessions) - 3+ employees
                                 </SelectItem>
                                 <SelectItem value="consultation" className="text-white hover:bg-navy-700">
                                   Need consultation first
