@@ -1,14 +1,17 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import SiteHeader from "@/components/site-header"
-import { Send, Calendar, Mail, Plus, Trash2, Eye, CheckCircle, AlertCircle, Clock, Users } from "lucide-react"
+import { BackToHomeButton } from "@/components/back-to-home-button"
+import { Calendar, Clock, Mail, Send, Trash2, Users, BarChart3, TrendingUp } from "lucide-react"
 
 interface Schedule {
   id: string
@@ -16,34 +19,64 @@ interface Schedule {
   recipients: string[]
   dayOfWeek?: number
   dayOfMonth?: number
+  hour: number
+  minute: number
   active: boolean
-  lastSent?: string
-  nextSend?: string
+  createdAt: string
+  lastRun?: string
+  nextRun?: string
 }
+
+interface ReportData {
+  current: {
+    pageViews: number
+    uniqueVisitors: number
+    totalEvents: number
+    topPages: Array<{ path: string; views: number }>
+  }
+  previous: {
+    pageViews: number
+    uniqueVisitors: number
+    totalEvents: number
+  }
+  period: {
+    start: string
+    end: string
+    type: string
+  }
+}
+
+const ADMIN_SECRET = "aifusion2024admin"
+
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 export default function AnalyticsReportsPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([])
-  const [loading, setLoading] = useState(true)
-  const [sending, setSending] = useState<string | null>(null)
-  const [newSchedule, setNewSchedule] = useState({
+  const [reportData, setReportData] = useState<ReportData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState("")
+
+  // Form state
+  const [formData, setFormData] = useState({
     type: "weekly" as "weekly" | "monthly",
     recipients: "",
     dayOfWeek: 1, // Monday
     dayOfMonth: 1,
+    hour: 9,
+    minute: 0,
   })
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
-
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
   useEffect(() => {
     fetchSchedules()
+    fetchReportPreview("weekly")
   }, [])
 
   const fetchSchedules = async () => {
     try {
       const response = await fetch("/api/analytics/schedule", {
         headers: {
-          Authorization: "Bearer admin-secret-key",
+          "x-admin-secret": ADMIN_SECRET,
         },
       })
 
@@ -53,87 +86,40 @@ export default function AnalyticsReportsPage() {
       }
     } catch (error) {
       console.error("Error fetching schedules:", error)
-    } finally {
-      setLoading(false)
     }
   }
 
-  const sendReport = async (type: "weekly" | "monthly", recipients?: string[]) => {
-    setSending(type)
-    try {
-      const response = await fetch("/api/analytics/reports", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer admin-secret-key",
-        },
-        body: JSON.stringify({
-          type,
-          recipients: recipients || ["info@aifusion.ie"],
-        }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        setMessage({ type: "success", text: `${type} report sent successfully!` })
-      } else {
-        setMessage({ type: "error", text: data.error || "Failed to send report" })
-      }
-    } catch (error) {
-      setMessage({ type: "error", text: "Network error occurred" })
-    } finally {
-      setSending(null)
-      setTimeout(() => setMessage(null), 5000)
-    }
-  }
-
-  const previewReport = async (type: "weekly" | "monthly") => {
+  const fetchReportPreview = async (type: "weekly" | "monthly") => {
     try {
       const response = await fetch(`/api/analytics/reports?type=${type}`, {
         headers: {
-          Authorization: "Bearer admin-secret-key",
+          "x-admin-secret": ADMIN_SECRET,
         },
       })
 
-      const data = await response.json()
-
       if (response.ok) {
-        // Open preview in new window
-        const previewWindow = window.open("", "_blank", "width=800,height=600")
-        if (previewWindow) {
-          previewWindow.document.write(`
-            <html>
-              <head><title>${type} Report Preview</title></head>
-              <body style="font-family: Arial, sans-serif; padding: 20px;">
-                <h1>${data.reportData.period} Report Preview</h1>
-                <p><strong>Period:</strong> ${data.reportData.startDate} to ${data.reportData.endDate}</p>
-                <p><strong>Page Views:</strong> ${data.reportData.pageViews.toLocaleString()}</p>
-                <p><strong>Unique Visitors:</strong> ${data.reportData.uniqueVisitors.toLocaleString()}</p>
-                <p><strong>Total Events:</strong> ${data.reportData.totalEvents.toLocaleString()}</p>
-                <hr>
-                <p><em>This is a preview. The actual email will contain charts and detailed insights.</em></p>
-              </body>
-            </html>
-          `)
-        }
-      } else {
-        setMessage({ type: "error", text: data.error || "Failed to generate preview" })
+        const data = await response.json()
+        setReportData(data.data)
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Network error occurred" })
+      console.error("Error fetching report preview:", error)
     }
   }
 
-  const createSchedule = async () => {
+  const createSchedule = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError("")
+    setSuccess("")
+
     try {
-      const recipients = newSchedule.recipients
+      const recipients = formData.recipients
         .split(",")
         .map((email) => email.trim())
         .filter(Boolean)
 
       if (recipients.length === 0) {
-        setMessage({ type: "error", text: "Please enter at least one email address" })
+        setError("Please enter at least one email address")
         return
       }
 
@@ -141,317 +127,392 @@ export default function AnalyticsReportsPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer admin-secret-key",
+          "x-admin-secret": ADMIN_SECRET,
         },
         body: JSON.stringify({
-          type: newSchedule.type,
+          type: formData.type,
           recipients,
-          dayOfWeek: newSchedule.type === "weekly" ? newSchedule.dayOfWeek : undefined,
-          dayOfMonth: newSchedule.type === "monthly" ? newSchedule.dayOfMonth : undefined,
+          dayOfWeek: formData.type === "weekly" ? formData.dayOfWeek : undefined,
+          dayOfMonth: formData.type === "monthly" ? formData.dayOfMonth : undefined,
+          hour: formData.hour,
+          minute: formData.minute,
         }),
       })
 
       const data = await response.json()
 
       if (response.ok) {
-        setMessage({ type: "success", text: "Schedule created successfully!" })
-        setNewSchedule({
+        setSuccess("Schedule created successfully!")
+        setFormData({
           type: "weekly",
           recipients: "",
           dayOfWeek: 1,
           dayOfMonth: 1,
+          hour: 9,
+          minute: 0,
         })
         fetchSchedules()
       } else {
-        setMessage({ type: "error", text: data.error || "Failed to create schedule" })
+        setError(data.error || "Failed to create schedule")
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Network error occurred" })
+      setError("An error occurred while creating the schedule")
+    } finally {
+      setLoading(false)
     }
   }
 
   const deleteSchedule = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this schedule?")) return
+
     try {
       const response = await fetch(`/api/analytics/schedule?id=${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: "Bearer admin-secret-key",
+          "x-admin-secret": ADMIN_SECRET,
         },
       })
 
       if (response.ok) {
-        setMessage({ type: "success", text: "Schedule deleted successfully!" })
+        setSuccess("Schedule deleted successfully!")
         fetchSchedules()
       } else {
         const data = await response.json()
-        setMessage({ type: "error", text: data.error || "Failed to delete schedule" })
+        setError(data.error || "Failed to delete schedule")
       }
     } catch (error) {
-      setMessage({ type: "error", text: "Network error occurred" })
+      setError("An error occurred while deleting the schedule")
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-navy-975">
-        <SiteHeader />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-            <span className="ml-2 text-white">Loading reports...</span>
-          </div>
-        </div>
-      </div>
-    )
+  const sendReport = async (type: "weekly" | "monthly") => {
+    setLoading(true)
+    setError("")
+    setSuccess("")
+
+    try {
+      const recipients = ["info@aifusion.ie"] // Default recipient
+
+      const response = await fetch("/api/analytics/reports", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": ADMIN_SECRET,
+        },
+        body: JSON.stringify({
+          type,
+          recipients,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSuccess(`${type.charAt(0).toUpperCase() + type.slice(1)} report sent successfully!`)
+      } else {
+        setError(data.error || "Failed to send report")
+      }
+    } catch (error) {
+      setError("An error occurred while sending the report")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const calculateGrowth = (current: number, previous: number) => {
+    if (previous === 0) return { percentage: 0, trend: "stable" as const }
+    const percentage = Math.round(((current - previous) / previous) * 100)
+    const trend = percentage > 5 ? "up" : percentage < -5 ? "down" : "stable"
+    return { percentage: Math.abs(percentage), trend }
   }
 
   return (
-    <div className="min-h-screen bg-navy-975">
-      <SiteHeader />
-
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Analytics Reports</h1>
+        <div className="mb-8">
+          <BackToHomeButton />
         </div>
 
-        {/* Message Display */}
-        {message && (
-          <div
-            className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
-              message.type === "success"
-                ? "bg-green-900/50 border border-green-700 text-green-200"
-                : "bg-red-900/50 border border-red-700 text-red-200"
-            }`}
-          >
-            {message.type === "success" ? <CheckCircle className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
-            {message.text}
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-indigo-900 mb-4">📊 Analytics Reports</h1>
+            <p className="text-lg text-gray-600">Automated weekly and monthly analytics reports for AI Fusion</p>
           </div>
-        )}
 
-        {/* Manual Reports */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <Card className="bg-navy-900 border-navy-800">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Send className="h-5 w-5" />
-                Send Reports Manually
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Button
-                    onClick={() => sendReport("weekly")}
-                    disabled={sending === "weekly"}
-                    className="w-full bg-blue-600 hover:bg-blue-700"
-                  >
-                    {sending === "weekly" ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Sending...
-                      </div>
-                    ) : (
-                      <>
-                        <Mail className="h-4 w-4 mr-2" />
-                        Send Weekly Report
-                      </>
-                    )}
+          {error && <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">{error}</div>}
+
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">{success}</div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* Quick Actions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Send className="h-5 w-5" />
+                  Quick Actions
+                </CardTitle>
+                <CardDescription>Send reports immediately or preview data</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => sendReport("weekly")} disabled={loading} className="w-full">
+                    <Mail className="h-4 w-4 mr-2" />
+                    Send Weekly Report
                   </Button>
-                  <Button
-                    onClick={() => previewReport("weekly")}
-                    variant="outline"
-                    className="w-full border-navy-700 text-gray-200 hover:bg-navy-800"
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    Preview Weekly
+                  <Button onClick={() => sendReport("monthly")} disabled={loading} variant="outline" className="w-full">
+                    <Mail className="h-4 w-4 mr-2" />
+                    Send Monthly Report
                   </Button>
                 </div>
-
-                <div className="space-y-2">
-                  <Button
-                    onClick={() => sendReport("monthly")}
-                    disabled={sending === "monthly"}
-                    className="w-full bg-purple-600 hover:bg-purple-700"
-                  >
-                    {sending === "monthly" ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        Sending...
-                      </div>
-                    ) : (
-                      <>
-                        <Mail className="h-4 w-4 mr-2" />
-                        Send Monthly Report
-                      </>
-                    )}
+                <div className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => fetchReportPreview("weekly")} variant="secondary" className="w-full">
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    Preview Weekly
                   </Button>
-                  <Button
-                    onClick={() => previewReport("monthly")}
-                    variant="outline"
-                    className="w-full border-navy-700 text-gray-200 hover:bg-navy-800"
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
+                  <Button onClick={() => fetchReportPreview("monthly")} variant="secondary" className="w-full">
+                    <BarChart3 className="h-4 w-4 mr-2" />
                     Preview Monthly
                   </Button>
                 </div>
-              </div>
-              <p className="text-sm text-gray-400 text-center">Reports will be sent to info@aifusion.ie</p>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* Schedule New Report */}
-          <Card className="bg-navy-900 border-navy-800">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Plus className="h-5 w-5" />
-                Schedule Automatic Reports
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="reportType" className="text-gray-200">
-                  Report Type
-                </Label>
-                <Select
-                  value={newSchedule.type}
-                  onValueChange={(value: "weekly" | "monthly") => setNewSchedule((prev) => ({ ...prev, type: value }))}
-                >
-                  <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-navy-800 border-navy-700">
-                    <SelectItem value="weekly" className="text-white">
-                      Weekly Report
-                    </SelectItem>
-                    <SelectItem value="monthly" className="text-white">
-                      Monthly Report
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {newSchedule.type === "weekly" && (
-                <div>
-                  <Label htmlFor="dayOfWeek" className="text-gray-200">
-                    Day of Week
-                  </Label>
-                  <Select
-                    value={newSchedule.dayOfWeek.toString()}
-                    onValueChange={(value) =>
-                      setNewSchedule((prev) => ({ ...prev, dayOfWeek: Number.parseInt(value) }))
-                    }
-                  >
-                    <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-navy-800 border-navy-700">
-                      {dayNames.map((day, index) => (
-                        <SelectItem key={index} value={index.toString()} className="text-white">
-                          {day}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {newSchedule.type === "monthly" && (
-                <div>
-                  <Label htmlFor="dayOfMonth" className="text-gray-200">
-                    Day of Month
-                  </Label>
-                  <Input
-                    type="number"
-                    min="1"
-                    max="31"
-                    value={newSchedule.dayOfMonth}
-                    onChange={(e) =>
-                      setNewSchedule((prev) => ({ ...prev, dayOfMonth: Number.parseInt(e.target.value) || 1 }))
-                    }
-                    className="bg-navy-800 border-navy-700 text-white"
-                  />
-                </div>
-              )}
-
-              <div>
-                <Label htmlFor="recipients" className="text-gray-200">
-                  Email Recipients
-                </Label>
-                <Input
-                  placeholder="email1@example.com, email2@example.com"
-                  value={newSchedule.recipients}
-                  onChange={(e) => setNewSchedule((prev) => ({ ...prev, recipients: e.target.value }))}
-                  className="bg-navy-800 border-navy-700 text-white"
-                />
-                <p className="text-xs text-gray-400 mt-1">Separate multiple emails with commas</p>
-              </div>
-
-              <Button onClick={createSchedule} className="w-full bg-green-600 hover:bg-green-700">
-                <Calendar className="h-4 w-4 mr-2" />
-                Create Schedule
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Existing Schedules */}
-        <Card className="bg-navy-900 border-navy-800">
-          <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              Scheduled Reports
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {schedules.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">
-                <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No scheduled reports yet</p>
-                <p className="text-sm">Create your first automated report above</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {schedules.map((schedule) => (
-                  <div key={schedule.id} className="flex items-center justify-between p-4 bg-navy-800 rounded-lg">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant={schedule.type === "weekly" ? "default" : "secondary"}>{schedule.type}</Badge>
-                        <Badge variant={schedule.active ? "default" : "destructive"}>
-                          {schedule.active ? "Active" : "Inactive"}
-                        </Badge>
-                      </div>
-                      <p className="text-white font-medium">
-                        {schedule.type === "weekly"
-                          ? `Every ${dayNames[schedule.dayOfWeek || 0]}`
-                          : `${schedule.dayOfMonth}${getOrdinalSuffix(schedule.dayOfMonth || 1)} of each month`}
-                      </p>
-                      <div className="flex items-center gap-4 mt-2 text-sm text-gray-400">
-                        <span className="flex items-center gap-1">
-                          <Users className="h-4 w-4" />
-                          {schedule.recipients.length} recipient{schedule.recipients.length !== 1 ? "s" : ""}
-                        </span>
-                        {schedule.nextSend && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            Next: {new Date(schedule.nextSend).toLocaleDateString()}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => deleteSchedule(schedule.id)}
-                      variant="outline"
-                      size="sm"
-                      className="border-red-700 text-red-400 hover:bg-red-900/50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+            {/* Report Preview */}
+            {reportData && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5" />
+                    Report Preview
+                  </CardTitle>
+                  <CardDescription>
+                    {reportData.period.type.charAt(0).toUpperCase() + reportData.period.type.slice(1)} data preview
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    {[
+                      {
+                        label: "Page Views",
+                        current: reportData.current.pageViews,
+                        previous: reportData.previous.pageViews,
+                      },
+                      {
+                        label: "Visitors",
+                        current: reportData.current.uniqueVisitors,
+                        previous: reportData.previous.uniqueVisitors,
+                      },
+                      {
+                        label: "Events",
+                        current: reportData.current.totalEvents,
+                        previous: reportData.previous.totalEvents,
+                      },
+                    ].map((metric, index) => {
+                      const growth = calculateGrowth(metric.current, metric.previous)
+                      return (
+                        <div key={index} className="text-center p-3 bg-gray-50 rounded-lg">
+                          <div className="text-2xl font-bold text-indigo-900">{metric.current.toLocaleString()}</div>
+                          <div className="text-xs text-gray-600 mb-1">{metric.label}</div>
+                          <div
+                            className={`text-xs ${growth.trend === "up" ? "text-green-600" : growth.trend === "down" ? "text-red-600" : "text-gray-600"}`}
+                          >
+                            {growth.trend === "up" ? "📈" : growth.trend === "down" ? "📉" : "➡️"} {growth.percentage}%
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
-                ))}
-              </div>
+                  <div className="text-sm text-gray-600">
+                    <strong>Top Pages:</strong>
+                    <ul className="mt-1 space-y-1">
+                      {reportData.current.topPages.slice(0, 3).map((page, index) => (
+                        <li key={index} className="flex justify-between">
+                          <span>{page.path}</span>
+                          <span className="font-medium">{page.views}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
             )}
-          </CardContent>
-        </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Create Schedule */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5" />
+                  Create Schedule
+                </CardTitle>
+                <CardDescription>Set up automated report delivery</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={createSchedule} className="space-y-4">
+                  <div>
+                    <Label htmlFor="type">Report Type</Label>
+                    <Select
+                      value={formData.type}
+                      onValueChange={(value: "weekly" | "monthly") => {
+                        setFormData({ ...formData, type: value })
+                        fetchReportPreview(value)
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="recipients">Email Recipients</Label>
+                    <Textarea
+                      id="recipients"
+                      placeholder="info@aifusion.ie, admin@aifusion.ie"
+                      value={formData.recipients}
+                      onChange={(e) => setFormData({ ...formData, recipients: e.target.value })}
+                      className="min-h-[80px]"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">Separate multiple emails with commas</p>
+                  </div>
+
+                  {formData.type === "weekly" && (
+                    <div>
+                      <Label htmlFor="dayOfWeek">Day of Week</Label>
+                      <Select
+                        value={formData.dayOfWeek.toString()}
+                        onValueChange={(value) => setFormData({ ...formData, dayOfWeek: Number.parseInt(value) })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {dayNames.map((day, index) => (
+                            <SelectItem key={index} value={index.toString()}>
+                              {day}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {formData.type === "monthly" && (
+                    <div>
+                      <Label htmlFor="dayOfMonth">Day of Month</Label>
+                      <Input
+                        id="dayOfMonth"
+                        type="number"
+                        min="1"
+                        max="31"
+                        value={formData.dayOfMonth}
+                        onChange={(e) => setFormData({ ...formData, dayOfMonth: Number.parseInt(e.target.value) })}
+                      />
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="hour">Hour (24h)</Label>
+                      <Input
+                        id="hour"
+                        type="number"
+                        min="0"
+                        max="23"
+                        value={formData.hour}
+                        onChange={(e) => setFormData({ ...formData, hour: Number.parseInt(e.target.value) })}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="minute">Minute</Label>
+                      <Input
+                        id="minute"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={formData.minute}
+                        onChange={(e) => setFormData({ ...formData, minute: Number.parseInt(e.target.value) })}
+                      />
+                    </div>
+                  </div>
+
+                  <Button type="submit" disabled={loading} className="w-full">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Create Schedule
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* Active Schedules */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
+                  Active Schedules
+                </CardTitle>
+                <CardDescription>Manage your automated report schedules</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {schedules.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>No schedules created yet</p>
+                    <p className="text-sm">Create your first automated report schedule</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {schedules.map((schedule) => (
+                      <div key={schedule.id} className="p-4 border rounded-lg bg-gray-50">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <Badge variant={schedule.type === "weekly" ? "default" : "secondary"}>
+                              {schedule.type}
+                            </Badge>
+                            <div className="text-sm text-gray-600 mt-1">
+                              {schedule.type === "weekly"
+                                ? `Every ${dayNames[schedule.dayOfWeek!]}`
+                                : `${schedule.dayOfMonth}${getOrdinalSuffix(schedule.dayOfMonth!)} of each month`}{" "}
+                              at {String(schedule.hour).padStart(2, "0")}:{String(schedule.minute).padStart(2, "0")}
+                            </div>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => deleteSchedule(schedule.id)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        <div className="text-sm">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Users className="h-4 w-4" />
+                            <span>{schedule.recipients.length} recipient(s)</span>
+                          </div>
+                          <div className="text-xs text-gray-500">{schedule.recipients.join(", ")}</div>
+                          {schedule.nextRun && (
+                            <div className="text-xs text-gray-500 mt-2">
+                              Next run: {new Date(schedule.nextRun).toLocaleString()}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

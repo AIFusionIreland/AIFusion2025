@@ -1,102 +1,134 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { analyticsReporter } from "@/lib/analytics-reports"
+import { sendAnalyticsReport, generateMockData, getReportPeriod } from "@/lib/analytics-reports"
 
-// This endpoint would be called by a cron job service like Vercel Cron or external cron
-export async function POST(request: NextRequest) {
+// Secret for cron job authentication
+const CRON_SECRET = process.env.CRON_SECRET || "your-cron-secret"
+
+export async function GET(request: NextRequest) {
   try {
-    // Verify the request is from a trusted source (cron job)
+    // Verify cron secret
     const authHeader = request.headers.get("authorization")
-    const cronSecret = process.env.CRON_SECRET || "your-cron-secret-key"
-
-    if (authHeader !== `Bearer ${cronSecret}`) {
+    if (authHeader !== `Bearer ${CRON_SECRET}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { searchParams } = new URL(request.url)
+    const type = searchParams.get("type") as "weekly" | "monthly"
+
+    if (!type || !["weekly", "monthly"].includes(type)) {
+      return NextResponse.json({ error: "Invalid or missing type parameter" }, { status: 400 })
+    }
+
+    // Get current date info
     const now = new Date()
-    const dayOfWeek = now.getDay() // 0 = Sunday, 1 = Monday, etc.
-    const dayOfMonth = now.getDate()
+    const currentDay = now.getDay() // 0 = Sunday, 1 = Monday, etc.
+    const currentDate = now.getDate()
+    const currentHour = now.getHours()
 
-    // In a real implementation, fetch scheduled reports from database
-    // For now, we'll use hardcoded schedules
-    const defaultSchedules = [
-      {
-        type: "weekly" as const,
-        recipients: ["info@aifusion.ie"],
-        dayOfWeek: 1, // Monday
-        active: true,
-      },
-      {
-        type: "monthly" as const,
-        recipients: ["info@aifusion.ie"],
-        dayOfMonth: 1, // 1st of each month
-        active: true,
-      },
-    ]
+    // Default recipients (you can modify this or fetch from database)
+    const defaultRecipients = ["info@aifusion.ie"]
 
-    const results = []
+    let shouldSend = false
+    let scheduleInfo = ""
 
-    // Check weekly reports
-    const weeklySchedules = defaultSchedules.filter((s) => s.type === "weekly" && s.active && s.dayOfWeek === dayOfWeek)
-
-    for (const schedule of weeklySchedules) {
-      try {
-        const reportData = await analyticsReporter.generateReport("weekly")
-        const result = await analyticsReporter.sendReport(reportData, schedule.recipients)
-        results.push({
-          type: "weekly",
-          recipients: schedule.recipients,
-          success: true,
-          emailId: result.emailId,
-        })
-      } catch (error) {
-        results.push({
-          type: "weekly",
-          recipients: schedule.recipients,
-          success: false,
-          error: error instanceof Error ? error.message : "Unknown error",
-        })
+    if (type === "weekly") {
+      // Send weekly reports on Mondays at 9 AM
+      if (currentDay === 1 && currentHour === 9) {
+        shouldSend = true
+        scheduleInfo = "Weekly report scheduled for Monday 9 AM"
+      }
+    } else if (type === "monthly") {
+      // Send monthly reports on the 1st of each month at 9 AM
+      if (currentDate === 1 && currentHour === 9) {
+        shouldSend = true
+        scheduleInfo = "Monthly report scheduled for 1st of month 9 AM"
       }
     }
 
-    // Check monthly reports
-    const monthlySchedules = defaultSchedules.filter(
-      (s) => s.type === "monthly" && s.active && s.dayOfMonth === dayOfMonth,
-    )
-
-    for (const schedule of monthlySchedules) {
-      try {
-        const reportData = await analyticsReporter.generateReport("monthly")
-        const result = await analyticsReporter.sendReport(reportData, schedule.recipients)
-        results.push({
-          type: "monthly",
-          recipients: schedule.recipients,
-          success: true,
-          emailId: result.emailId,
-        })
-      } catch (error) {
-        results.push({
-          type: "monthly",
-          recipients: schedule.recipients,
-          success: false,
-          error: error instanceof Error ? error.message : "Unknown error",
-        })
-      }
+    if (!shouldSend) {
+      return NextResponse.json({
+        success: true,
+        message: `Not scheduled to run now. ${scheduleInfo}`,
+        currentTime: now.toISOString(),
+        type,
+      })
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Processed ${results.length} scheduled reports`,
-      results,
-      timestamp: now.toISOString(),
-    })
+    // Generate report data
+    const period = getReportPeriod(type)
+    const currentData = await generateMockData(period)
+
+    // Generate previous period data for comparison
+    const previousPeriod = {
+      ...period,
+      start: new Date(period.start.getTime() - (period.end.getTime() - period.start.getTime())),
+      end: period.start,
+    }
+    const previousData = await generateMockData(previousPeriod)
+
+    // Send the report
+    const result = await sendAnalyticsReport(currentData, previousData, period, defaultRecipients)
+
+    if (result.success) {
+      return NextResponse.json({
+        success: true,
+        message: `${type.charAt(0).toUpperCase() + type.slice(1)} report sent successfully`,
+        recipients: defaultRecipients,
+        timestamp: now.toISOString(),
+      })
+    } else {
+      return NextResponse.json({ error: result.error || "Failed to send report" }, { status: 500 })
+    }
   } catch (error) {
-    console.error("Error in cron job:", error)
-    return NextResponse.json(
-      {
-        error: "Cron job failed",
-        details: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 },
-    )
+    console.error("Error in cron analytics reports:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}
+
+// Handle POST requests for manual triggering
+export async function POST(request: NextRequest) {
+  try {
+    // Verify admin secret for manual triggers
+    const adminSecret = request.headers.get("x-admin-secret")
+    if (adminSecret !== "aifusion2024admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { type, recipients } = body
+
+    if (!type || !["weekly", "monthly"].includes(type)) {
+      return NextResponse.json({ error: 'Invalid type. Must be "weekly" or "monthly"' }, { status: 400 })
+    }
+
+    const reportRecipients = recipients || ["info@aifusion.ie"]
+
+    // Generate report data
+    const period = getReportPeriod(type)
+    const currentData = await generateMockData(period)
+
+    const previousPeriod = {
+      ...period,
+      start: new Date(period.start.getTime() - (period.end.getTime() - period.start.getTime())),
+      end: period.start,
+    }
+    const previousData = await generateMockData(previousPeriod)
+
+    // Send the report
+    const result = await sendAnalyticsReport(currentData, previousData, period, reportRecipients)
+
+    if (result.success) {
+      return NextResponse.json({
+        success: true,
+        message: `${type.charAt(0).toUpperCase() + type.slice(1)} report sent successfully (manual trigger)`,
+        recipients: reportRecipients,
+        timestamp: new Date().toISOString(),
+      })
+    } else {
+      return NextResponse.json({ error: result.error || "Failed to send report" }, { status: 500 })
+    }
+  } catch (error) {
+    console.error("Error in manual analytics report trigger:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

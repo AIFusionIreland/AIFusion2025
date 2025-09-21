@@ -2,384 +2,354 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export interface ReportData {
-  period: string
-  startDate: string
-  endDate: string
-  totalEvents: number
+export interface AnalyticsData {
   pageViews: number
   uniqueVisitors: number
-  topPages: { page: string; count: number }[]
-  eventsByDay: { date: string; count: number }[]
-  growthMetrics: {
-    pageViewsGrowth: number
-    visitorsGrowth: number
-    eventsGrowth: number
-  }
-  insights: string[]
+  totalEvents: number
+  topPages: Array<{ path: string; views: number }>
+  trafficByHour: Array<{ hour: number; views: number }>
+  recentActivity: Array<{
+    timestamp: string
+    event: string
+    path: string
+    userAgent?: string
+  }>
 }
 
-export class AnalyticsReporter {
-  private static instance: AnalyticsReporter
+export interface ReportPeriod {
+  start: Date
+  end: Date
+  type: "weekly" | "monthly"
+}
 
-  private constructor() {}
+export function getReportPeriod(type: "weekly" | "monthly"): ReportPeriod {
+  const now = new Date()
+  const end = new Date(now)
+  const start = new Date(now)
 
-  public static getInstance(): AnalyticsReporter {
-    if (!AnalyticsReporter.instance) {
-      AnalyticsReporter.instance = new AnalyticsReporter()
-    }
-    return AnalyticsReporter.instance
+  if (type === "weekly") {
+    // Last 7 days
+    start.setDate(now.getDate() - 7)
+  } else {
+    // Last 30 days
+    start.setDate(now.getDate() - 30)
   }
 
-  async generateReport(type: "weekly" | "monthly"): Promise<ReportData> {
-    const endDate = new Date()
-    const startDate = new Date()
+  return { start, end, type }
+}
 
-    if (type === "weekly") {
-      startDate.setDate(endDate.getDate() - 7)
-    } else {
-      startDate.setMonth(endDate.getMonth() - 1)
-    }
-
-    // Fetch analytics data for the period
-    const currentPeriodData = await this.fetchAnalyticsData(startDate, endDate)
-
-    // Fetch previous period data for comparison
-    const previousStartDate = new Date(startDate)
-    const previousEndDate = new Date(startDate)
-
-    if (type === "weekly") {
-      previousStartDate.setDate(startDate.getDate() - 7)
-    } else {
-      previousStartDate.setMonth(startDate.getMonth() - 1)
-    }
-
-    const previousPeriodData = await this.fetchAnalyticsData(previousStartDate, previousEndDate)
-
-    // Calculate growth metrics
-    const growthMetrics = {
-      pageViewsGrowth: this.calculateGrowth(currentPeriodData.pageViews, previousPeriodData.pageViews),
-      visitorsGrowth: this.calculateGrowth(currentPeriodData.uniqueVisitors, previousPeriodData.uniqueVisitors),
-      eventsGrowth: this.calculateGrowth(currentPeriodData.totalEvents, previousPeriodData.totalEvents),
-    }
-
-    // Generate insights
-    const insights = this.generateInsights(currentPeriodData, growthMetrics, type)
-
-    return {
-      period: type === "weekly" ? "Weekly" : "Monthly",
-      startDate: startDate.toISOString().split("T")[0],
-      endDate: endDate.toISOString().split("T")[0],
-      ...currentPeriodData,
-      growthMetrics,
-      insights,
-    }
+export function calculateGrowth(
+  current: number,
+  previous: number,
+): {
+  percentage: number
+  trend: "up" | "down" | "stable"
+} {
+  if (previous === 0) {
+    return { percentage: current > 0 ? 100 : 0, trend: current > 0 ? "up" : "stable" }
   }
 
-  private async fetchAnalyticsData(startDate: Date, endDate: Date) {
-    // In a real implementation, this would fetch from your database
-    // For now, we'll simulate the data structure
+  const percentage = Math.round(((current - previous) / previous) * 100)
+  const trend = percentage > 5 ? "up" : percentage < -5 ? "down" : "stable"
 
-    // This is a placeholder - replace with actual database queries
-    const mockData = {
-      totalEvents: Math.floor(Math.random() * 1000) + 500,
-      pageViews: Math.floor(Math.random() * 800) + 300,
-      uniqueVisitors: Math.floor(Math.random() * 200) + 100,
-      topPages: [
-        { page: "/", count: Math.floor(Math.random() * 200) + 100 },
-        { page: "/ai-training", count: Math.floor(Math.random() * 150) + 50 },
-        { page: "/upcoming-courses", count: Math.floor(Math.random() * 100) + 30 },
-        { page: "/business", count: Math.floor(Math.random() * 80) + 20 },
-        { page: "/services", count: Math.floor(Math.random() * 60) + 15 },
-      ],
-      eventsByDay: this.generateDailyData(startDate, endDate),
-    }
+  return { percentage: Math.abs(percentage), trend }
+}
 
-    return mockData
+export function generateInsights(
+  data: AnalyticsData,
+  growth: {
+    pageViews: ReturnType<typeof calculateGrowth>
+    uniqueVisitors: ReturnType<typeof calculateGrowth>
+    totalEvents: ReturnType<typeof calculateGrowth>
+  },
+): string[] {
+  const insights: string[] = []
+
+  // Traffic growth insights
+  if (growth.pageViews.trend === "up") {
+    insights.push(
+      `🚀 Great news! Page views increased by ${growth.pageViews.percentage}% compared to the previous period.`,
+    )
+  } else if (growth.pageViews.trend === "down") {
+    insights.push(
+      `📉 Page views decreased by ${growth.pageViews.percentage}%. Consider reviewing your content strategy.`,
+    )
   }
 
-  private generateDailyData(startDate: Date, endDate: Date) {
-    const days = []
-    const currentDate = new Date(startDate)
-
-    while (currentDate <= endDate) {
-      days.push({
-        date: currentDate.toISOString().split("T")[0],
-        count: Math.floor(Math.random() * 100) + 20,
-      })
-      currentDate.setDate(currentDate.getDate() + 1)
-    }
-
-    return days
-  }
-
-  private calculateGrowth(current: number, previous: number): number {
-    if (previous === 0) return current > 0 ? 100 : 0
-    return Math.round(((current - previous) / previous) * 100)
-  }
-
-  private generateInsights(data: any, growth: any, type: "weekly" | "monthly"): string[] {
-    const insights = []
-    const period = type === "weekly" ? "week" : "month"
-
-    // Traffic insights
-    if (growth.pageViewsGrowth > 10) {
-      insights.push(`🚀 Great news! Page views increased by ${growth.pageViewsGrowth}% this ${period}.`)
-    } else if (growth.pageViewsGrowth < -10) {
-      insights.push(
-        `📉 Page views decreased by ${Math.abs(growth.pageViewsGrowth)}% this ${period}. Consider reviewing your content strategy.`,
-      )
-    } else {
-      insights.push(`📊 Page views remained stable this ${period} with ${growth.pageViewsGrowth}% change.`)
-    }
-
-    // Visitor insights
-    if (growth.visitorsGrowth > 15) {
-      insights.push(`👥 Excellent! You gained ${growth.visitorsGrowth}% more unique visitors this ${period}.`)
-    } else if (growth.visitorsGrowth < 0) {
-      insights.push(
-        `👤 Unique visitors decreased by ${Math.abs(growth.visitorsGrowth)}% this ${period}. Focus on SEO and marketing efforts.`,
-      )
-    }
-
-    // Top page insights
+  // Top page insights
+  if (data.topPages.length > 0) {
     const topPage = data.topPages[0]
-    if (topPage) {
-      if (topPage.page === "/") {
-        insights.push(`🏠 Your homepage continues to be the most popular page with ${topPage.count} views.`)
-      } else {
-        insights.push(`⭐ "${topPage.page}" was your most popular page with ${topPage.count} views this ${period}.`)
+    insights.push(`🏆 Your most popular page is "${topPage.path}" with ${topPage.views} views.`)
+  }
+
+  // Traffic pattern insights
+  const peakHour = data.trafficByHour.reduce(
+    (max, current) => (current.views > max.views ? current : max),
+    data.trafficByHour[0],
+  )
+
+  if (peakHour) {
+    const hour = peakHour.hour === 0 ? 12 : peakHour.hour > 12 ? peakHour.hour - 12 : peakHour.hour
+    const ampm = peakHour.hour >= 12 ? "PM" : "AM"
+    insights.push(`⏰ Peak traffic occurs around ${hour}:00 ${ampm} with ${peakHour.views} views.`)
+  }
+
+  // Engagement insights
+  if (data.uniqueVisitors > 0) {
+    const pagesPerVisitor = Math.round((data.pageViews / data.uniqueVisitors) * 10) / 10
+    if (pagesPerVisitor > 2) {
+      insights.push(`👥 Excellent engagement! Visitors view an average of ${pagesPerVisitor} pages per session.`)
+    }
+  }
+
+  return insights
+}
+
+export function generateRecommendations(
+  data: AnalyticsData,
+  growth: {
+    pageViews: ReturnType<typeof calculateGrowth>
+    uniqueVisitors: ReturnType<typeof calculateGrowth>
+    totalEvents: ReturnType<typeof calculateGrowth>
+  },
+): string[] {
+  const recommendations: string[] = []
+
+  // Growth-based recommendations
+  if (growth.pageViews.trend === "down") {
+    recommendations.push("Consider creating fresh content or updating existing pages to re-engage your audience.")
+    recommendations.push("Review your SEO strategy and ensure your content is optimized for search engines.")
+  }
+
+  // Content recommendations
+  if (data.topPages.length > 0) {
+    recommendations.push(`Your "${data.topPages[0].path}" page is performing well. Consider creating similar content.`)
+  }
+
+  // Traffic timing recommendations
+  const lowTrafficHours = data.trafficByHour.filter((h) => h.views < (data.pageViews / 24) * 0.5)
+  if (lowTrafficHours.length > 12) {
+    recommendations.push("Consider scheduling social media posts during peak hours to maximize visibility.")
+  }
+
+  // General recommendations
+  recommendations.push("Monitor your analytics regularly to identify trends and opportunities.")
+  recommendations.push("Consider A/B testing different page layouts or content to improve engagement.")
+
+  return recommendations
+}
+
+export async function sendAnalyticsReport(
+  data: AnalyticsData,
+  previousData: AnalyticsData,
+  period: ReportPeriod,
+  recipients: string[],
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const growth = {
+      pageViews: calculateGrowth(data.pageViews, previousData.pageViews),
+      uniqueVisitors: calculateGrowth(data.uniqueVisitors, previousData.uniqueVisitors),
+      totalEvents: calculateGrowth(data.totalEvents, previousData.totalEvents),
+    }
+
+    const insights = generateInsights(data, growth)
+    const recommendations = generateRecommendations(data, growth)
+
+    const periodText = period.type === "weekly" ? "Weekly" : "Monthly"
+    const dateRange = `${period.start.toLocaleDateString()} - ${period.end.toLocaleDateString()}`
+
+    const getTrendEmoji = (trend: "up" | "down" | "stable") => {
+      switch (trend) {
+        case "up":
+          return "📈"
+        case "down":
+          return "📉"
+        default:
+          return "➡️"
       }
     }
 
-    // Course-specific insights
-    const coursePages = data.topPages.filter(
-      (page: any) => page.page.includes("course") || page.page.includes("training"),
-    )
-    if (coursePages.length > 0) {
-      const totalCourseViews = coursePages.reduce((sum: number, page: any) => sum + page.count, 0)
-      insights.push(`🎓 AI training pages received ${totalCourseViews} views, showing strong interest in your courses.`)
-    }
-
-    // Business insights
-    const businessPages = data.topPages.filter(
-      (page: any) => page.page.includes("business") || page.page.includes("services"),
-    )
-    if (businessPages.length > 0) {
-      const totalBusinessViews = businessPages.reduce((sum: number, page: any) => sum + page.count, 0)
-      insights.push(`💼 Business-related pages received ${totalBusinessViews} views, indicating commercial interest.`)
-    }
-
-    return insights
-  }
-
-  async sendReport(reportData: ReportData, recipients: string[]) {
-    const htmlContent = this.generateReportHTML(reportData)
-
-    try {
-      const emailData = await resend.emails.send({
-        from: "AI Fusion Analytics <analytics@aifusion.ie>",
-        to: recipients,
-        subject: `${reportData.period} Analytics Report - AI Fusion Website`,
-        html: htmlContent,
-      })
-
-      console.log(`${reportData.period} report sent successfully:`, emailData)
-      return { success: true, emailId: emailData.data?.id }
-    } catch (error) {
-      console.error(`Error sending ${reportData.period.toLowerCase()} report:`, error)
-      throw error
-    }
-  }
-
-  private generateReportHTML(data: ReportData): string {
-    const formatNumber = (num: number) => num.toLocaleString()
-    const formatGrowth = (growth: number) => {
-      const sign = growth > 0 ? "+" : ""
-      const color = growth > 0 ? "#10B981" : growth < 0 ? "#EF4444" : "#6B7280"
-      return `<span style="color: ${color}; font-weight: bold;">${sign}${growth}%</span>`
-    }
-
-    return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${data.period} Analytics Report</title>
-      <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; }
-        .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center; }
-        .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
-        .header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 16px; }
-        .content { padding: 30px 20px; }
-        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin: 30px 0; }
-        .metric-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; }
-        .metric-value { font-size: 32px; font-weight: bold; color: #1a202c; margin-bottom: 5px; }
-        .metric-label { font-size: 14px; color: #64748b; margin-bottom: 8px; }
-        .metric-growth { font-size: 14px; }
-        .section { margin: 30px 0; }
-        .section h2 { color: #1a202c; font-size: 20px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
-        .top-pages { background: #f8fafc; border-radius: 8px; padding: 20px; }
-        .page-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
-        .page-item:last-child { border-bottom: none; }
-        .page-path { font-family: monospace; color: #4f46e5; font-weight: 500; }
-        .page-count { background: #4f46e5; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
-        .insights { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; padding: 20px; }
-        .insight-item { margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 6px; }
-        .footer { background: #1a202c; color: #a0aec0; padding: 20px; text-align: center; font-size: 14px; }
-        .footer a { color: #667eea; text-decoration: none; }
-        .chart-placeholder { background: #f1f5f9; border: 2px dashed #cbd5e0; border-radius: 8px; padding: 40px; text-align: center; color: #64748b; margin: 20px 0; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <!-- Header -->
-        <div class="header">
-          <h1>${data.period} Analytics Report</h1>
-          <p>${data.startDate} to ${data.endDate}</p>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-          <!-- Key Metrics -->
-          <div class="section">
-            <h2>📊 Key Metrics</h2>
-            <div class="metric-grid">
-              <div class="metric-card">
-                <div class="metric-value">${formatNumber(data.pageViews)}</div>
-                <div class="metric-label">Page Views</div>
-                <div class="metric-growth">${formatGrowth(data.growthMetrics.pageViewsGrowth)} vs last ${data.period.toLowerCase()}</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">${formatNumber(data.uniqueVisitors)}</div>
-                <div class="metric-label">Unique Visitors</div>
-                <div class="metric-growth">${formatGrowth(data.growthMetrics.visitorsGrowth)} vs last ${data.period.toLowerCase()}</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-value">${formatNumber(data.totalEvents)}</div>
-                <div class="metric-label">Total Events</div>
-                <div class="metric-growth">${formatGrowth(data.growthMetrics.eventsGrowth)} vs last ${data.period.toLowerCase()}</div>
-              </div>
-            </div>
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>AI Fusion Analytics Report</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <div style="background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 30px;">
+            <h1 style="margin: 0; font-size: 28px;">📊 AI Fusion Analytics</h1>
+            <p style="margin: 10px 0 0 0; font-size: 18px; opacity: 0.9;">${periodText} Report</p>
+            <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.8;">${dateRange}</p>
           </div>
 
-          <!-- Top Pages -->
-          <div class="section">
-            <h2>🏆 Top Performing Pages</h2>
-            <div class="top-pages">
-              ${data.topPages
-                .map(
-                  (page) => `
-                <div class="page-item">
-                  <span class="page-path">${page.page}</span>
-                  <span class="page-count">${formatNumber(page.count)}</span>
+          <div style="background: #f8fafc; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+            <h2 style="color: #1e1b4b; margin-top: 0;">📈 Key Metrics</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+              <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: bold; color: #1e1b4b;">${data.pageViews.toLocaleString()}</div>
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">Page Views</div>
+                <div style="font-size: 12px; color: ${growth.pageViews.trend === "up" ? "#10b981" : growth.pageViews.trend === "down" ? "#ef4444" : "#64748b"};">
+                  ${getTrendEmoji(growth.pageViews.trend)} ${growth.pageViews.percentage}%
                 </div>
-              `,
-                )
-                .join("")}
+              </div>
+              <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: bold; color: #1e1b4b;">${data.uniqueVisitors.toLocaleString()}</div>
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">Unique Visitors</div>
+                <div style="font-size: 12px; color: ${growth.uniqueVisitors.trend === "up" ? "#10b981" : growth.uniqueVisitors.trend === "down" ? "#ef4444" : "#64748b"};">
+                  ${getTrendEmoji(growth.uniqueVisitors.trend)} ${growth.uniqueVisitors.percentage}%
+                </div>
+              </div>
+              <div style="background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: bold; color: #1e1b4b;">${data.totalEvents.toLocaleString()}</div>
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">Total Events</div>
+                <div style="font-size: 12px; color: ${growth.totalEvents.trend === "up" ? "#10b981" : growth.totalEvents.trend === "down" ? "#ef4444" : "#64748b"};">
+                  ${getTrendEmoji(growth.totalEvents.trend)} ${growth.totalEvents.percentage}%
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Traffic Trend -->
-          <div class="section">
-            <h2>📈 Traffic Trend</h2>
-            <div class="chart-placeholder">
-              <p>📊 Daily traffic visualization</p>
-              <p style="font-size: 12px; margin-top: 10px;">
-                Peak day: ${data.eventsByDay.reduce((max, day) => (day.count > max.count ? day : max), data.eventsByDay[0])?.date} 
-                (${data.eventsByDay.reduce((max, day) => (day.count > max.count ? day : max), data.eventsByDay[0])?.count} events)
-              </p>
-            </div>
+          <div style="background: #f8fafc; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+            <h2 style="color: #1e1b4b; margin-top: 0;">🏆 Top Performing Pages</h2>
+            ${data.topPages
+              .slice(0, 5)
+              .map(
+                (page, index) => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; margin-bottom: 8px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <div style="flex: 1;">
+                  <span style="font-weight: bold; color: #1e1b4b;">${index + 1}.</span>
+                  <span style="margin-left: 8px; color: #374151;">${page.path}</span>
+                </div>
+                <div style="font-weight: bold; color: #3730a3;">${page.views.toLocaleString()} views</div>
+              </div>
+            `,
+              )
+              .join("")}
           </div>
 
-          <!-- Insights -->
-          <div class="section">
-            <div class="insights">
-              <h2 style="color: white; border-bottom-color: rgba(255,255,255,0.3);">💡 Key Insights</h2>
-              ${data.insights
-                .map(
-                  (insight) => `
-                <div class="insight-item">${insight}</div>
-              `,
-                )
-                .join("")}
-            </div>
+          ${
+            insights.length > 0
+              ? `
+          <div style="background: #f0f9ff; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #3730a3;">
+            <h2 style="color: #1e1b4b; margin-top: 0;">💡 Key Insights</h2>
+            ${insights
+              .map(
+                (insight) => `
+              <div style="margin-bottom: 12px; padding: 12px; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                ${insight}
+              </div>
+            `,
+              )
+              .join("")}
           </div>
+          `
+              : ""
+          }
 
-          <!-- Recommendations -->
-          <div class="section">
-            <h2>🎯 Recommendations</h2>
-            <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 20px;">
-              ${this.generateRecommendations(data)
-                .map(
-                  (rec) => `
-                <p style="margin: 10px 0; color: #92400e;">• ${rec}</p>
-              `,
-                )
-                .join("")}
-            </div>
+          ${
+            recommendations.length > 0
+              ? `
+          <div style="background: #f0fdf4; padding: 25px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #10b981;">
+            <h2 style="color: #1e1b4b; margin-top: 0;">🎯 Recommendations</h2>
+            ${recommendations
+              .map(
+                (rec) => `
+              <div style="margin-bottom: 12px; padding: 12px; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                • ${rec}
+              </div>
+            `,
+              )
+              .join("")}
           </div>
-        </div>
+          `
+              : ""
+          }
 
-        <!-- Footer -->
-        <div class="footer">
-          <p>This report was automatically generated by AI Fusion Analytics</p>
-          <p>Visit your <a href="https://aifusion.ie/admin/analytics">analytics dashboard</a> for more detailed insights</p>
-          <p style="margin-top: 15px; font-size: 12px;">
-            AI Fusion - AI Made Simple. Innovation for Everyone.<br>
-            <a href="mailto:info@aifusion.ie">info@aifusion.ie</a> | <a href="https://aifusion.ie">aifusion.ie</a>
-          </p>
-        </div>
-      </div>
-    </body>
-    </html>
+          <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 10px; margin-top: 30px;">
+            <p style="margin: 0; color: #64748b; font-size: 14px;">
+              This report was automatically generated by AI Fusion Analytics
+            </p>
+            <p style="margin: 5px 0 0 0; color: #64748b; font-size: 12px;">
+              For questions, contact: info@aifusion.ie
+            </p>
+          </div>
+        </body>
+      </html>
     `
-  }
 
-  private generateRecommendations(data: ReportData): string[] {
-    const recommendations = []
+    const textContent = `
+AI Fusion Analytics - ${periodText} Report
+${dateRange}
 
-    // Growth-based recommendations
-    if (data.growthMetrics.pageViewsGrowth < 0) {
-      recommendations.push("Consider creating more engaging content or improving SEO to boost page views")
+KEY METRICS:
+- Page Views: ${data.pageViews.toLocaleString()} (${getTrendEmoji(growth.pageViews.trend)} ${growth.pageViews.percentage}%)
+- Unique Visitors: ${data.uniqueVisitors.toLocaleString()} (${getTrendEmoji(growth.uniqueVisitors.trend)} ${growth.uniqueVisitors.percentage}%)
+- Total Events: ${data.totalEvents.toLocaleString()} (${getTrendEmoji(growth.totalEvents.trend)} ${growth.totalEvents.percentage}%)
+
+TOP PAGES:
+${data.topPages
+  .slice(0, 5)
+  .map((page, index) => `${index + 1}. ${page.path} - ${page.views.toLocaleString()} views`)
+  .join("\n")}
+
+KEY INSIGHTS:
+${insights.map((insight) => `• ${insight}`).join("\n")}
+
+RECOMMENDATIONS:
+${recommendations.map((rec) => `• ${rec}`).join("\n")}
+
+---
+This report was automatically generated by AI Fusion Analytics
+For questions, contact: info@aifusion.ie
+    `
+
+    const result = await resend.emails.send({
+      from: "AI Fusion Analytics <analytics@aifusion.ie>",
+      to: recipients,
+      subject: `📊 AI Fusion ${periodText} Analytics Report - ${dateRange}`,
+      html: htmlContent,
+      text: textContent,
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.error("Error sending analytics report:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
     }
-
-    if (data.growthMetrics.visitorsGrowth < 5) {
-      recommendations.push("Focus on marketing campaigns and social media promotion to attract new visitors")
-    }
-
-    // Content recommendations
-    const coursePageViews = data.topPages
-      .filter((page) => page.page.includes("course") || page.page.includes("training"))
-      .reduce((sum, page) => sum + page.count, 0)
-
-    if (coursePageViews > data.pageViews * 0.3) {
-      recommendations.push(
-        "High interest in AI courses detected - consider expanding course offerings or adding more training content",
-      )
-    }
-
-    // Business recommendations
-    const businessPageViews = data.topPages
-      .filter((page) => page.page.includes("business") || page.page.includes("services"))
-      .reduce((sum, page) => sum + page.count, 0)
-
-    if (businessPageViews > data.pageViews * 0.2) {
-      recommendations.push(
-        "Strong business interest shown - consider adding more case studies or business-focused content",
-      )
-    }
-
-    // Default recommendations
-    if (recommendations.length === 0) {
-      recommendations.push("Continue your current content strategy - metrics are performing well")
-      recommendations.push("Consider A/B testing different call-to-action buttons to improve conversions")
-    }
-
-    return recommendations
   }
 }
 
-export const analyticsReporter = AnalyticsReporter.getInstance()
+export async function generateMockData(period: ReportPeriod): Promise<AnalyticsData> {
+  // Generate realistic mock data for demonstration
+  const baseViews = period.type === "weekly" ? 150 : 600
+  const variance = Math.random() * 0.4 + 0.8 // 80-120% of base
+
+  return {
+    pageViews: Math.floor(baseViews * variance),
+    uniqueVisitors: Math.floor(baseViews * variance * 0.7),
+    totalEvents: Math.floor(baseViews * variance * 1.5),
+    topPages: [
+      { path: "/", views: Math.floor(baseViews * variance * 0.4) },
+      { path: "/ai-training", views: Math.floor(baseViews * variance * 0.25) },
+      { path: "/business", views: Math.floor(baseViews * variance * 0.15) },
+      { path: "/upcoming-courses", views: Math.floor(baseViews * variance * 0.12) },
+      { path: "/services", views: Math.floor(baseViews * variance * 0.08) },
+    ],
+    trafficByHour: Array.from({ length: 24 }, (_, hour) => ({
+      hour,
+      views: Math.floor(Math.random() * 20 + 5),
+    })),
+    recentActivity: [
+      {
+        timestamp: new Date().toISOString(),
+        event: "page_view",
+        path: "/",
+        userAgent: "Mozilla/5.0...",
+      },
+    ],
+  }
+}

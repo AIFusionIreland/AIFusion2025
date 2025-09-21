@@ -12,7 +12,7 @@ interface BackToHomeButtonProps {
   label?: string
 }
 
-export default function BackToHomeButton({
+export function BackToHomeButton({
   className = "",
   variant = "default",
   size = "default",
@@ -41,3 +41,5 @@ export default function BackToHomeButton({
     </Button>
   )
 }
+
+export default BackToHomeButton
