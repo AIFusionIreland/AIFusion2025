@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-import { Button } from "@/components/ui/button"
-import { BookOpen, Code, MessageSquare, Smartphone, Store, Calendar, MapPin, Users, Star } from "lucide-react"
+import { BookOpen, Code, MessageSquare, Smartphone, Store } from "lucide-react"
 import AIFusionLogo from "@/components/ai-fusion-logo"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import { useState, useEffect } from "react"
@@ -40,98 +39,6 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-navy-975">
       {/* Header */}
       <SiteHeader />
-
-      {/* Scrolling Banner */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 py-2 overflow-hidden relative z-30">
-        <div className="animate-scroll whitespace-nowrap">
-          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🔴 Fully Booked AI for Beginners session 🔴
-          </span>
-          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🔴 Fully Booked AI for Beginners session 🔴
-          </span>
-          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🔴 Fully Booked AI for Beginners session 🔴
-          </span>
-          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🔴 Fully Booked AI for Beginners session 🔴
-          </span>
-          <span className="text-white font-bold text-lg tracking-wide drop-shadow-lg mx-8">
-            🔴 Fully Booked AI for Beginners session 🔴
-          </span>
-        </div>
-
-        <style jsx>{`
-          @keyframes scroll {
-            0% {
-              transform: translateX(100%);
-            }
-            100% {
-              transform: translateX(-100%);
-            }
-          }
-          
-          .animate-scroll {
-            animation: scroll 20s linear infinite;
-          }
-        `}</style>
-      </div>
-
-      {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 py-4 md:py-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 to-indigo-800/20"></div>
-
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-2 left-20 w-2 h-2 bg-white/30 rounded-full animate-pulse"></div>
-          <div
-            className="absolute top-6 right-20 w-1.5 h-1.5 bg-white/40 rounded-full animate-pulse"
-            style={{ animationDelay: "0.5s" }}
-          ></div>
-          <div
-            className="absolute bottom-3 left-1/4 w-1 h-1 bg-white/25 rounded-full animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
-          <div
-            className="absolute bottom-2 right-1/3 w-2 h-2 bg-white/35 rounded-full animate-pulse"
-            style={{ animationDelay: "1.5s" }}
-          ></div>
-        </div>
-
-        <div className="container px-4 md:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-            <div className="flex-1 text-center lg:text-left">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
-                Level Up with AI—Join Our In-Person Training in Buncrana!
-              </h2>
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 text-white/90">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-yellow-300" />
-                  <span className="font-semibold">Starting Sept 23rd</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-yellow-300" />
-                  <span className="font-medium">Buncrana, Ireland</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-yellow-300" />
-                  <span className="font-medium">Limited Spots Available</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-center mt-4 lg:mt-0">
-              <Button
-                onClick={() => setIsContactDialogOpen(true)}
-                className="bg-yellow-400 hover:bg-yellow-300 text-purple-900 font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Star className="mr-2 h-5 w-5" />
-                Reserve Your Spot
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <main className="flex-1">
         {/* Welcome Section */}
@@ -907,13 +814,26 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Two-line subheading */}
+              {/* Subheading */}
               <div className="animate-text-slide-up" style={{ animationDelay: "1.2s" }}>
                 <p className="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed drop-shadow-md text-center">
-                  Personalized AI training for individuals - in person or online.
-                  <br />
-                  Plus AI consulting that unlocks business efficiency and automation.
+                  Personalized AI training for individuals
                 </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Customer Testimonials Section */}
+        <section className="py-16 md:py-20 bg-gradient-to-br from-navy-950 via-purple-950 to-navy-900">
+          <div className="container px-4 md:px-6 max-w-6xl">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-full max-w-md mx-auto">
+                <img
+                  src="/images/feedback-on-iphone.png"
+                  alt="AI Fusion customer testimonials displayed on iPhone showing 5-star reviews and positive feedback from satisfied clients about AI training sessions"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
@@ -958,56 +878,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services Section */}
-        <section id="services" className="py-24 bg-navy-975">
-          <div className="container px-4 md:px-6 max-w-5xl">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">AI Solutions for Business</h2>
-              <p className="text-xl text-gray-200 max-w-2xl">
-                We provide comprehensive AI implementation and development services tailored to your business needs.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col items-center space-y-4 bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
-                <div className="rounded-full bg-purple-200 p-4">
-                  <Code className="h-6 w-6 text-purple-800" />
-                </div>
-                <h3 className="text-xl font-medium text-white">AI Implementation</h3>
-                <p className="text-center text-gray-200">
-                  Expert guidance and support to integrate AI solutions into your existing business processes and
-                  systems.
-                </p>
-                <div className="mt-4 rounded-xl overflow-hidden w-full">
-                  <img
-                    src="/images/ai-implementation.jpg"
-                    alt="AI implementation in business"
-                    className="w-full h-auto object-cover aspect-video"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col items-center space-y-4 bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800">
-                <div className="rounded-full bg-purple-200 p-4">
-                  <Smartphone className="h-6 w-6 text-purple-800" />
-                </div>
-                <h3 className="text-xl font-medium text-white">App Development</h3>
-                <p className="text-center text-gray-200">
-                  Custom application development services to help you scale your business with innovative digital
-                  solutions.
-                </p>
-                <div className="mt-4 rounded-xl overflow-hidden w-full">
-                  <img
-                    src="/images/app-development.jpg"
-                    alt="Mobile app development"
-                    className="w-full h-auto object-cover aspect-video"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* About Section */}
-        <section id="about" className="py-24 bg-navy-950">
+        <section id="about" className="py-24 bg-navy-975">
           <div className="container px-4 md:px-6 max-w-5xl">
             <div className="grid gap-12 lg:grid-cols-2 items-center">
               <div className="space-y-6">
@@ -1017,10 +889,6 @@ export default function Home() {
                 <p className="text-xl text-gray-200">
                   Based in Ireland, AI Fusion is dedicated to making artificial intelligence accessible to all. We
                   believe that AI technology should be available to everyone, regardless of technical background.
-                </p>
-                <p className="text-xl text-gray-200">
-                  Our experts work closely with businesses, educational institutions, and entrepreneurs to provide
-                  tailored AI solutions to drive growth and innovation.
                 </p>
               </div>
               <div className="flex justify-center">

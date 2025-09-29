@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { GraduationCap, Briefcase, Home, Calendar, Menu } from "lucide-react"
+import { GraduationCap, Home, Calendar, Menu } from "lucide-react"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import NavLink from "@/components/nav-link"
 import ContactDialog from "@/components/contact-dialog"
@@ -65,10 +65,6 @@ export default function SiteHeader() {
                 <Calendar className="h-4 w-4" />
                 Upcoming Courses
               </NavLink>
-              <NavLink href="/business" className="flex items-center gap-2">
-                <Briefcase className="h-4 w-4" />
-                AI for Business
-              </NavLink>
               <button
                 onClick={handleContactClick}
                 className="text-sm font-medium text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
@@ -94,10 +90,6 @@ export default function SiteHeader() {
                   <NavLink href="/upcoming-courses" className="flex items-center gap-2 p-2">
                     <Calendar className="h-4 w-4" />
                     Upcoming Courses
-                  </NavLink>
-                  <NavLink href="/business" className="flex items-center gap-2 p-2">
-                    <Briefcase className="h-4 w-4" />
-                    AI for Business
                   </NavLink>
                   <button
                     onClick={handleContactClick}

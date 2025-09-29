@@ -284,61 +284,16 @@ This enrollment request was submitted through the AI Fusion AI Training page.
           </div>
         </section>
 
-        {/* Training Formats Section */}
+        {/* Training Format Section */}
         <section className="py-24 bg-navy-950">
           <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">Training Formats</h2>
-              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-                Choose the learning format that works best for your schedule and learning style.
-              </p>
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">
+                Training Format - Online
+              </h2>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* In-Person Workshops */}
-              <div className="bg-navy-900 p-8 rounded-2xl shadow-lg border border-navy-800 hover:shadow-xl transition-shadow">
-                <div className="flex items-center justify-center w-16 h-16 bg-green-200 rounded-2xl mb-6">
-                  <Users className="h-8 w-8 text-green-800" />
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-white">In-Person Workshops</h3>
-                <p className="text-gray-200 mb-6">
-                  Join us for hands-on, interactive workshops where you can learn directly from our experts and
-                  collaborate with fellow learners.
-                </p>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-200">Face-to-face interaction with instructors</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-200">Collaborative learning environment</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-200">Immediate feedback and support</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-200">Networking opportunities</span>
-                  </li>
-                </ul>
-                <div className="mt-6">
-                  <Link
-                    href="/upcoming-courses"
-                    className="inline-flex items-center text-green-600 hover:text-green-500 font-medium transition-colors"
-                  >
-                    View Upcoming Courses
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </div>
-                <div className="bg-green-100 p-4 rounded-lg">
-                  <p className="text-green-800 font-medium">
-                    Perfect for: Hands-on learners who thrive in group settings
-                  </p>
-                </div>
-              </div>
-
+            <div className="flex justify-center">
               {/* Live Online Sessions */}
               <div className="bg-navy-900 p-8 rounded-2xl shadow-lg border border-purple-500 relative">
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -364,10 +319,6 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                   <li className="flex items-start">
                     <CheckCircle className="h-5 w-5 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
                     <span className="text-gray-200">Interactive Q&A sessions</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-purple-400 mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-200">Recorded sessions for review</span>
                   </li>
                 </ul>
                 <div className="mt-6">
@@ -487,6 +438,30 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Course Feedback Section */}
+        <section className="py-24 bg-navy-950">
+          <div className="container px-4 md:px-6 max-w-4xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">
+                AI for Beginners Course Feedback
+              </h2>
+              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+                See what our students are saying about their AI learning experience
+              </p>
+            </div>
+
+            <div className="flex justify-center">
+              <Image
+                src="/images/ai-beginners-feedback.png"
+                alt="AI for Beginners Course Feedback - Student testimonials showing 5-star reviews"
+                width={600}
+                height={900}
+                className="rounded-2xl shadow-2xl"
+              />
             </div>
           </div>
         </section>

@@ -24,7 +24,6 @@ interface ContactFormData {
   phone: string
   message: string
   organization: string
-  paymentOption: string
   experience: string
   goals: string
   company: string
@@ -47,7 +46,6 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     phone: "",
     message: "",
     organization: "",
-    paymentOption: "",
     experience: "",
     goals: "",
     company: "",
@@ -146,7 +144,7 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
       required.push("phone")
     }
 
-    if (formData.inquiryType === "general" || formData.inquiryType === "business") {
+    if (formData.inquiryType === "general") {
       required.push("message")
     }
 
@@ -254,7 +252,6 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
         subject: `Contact Form - ${formData.inquiryType}`,
         inquiryType: formData.inquiryType,
         organization: formData.organization.trim(),
-        paymentOption: formData.paymentOption,
         experience: formData.experience,
         goals: formData.goals.trim(),
         company: formData.company.trim(),
@@ -287,7 +284,6 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
           phone: "",
           message: "",
           organization: "",
-          paymentOption: "",
           experience: "",
           goals: "",
           company: "",
@@ -318,7 +314,6 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
       phone: "",
       message: "",
       organization: "",
-      paymentOption: "",
       experience: "",
       goals: "",
       company: "",
@@ -477,17 +472,17 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
                         <SelectContent className="bg-navy-800 border-navy-700">
+                          <SelectItem value="course-beginners" className="text-white hover:bg-navy-700">
+                            AI for Beginners Course
+                          </SelectItem>
+                          <SelectItem value="course-content-creators" className="text-white hover:bg-navy-700">
+                            AI Content Creators Course
+                          </SelectItem>
+                          <SelectItem value="course-vibe-coding" className="text-white hover:bg-navy-700">
+                            AI Vibe Coding – Build Your Website Course
+                          </SelectItem>
                           <SelectItem value="general" className="text-white hover:bg-navy-700">
                             General Inquiry
-                          </SelectItem>
-                          <SelectItem value="course-online" className="text-white hover:bg-navy-700">
-                            Book Online Course
-                          </SelectItem>
-                          <SelectItem value="course-inperson" className="text-white hover:bg-navy-700">
-                            Book In-Person Course
-                          </SelectItem>
-                          <SelectItem value="business" className="text-white hover:bg-navy-700">
-                            Business Consultation Inquiry
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -538,7 +533,7 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                       </div>
                     </div>
 
-                    {/* Phone field - required for courses, optional for others */}
+                    {/* Phone field - required for courses, optional for general */}
                     <div>
                       <Label htmlFor="phone" className="text-gray-200">
                         Phone Number {formData.inquiryType.startsWith("course-") ? "*" : "(Optional)"}
@@ -561,7 +556,7 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                     </div>
 
                     {/* Course-specific fields */}
-                    {formData.inquiryType === "course-online" && (
+                    {formData.inquiryType.startsWith("course-") && (
                       <>
                         <div>
                           <Label htmlFor="organization" className="text-gray-200">
@@ -576,56 +571,29 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="paymentOption" className="text-gray-200">
-                              Course Payment
-                            </Label>
-                            <Select
-                              onValueChange={(value) => handleInputChange("paymentOption", value)}
-                              value={formData.paymentOption}
-                            >
-                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                                <SelectValue placeholder="Select payment option" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-navy-800 border-navy-700">
-                                <SelectItem value="free" className="text-white hover:bg-navy-700">
-                                  FREE First Beginners Session
-                                </SelectItem>
-                                <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  Online Course (€120 - 3 sessions)
-                                </SelectItem>
-                                <SelectItem value="consultation" className="text-white hover:bg-navy-700">
-                                  Need consultation first
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div>
-                            <Label htmlFor="experience" className="text-gray-200">
-                              AI Experience Level
-                            </Label>
-                            <Select
-                              onValueChange={(value) => handleInputChange("experience", value)}
-                              value={formData.experience}
-                            >
-                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                                <SelectValue placeholder="Select your experience level" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-navy-800 border-navy-700">
-                                <SelectItem value="beginner" className="text-white hover:bg-navy-700">
-                                  Complete Beginner
-                                </SelectItem>
-                                <SelectItem value="some" className="text-white hover:bg-navy-700">
-                                  Some Experience
-                                </SelectItem>
-                                <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
-                                  Intermediate
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
+                        <div>
+                          <Label htmlFor="experience" className="text-gray-200">
+                            AI Experience Level (Optional)
+                          </Label>
+                          <Select
+                            onValueChange={(value) => handleInputChange("experience", value)}
+                            value={formData.experience}
+                          >
+                            <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
+                              <SelectValue placeholder="Select your experience level" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-navy-800 border-navy-700">
+                              <SelectItem value="beginner" className="text-white hover:bg-navy-700">
+                                Complete Beginner
+                              </SelectItem>
+                              <SelectItem value="some" className="text-white hover:bg-navy-700">
+                                Some Experience
+                              </SelectItem>
+                              <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
+                                Intermediate
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
 
                         <div>
@@ -644,137 +612,15 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                       </>
                     )}
 
-                    {/* In-Person Course specific fields */}
-                    {formData.inquiryType === "course-inperson" && (
-                      <>
-                        <div>
-                          <Label htmlFor="organization" className="text-gray-200">
-                            Organization (Optional)
-                          </Label>
-                          <Input
-                            id="organization"
-                            placeholder="Your business or organization"
-                            value={formData.organization}
-                            onChange={(e) => handleInputChange("organization", e.target.value)}
-                            className={getInputStyling("organization", false)}
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="paymentOption" className="text-gray-200">
-                              Course Payment
-                            </Label>
-                            <Select
-                              onValueChange={(value) => handleInputChange("paymentOption", value)}
-                              value={formData.paymentOption}
-                            >
-                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                                <SelectValue placeholder="Select payment option" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-navy-800 border-navy-700">
-                                <SelectItem value="free" className="text-white hover:bg-navy-700">
-                                  FREE First Beginners Session
-                                </SelectItem>
-                                <SelectItem value="full" className="text-white hover:bg-navy-700">
-                                  In-Person Course (€120 - 3 sessions)
-                                </SelectItem>
-                                <SelectItem value="group" className="text-white hover:bg-navy-700">
-                                  Group Discount (€99 - 3 sessions) - 3+ employees
-                                </SelectItem>
-                                <SelectItem value="consultation" className="text-white hover:bg-navy-700">
-                                  Need consultation first
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-
-                          <div>
-                            <Label htmlFor="experience" className="text-gray-200">
-                              AI Experience Level
-                            </Label>
-                            <Select
-                              onValueChange={(value) => handleInputChange("experience", value)}
-                              value={formData.experience}
-                            >
-                              <SelectTrigger className="bg-navy-800 border-navy-700 text-white">
-                                <SelectValue placeholder="Select your experience level" />
-                              </SelectTrigger>
-                              <SelectContent className="bg-navy-800 border-navy-700">
-                                <SelectItem value="beginner" className="text-white hover:bg-navy-700">
-                                  Complete Beginner
-                                </SelectItem>
-                                <SelectItem value="some" className="text-white hover:bg-navy-700">
-                                  Some Experience
-                                </SelectItem>
-                                <SelectItem value="intermediate" className="text-white hover:bg-navy-700">
-                                  Intermediate
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="goals" className="text-gray-200">
-                            Learning Goals (Optional)
-                          </Label>
-                          <Textarea
-                            id="goals"
-                            placeholder="What do you hope to achieve with AI training?"
-                            rows={3}
-                            value={formData.goals}
-                            onChange={(e) => handleInputChange("goals", e.target.value)}
-                            className={`${getInputStyling("goals", false)} resize-none`}
-                          />
-                        </div>
-                      </>
-                    )}
-
-                    {/* Business consultation fields */}
-                    {formData.inquiryType === "business" && (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="company" className="text-gray-200">
-                            Company (Optional)
-                          </Label>
-                          <Input
-                            id="company"
-                            placeholder="Your company name"
-                            value={formData.company}
-                            onChange={(e) => handleInputChange("company", e.target.value)}
-                            className={getInputStyling("company", false)}
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="industry" className="text-gray-200">
-                            Industry (Optional)
-                          </Label>
-                          <Input
-                            id="industry"
-                            placeholder="Your industry"
-                            value={formData.industry}
-                            onChange={(e) => handleInputChange("industry", e.target.value)}
-                            className={getInputStyling("industry", false)}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Message field - required for general and business inquiries */}
-                    {(formData.inquiryType === "general" || formData.inquiryType === "business") && (
+                    {/* Message field - required for general inquiries */}
+                    {formData.inquiryType === "general" && (
                       <div>
                         <Label htmlFor="message" className="text-gray-200">
                           Message *
                         </Label>
                         <Textarea
                           id="message"
-                          placeholder={
-                            formData.inquiryType === "business"
-                              ? "Tell us about your business needs and how we can help..."
-                              : "Tell us about your inquiry..."
-                          }
+                          placeholder="Tell us about your inquiry..."
                           rows={4}
                           value={formData.message}
                           onChange={(e) => handleInputChange("message", e.target.value)}
