@@ -37,13 +37,20 @@ export default function UpcomingCoursesPage() {
                 running a small business, pursuing creative projects, or exploring AI for personal use.
               </p>
 
-              <div className="mb-8">
+              <div className="mb-8 flex gap-6 justify-center flex-wrap">
                 <Image
                   src="/images/ai-fusion-classroom-training.jpg"
                   alt="AI Fusion Training - Classroom Environment"
                   width={400}
                   height={300}
-                  className="mx-auto rounded-2xl shadow-lg"
+                  className="rounded-2xl shadow-lg"
+                />
+                <Image
+                  src="/images/ai-training-session.jpg"
+                  alt="AI Training Session in Progress - Professional Learning Environment"
+                  width={400}
+                  height={300}
+                  className="rounded-2xl shadow-lg"
                 />
               </div>
             </div>
@@ -96,7 +103,7 @@ export default function UpcomingCoursesPage() {
               <div>
                 <Card className="bg-navy-900 border-navy-800">
                   <CardContent className="p-8 text-center">
-                    <h3 className="text-2xl font-bold text-white mb-4">1 Hour Training</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">1 Hour Online Training</h3>
 
                     {/* Date Information */}
                     <div className="flex items-center justify-center mb-4 text-purple-400">
@@ -104,7 +111,7 @@ export default function UpcomingCoursesPage() {
                       <span className="text-lg font-semibold">Monday 6th October at 7pm</span>
                     </div>
 
-                    <div className="text-5xl font-bold text-blue-400 mb-4">€30</div>
+                    <div className="text-5xl font-bold text-green-400 mb-4">FREE</div>
                     <p className="text-gray-300 text-lg mb-6">AI training session</p>
                     <Button
                       size="lg"
@@ -113,17 +120,6 @@ export default function UpcomingCoursesPage() {
                     >
                       Book Training
                     </Button>
-
-                    {/* Training Session Image */}
-                    <div className="mt-6">
-                      <Image
-                        src="/images/ai-training-session.jpg"
-                        alt="AI Training Session in Progress - Professional Learning Environment"
-                        width={300}
-                        height={200}
-                        className="mx-auto rounded-lg shadow-md"
-                      />
-                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -192,7 +188,7 @@ export default function UpcomingCoursesPage() {
                     <p className="text-gray-300 text-lg mb-6">AI training session</p>
                     <Button
                       size="lg"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-full w-full"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-full w-full mb-6"
                       onClick={() => setIsContactDialogOpen(true)}
                     >
                       Book Training

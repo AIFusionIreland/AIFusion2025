@@ -855,11 +855,11 @@ export default function Home() {
                 <span className="block mt-2">Innovation for Everyone.</span>
               </h1>
               <div className="max-w-4xl space-y-6">
+                {/* Updated Paragraph */}
                 <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
-                  At AI Fusion, our mission is to empower small businesses, entrepreneurs, and individuals with
-                  practical, hands-on AI knowledge. We deliver accessible, in-person training and share bite-sized tips
-                  and tutorials across social media to help everyday people confidently adopt AI tools and transform the
-                  way they work, create, and grow.
+                  At AI Fusion, our mission is to empower individuals with practical, hands-on AI knowledge. We deliver
+                  accessible, in-person and Online training and share bite-sized tips and tutorials across social media
+                  to help everyday people confidently adopt AI tools and transform the way they work, create, and grow.
                 </p>
               </div>
             </div>
@@ -913,70 +913,6 @@ export default function Home() {
               <div className="bg-navy-900 p-6 rounded-2xl border border-navy-800">
                 <h3 className="text-xl font-medium mb-2 text-white">Our Values</h3>
                 <p className="text-gray-200">Innovation, accessibility, education, and community empowerment.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Success Stories Section */}
-        <section className="py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">Success Stories</h2>
-              <p className="text-xl text-gray-200 max-w-2xl">
-                See how AI Fusion has helped local businesses embrace AI technology and transform their operations.
-              </p>
-            </div>
-
-            <div className="flex justify-center">
-              {/* Recovery Isle Success Story */}
-              <div className="bg-navy-900 p-8 rounded-2xl shadow-sm border border-navy-800 max-w-2xl">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-medium mb-2 text-white">Recovery_Isle</h3>
-                  <p className="text-gray-300 font-medium">Sports Therapy and Massage Clinic</p>
-                </div>
-
-                {/* Add Recovery Isle image */}
-                <div className="mb-6 rounded-xl overflow-hidden">
-                  <img
-                    src="/images/recovery-isle-logo.png"
-                    alt="Recovery Isle logo - Professional sports therapy and massage clinic branding representing health and wellness services"
-                    className="w-full h-48 object-contain bg-white transition-transform hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-gray-200 leading-relaxed">
-                    "As a sports therapy clinic, I had been using a basic app for online bookings, but I was constantly
-                    searching for something more comprehensive—something that could bring everything I need into one
-                    place without breaking the bank. Most of the all-in-one platforms out there were either too limited
-                    or far too expensive."
-                  </p>
-                  <p className="text-gray-200 leading-relaxed">
-                    "That's when I reached out to AI Fusion, and it's honestly been one of the best business decisions
-                    I've made. They worked closely with me to create a fully personalised app tailored to the specific
-                    needs of my clinic. Not only does it include a user-friendly booking portal, but I can now also
-                    manage client notes, send invoices, and handle other admin tasks—all from one space."
-                  </p>
-                  <p className="text-gray-200 leading-relaxed">
-                    "What used to be a juggling act across multiple apps and opened tabs is now in one efficient
-                    platform. The time I've saved on admin has allowed me to focus more on my clients, and it's all been
-                    done at a very reasonable price. I can't thank AI Fusion enough for helping me simplify and
-                    strengthen my business. Highly recommended!"
-                  </p>
-                  <div className="pt-4 border-t border-navy-800">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
-                      Healthcare & Wellness Industry
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center mt-6 p-4 bg-navy-800 rounded-lg border border-navy-700">
-                  <div className="text-3xl font-bold text-purple-400 mb-2">60%</div>
-                  <div className="text-sm text-gray-300">Time Saved on Admin Tasks</div>
-                  <p className="text-xs text-gray-400 mt-2">Allowing more focus on client care</p>
-                </div>
               </div>
             </div>
           </div>
