@@ -839,6 +839,20 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Video Section */}
+        <section className="py-16 md:py-20 bg-navy-950">
+          <div className="container px-4 md:px-6 max-w-6xl">
+            <div className="flex flex-col items-center justify-center">
+              <div className="w-full max-w-2xl mx-auto">
+                <video autoPlay loop muted playsInline className="w-full h-auto rounded-2xl shadow-2xl">
+                  <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Donna%20in%20Office%20with%20AI%20Robot-4HdIp608uMbh4ULSB3Uck113NKNqAE.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Hero Section */}
         <section className="py-24 md:py-32 relative overflow-hidden bg-navy-950">
           <div className="absolute inset-0 z-0">

@@ -108,10 +108,10 @@ export default function UpcomingCoursesPage() {
                     {/* Date Information */}
                     <div className="flex items-center justify-center mb-4 text-purple-400">
                       <Calendar className="w-5 h-5 mr-2" />
-                      <span className="text-lg font-semibold">Monday 6th October at 7pm</span>
+                      <span className="text-lg font-semibold">Monday 13th October at 7pm</span>
                     </div>
 
-                    <div className="text-5xl font-bold text-green-400 mb-4">FREE</div>
+                    <div className="text-5xl font-bold text-blue-400 mb-4">€30</div>
                     <p className="text-gray-300 text-lg mb-6">AI training session</p>
                     <Button
                       size="lg"
@@ -181,7 +181,7 @@ export default function UpcomingCoursesPage() {
                     {/* Date Information */}
                     <div className="flex items-center justify-center mb-4 text-purple-400">
                       <Calendar className="w-5 h-5 mr-2" />
-                      <span className="text-lg font-semibold">Tuesday 7th October at 7pm</span>
+                      <span className="text-lg font-semibold">Tuesday 21st October at 7pm</span>
                     </div>
 
                     <div className="text-5xl font-bold text-blue-400 mb-4">€30</div>
