@@ -1,12 +1,5 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/analytics-reports?type=weekly",
-      "schedule": "0 9 * * 1"
-    },
-    {
-      "path": "/api/cron/analytics-reports?type=monthly",
-      "schedule": "0 9 1 * *"
-    }
-  ]
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "pnpm install"
 }
