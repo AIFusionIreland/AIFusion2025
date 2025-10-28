@@ -28,6 +28,8 @@ interface ContactFormData {
   goals: string
   company: string
   industry: string
+  businessQuestion: string
+  businessArea: string
 }
 
 interface ValidationErrors {
@@ -50,6 +52,8 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     goals: "",
     company: "",
     industry: "",
+    businessQuestion: "",
+    businessArea: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
@@ -146,6 +150,10 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
 
     if (formData.inquiryType === "general") {
       required.push("message")
+    }
+
+    if (formData.inquiryType === "business-services") {
+      required.push("businessArea", "businessQuestion")
     }
 
     return required
@@ -256,6 +264,8 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
         goals: formData.goals.trim(),
         company: formData.company.trim(),
         industry: formData.industry.trim(),
+        businessQuestion: formData.businessQuestion.trim(),
+        businessArea: formData.businessArea.trim(),
       }
 
       console.log("Sending data:", submitData)
@@ -288,6 +298,8 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
           goals: "",
           company: "",
           industry: "",
+          businessQuestion: "",
+          businessArea: "",
         })
         setErrors({})
         setTouched({})
@@ -318,6 +330,8 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
       goals: "",
       company: "",
       industry: "",
+      businessQuestion: "",
+      businessArea: "",
     })
     setSubmitStatus("idle")
     setShowSuccessPopup(false)
@@ -481,6 +495,9 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                           <SelectItem value="course-vibe-coding" className="text-white hover:bg-navy-700">
                             AI Vibe Coding – Build Your Website Course
                           </SelectItem>
+                          <SelectItem value="business-services" className="text-white hover:bg-navy-700">
+                            Query on your Business Services
+                          </SelectItem>
                           <SelectItem value="general" className="text-white hover:bg-navy-700">
                             General Inquiry
                           </SelectItem>
@@ -607,6 +624,37 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
                             value={formData.goals}
                             onChange={(e) => handleInputChange("goals", e.target.value)}
                             className={`${getInputStyling("goals", false)} resize-none`}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {formData.inquiryType === "business-services" && (
+                      <>
+                        <div>
+                          <Label htmlFor="businessArea" className="text-gray-200">
+                            Your Business Area
+                          </Label>
+                          <Input
+                            id="businessArea"
+                            placeholder="e.g., Retail, Healthcare, Professional Services"
+                            value={formData.businessArea}
+                            onChange={(e) => handleInputChange("businessArea", e.target.value)}
+                            className={getInputStyling("businessArea", false)}
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="businessQuestion" className="text-gray-200">
+                            Tell us about your question
+                          </Label>
+                          <Textarea
+                            id="businessQuestion"
+                            placeholder="Please describe your business needs and what you'd like to know about our services..."
+                            rows={4}
+                            value={formData.businessQuestion}
+                            onChange={(e) => handleInputChange("businessQuestion", e.target.value)}
+                            className={`${getInputStyling("businessQuestion", false)} resize-none`}
                           />
                         </div>
                       </>
