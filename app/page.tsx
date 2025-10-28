@@ -98,6 +98,20 @@ export default function Home() {
               }
             }
 
+            @keyframes teachingFloat {
+              0% { transform: perspective(1000px) rotateX(8deg) rotateY(10deg) translateY(0px) translateX(0px); }
+              33% { transform: perspective(1000px) rotateX(12deg) rotateY(5deg) translateY(-18px) translateX(10px); }
+              66% { transform: perspective(1000px) rotateX(4deg) rotateY(15deg) translateY(-8px) translateX(-8px); }
+              100% { transform: perspective(1000px) rotateX(8deg) rotateY(10deg) translateY(0px) translateX(0px); }
+            }
+            
+            @keyframes mathFloat {
+              0% { transform: perspective(1000px) rotateX(-5deg) rotateY(-12deg) translateY(0px) translateX(0px) rotateZ(0deg); }
+              30% { transform: perspective(1000px) rotateX(2deg) rotateY(-8deg) translateY(-15px) translateX(-12px) rotateZ(2deg); }
+              60% { transform: perspective(1000px) rotateX(-8deg) rotateY(-18deg) translateY(-22px) translateX(8px) rotateZ(-1deg); }
+              100% { transform: perspective(1000px) rotateX(-5deg) rotateY(-12deg) translateY(0px) translateX(0px) rotateZ(0deg); }
+            }
+
             @keyframes logoGlow {
               0% { 
                 box-shadow: 0 0 30px rgba(255,255,255,0.4), 0 0 60px rgba(79,70,229,0.3), 0 0 90px rgba(147,51,234,0.2);
@@ -156,6 +170,8 @@ export default function Home() {
             .laptop-float { animation: laptopFloat 7s ease-in-out infinite; }
             .robot-dance { animation: robotDance 5s ease-in-out infinite; }
             .brain-pulse { animation: brainPulse 8s ease-in-out infinite; }
+            .teaching-float { animation: teachingFloat 6.5s ease-in-out infinite; }
+            .math-float { animation: mathFloat 7.5s ease-in-out infinite; }
           `}</style>
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -170,6 +186,20 @@ export default function Home() {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-transparent rounded-lg"></div>
+              </div>
+            </div>
+
+            <div className="absolute top-8 right-8 md:top-12 md:right-16 lg:top-16 lg:right-24 brain-pulse z-10">
+              <div className="relative group">
+                <img
+                  src="/images/ai-brain-circuit.jpeg"
+                  alt="AI Brain Circuit representing AI Intelligence"
+                  className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 object-cover rounded-full shadow-2xl transform transition-transform group-hover:scale-110"
+                  style={{
+                    filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.3)) brightness(1.1) contrast(1.1)",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-transparent rounded-full"></div>
               </div>
             </div>
 
@@ -198,6 +228,34 @@ export default function Home() {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent rounded-xl"></div>
+              </div>
+            </div>
+
+            <div className="absolute top-1/3 left-1/4 md:left-1/3 teaching-float z-10 hidden md:block">
+              <div className="relative group">
+                <img
+                  src="/images/robot-teaching-woman.png"
+                  alt="Robot teaching woman representing AI Education"
+                  className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 object-cover rounded-xl shadow-2xl transform transition-transform group-hover:scale-110"
+                  style={{
+                    filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.3)) brightness(1.1) contrast(1.1)",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-transparent rounded-xl"></div>
+              </div>
+            </div>
+
+            <div className="absolute top-2/3 right-1/4 md:right-1/3 math-float z-10 hidden md:block">
+              <div className="relative group">
+                <img
+                  src="/images/robot-teaching-math.jpg"
+                  alt="Robot teaching math representing AI Learning"
+                  className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 object-cover rounded-xl shadow-2xl transform transition-transform group-hover:scale-110"
+                  style={{
+                    filter: "drop-shadow(0 25px 50px rgba(0,0,0,0.3)) brightness(1.1) contrast(1.1)",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-transparent rounded-xl"></div>
               </div>
             </div>
           </div>
@@ -311,8 +369,12 @@ export default function Home() {
                   className="w-full h-auto"
                 />
               </div>
-              <div className="rounded-2xl overflow-hidden shadow-sm">
-                <img src="/images/ai-education.jpg" alt="AI education workshop" className="w-full h-auto" />
+              <div className="flex justify-center">
+                <div className="relative w-full">
+                  <div className="aspect-video overflow-hidden rounded-2xl shadow-sm">
+                    <img src="/images/ai-fusion-team.jpg" alt="AI Fusion team" className="object-cover w-full h-full" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

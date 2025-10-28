@@ -115,6 +115,11 @@ const businessServicesFAQs: FAQItem[] = [
       "Yes — we specialize in helping SMEs and family-run companies use AI affordably. Our focus is on practical solutions that deliver visible value, not big, expensive enterprise systems.",
   },
   {
+    question: "Can my business get a grant for this training or AI consultancy?",
+    answer:
+      "Yes! AI Fusion can help you prepare your Grow Digital application, write your project proposal, and ensure your business meets all eligibility requirements for funding.",
+  },
+  {
     question: "Can you provide training for my entire team?",
     answer:
       "Yes! We offer customized corporate training programs for businesses of all sizes. Contact us to discuss your specific requirements and we'll create a tailored training plan for your team.",
