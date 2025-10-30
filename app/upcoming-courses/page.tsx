@@ -465,7 +465,7 @@ export default function UpcomingCoursesPage() {
       </footer>
 
       {/* Contact Dialog */}
-      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
+      <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </div>
   )
 }

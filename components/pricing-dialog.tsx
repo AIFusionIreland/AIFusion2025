@@ -11,8 +11,8 @@ import { X, Phone, Mail, Globe, Clock, Users, Zap, Star, CheckCircle, AlertCircl
 import { useState } from "react"
 
 interface PricingDialogProps {
-  isOpen: boolean
-  onClose: () => void
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 interface ContactFormData {
@@ -27,7 +27,7 @@ interface ValidationErrors {
   message?: string
 }
 
-export default function PricingDialog({ isOpen, onClose }: PricingDialogProps) {
+export default function PricingDialog({ open, onOpenChange }: PricingDialogProps) {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false)
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
@@ -208,7 +208,7 @@ This inquiry was submitted through the AI Fusion Pricing dialog.
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[1000px] max-h-[90vh] p-0 bg-navy-900 border-navy-800 overflow-hidden">
           <DialogHeader className="p-6 border-b border-navy-800 flex flex-row items-center justify-between">
             <DialogTitle className="text-2xl font-medium text-white">AI Fusion Pricing</DialogTitle>
@@ -216,7 +216,7 @@ This inquiry was submitted through the AI Fusion Pricing dialog.
               variant="ghost"
               size="icon"
               className="rounded-full text-gray-400 hover:text-white hover:bg-navy-800"
-              onClick={onClose}
+              onClick={() => onOpenChange(false)}
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -562,7 +562,7 @@ This inquiry was submitted through the AI Fusion Pricing dialog.
                 type="button"
                 variant="outline"
                 onClick={handleContactFormClose}
-                className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
+                className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800 bg-transparent"
               >
                 Cancel
               </Button>

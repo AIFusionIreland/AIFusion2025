@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { GraduationCap, Home, Calendar, Menu, Facebook, HelpCircle, Briefcase } from "lucide-react"
+import { GraduationCap, Home, Calendar, Menu, Facebook, HelpCircle, Briefcase, Mail, BookOpen } from "lucide-react"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import NavLink from "@/components/nav-link"
 import ContactDialog from "@/components/contact-dialog"
@@ -17,7 +17,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export default function SiteHeader() {
+const SiteHeader = () => {
   const pathname = usePathname()
   const router = useRouter()
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
@@ -97,16 +97,18 @@ export default function SiteHeader() {
                 <Briefcase className="h-4 w-4" />
                 Business Services
               </NavLink>
+              <NavLink href="/blog" className="flex items-center gap-2">
+                <BookOpen className="h-4 w-4" />
+                Blog
+              </NavLink>
               <NavLink href="/faq" className="flex items-center gap-2">
                 <HelpCircle className="h-4 w-4" />
                 FAQ
               </NavLink>
-              <button
-                onClick={handleContactClick}
-                className="text-sm font-medium text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-              >
-                Contact
-              </button>
+              <NavLink href="/contact" className="flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                Contact Us
+              </NavLink>
             </nav>
 
             {/* Mobile Menu */}
@@ -131,16 +133,18 @@ export default function SiteHeader() {
                     <Briefcase className="h-4 w-4" />
                     Business Services
                   </NavLink>
+                  <NavLink href="/blog" className="flex items-center gap-2 p-2">
+                    <BookOpen className="h-4 w-4" />
+                    Blog
+                  </NavLink>
                   <NavLink href="/faq" className="flex items-center gap-2 p-2">
                     <HelpCircle className="h-4 w-4" />
                     FAQ
                   </NavLink>
-                  <button
-                    onClick={handleContactClick}
-                    className="text-left text-sm font-medium text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-                  >
-                    Contact
-                  </button>
+                  <NavLink href="/contact" className="flex items-center gap-2 p-2">
+                    <Mail className="h-4 w-4" />
+                    Contact Us
+                  </NavLink>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -161,7 +165,10 @@ export default function SiteHeader() {
       </header>
 
       {/* Contact Dialog */}
-      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
+      <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </>
   )
 }
+
+export { SiteHeader }
+export default SiteHeader

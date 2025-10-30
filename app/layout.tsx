@@ -1,8 +1,6 @@
 import type React from "react"
 import "@/app/globals.css"
 import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Analytics } from "@vercel/analytics/react"
 import AnalyticsProvider from "@/components/analytics-provider"
 import { Suspense } from "react"
 
@@ -38,12 +36,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e1b4b" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <Suspense fallback={<div>Loading...</div>}>
-            <AnalyticsProvider>{children}</AnalyticsProvider>
-          </Suspense>
-        </ThemeProvider>
-        <Analytics />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AnalyticsProvider>{children}</AnalyticsProvider>
+        </Suspense>
       </body>
     </html>
   )

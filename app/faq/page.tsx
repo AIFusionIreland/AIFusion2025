@@ -229,7 +229,7 @@ export default function FAQPage() {
         </div>
       </div>
 
-      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
+      <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </div>
   )
 }

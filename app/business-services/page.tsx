@@ -451,7 +451,7 @@ export default function BusinessServicesPage() {
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3"
               onClick={() => setIsContactOpen(true)}
             >
-              Book Discovery Call
+              Contact us
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -459,13 +459,13 @@ export default function BusinessServicesPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-navy-950 border-t border-navy-800">
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-navy-950 border-t border-navy-800">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-400 text-sm">© 2025 AI Fusion. All rights reserved. | Inishowen, Donegal, Ireland</p>
         </div>
-      </footer>
+      </section>
 
-      <ContactDialog isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   )
 }

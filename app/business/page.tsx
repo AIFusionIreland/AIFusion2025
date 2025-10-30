@@ -403,12 +403,12 @@ export default function AIForBusinessPage() {
       <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-navy-950 border-t border-navy-800">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 AI Fusion. All rights reserved. | Transforming businesses with artificial intelligence.
+            © 2025 AI Fusion. All rights reserved. | Transforming businesses with artificial intelligence.
           </p>
         </div>
       </footer>
 
-      <ContactDialog isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <ContactDialog open={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   )
 }

@@ -291,6 +291,17 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="py-12 md:py-16 bg-gradient-to-br from-navy-900 via-navy-950 to-purple-950">
+          <div className="container px-4 md:px-6 max-w-4xl">
+            <p className="text-lg md:text-xl text-gray-100 leading-relaxed text-center max-w-3xl mx-auto">
+              Welcome to AI Fusion, Ireland's hub for AI training and workshops designed for individuals, small
+              businesses, and creators. We help you understand and use Artificial Intelligence (AI) tools to save time,
+              boost creativity, and improve productivity. Whether you're in Dublin, Cork, or anywhere in Ireland, our AI
+              courses make technology simple and practical.
+            </p>
+          </div>
+        </section>
+
         {/* Stan Store CTA Section - Below 3D Section */}
         <section className="py-16 md:py-20 bg-gradient-to-br from-purple-950 via-navy-950 to-navy-900">
           <div className="container px-4 md:px-6 max-w-4xl">
@@ -366,7 +377,7 @@ export default function Home() {
                 <img
                   src="/images/diverse-team.jpg"
                   alt="Diverse team working with AI technology"
-                  className="w-full h-auto"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
               <div className="flex justify-center">
@@ -443,8 +454,8 @@ export default function Home() {
         </div>
       </footer>
 
-      <PricingDialog isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
-      <ContactDialog isOpen={isContactDialogOpen} onClose={() => setIsContactDialogOpen(false)} />
+      <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen} />
+      <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
     </div>
   )
 }

@@ -13,8 +13,8 @@ import { useState } from "react"
 import Image from "next/image"
 
 interface ContactDialogProps {
-  isOpen: boolean
-  onClose: () => void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 interface ContactFormData {
@@ -40,7 +40,7 @@ interface ValidationErrors {
   submit?: string
 }
 
-export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
+function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
   const [formData, setFormData] = useState<ContactFormData>({
     inquiryType: "",
     name: "",
@@ -337,13 +337,13 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     setShowSuccessPopup(false)
     setErrors({})
     setTouched({})
-    onClose()
+    onOpenChange?.(false)
   }
 
   const handleSuccessPopupClose = () => {
     setShowSuccessPopup(false)
     setTimeout(() => {
-      onClose()
+      onOpenChange?.(false)
       setSubmitStatus("idle")
     }, 300)
   }
@@ -362,7 +362,7 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
+      <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
         <DialogContent className="sm:max-w-[900px] max-h-[90vh] p-0 bg-navy-900 border-navy-800 overflow-hidden">
           <DialogHeader className="p-6 border-b border-navy-800 flex flex-row items-center justify-between">
             <DialogTitle className="text-2xl font-medium text-white">Contact AI Fusion</DialogTitle>
@@ -735,3 +735,6 @@ export default function ContactDialog({ isOpen, onClose }: ContactDialogProps) {
     </>
   )
 }
+
+export { ContactDialog }
+export default ContactDialog
