@@ -7,9 +7,9 @@ import { Suspense } from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "AI Fusion - AI Made Simple. Innovation for Everyone.",
+  title: "AI Consultant for Small Business in Ireland | AI Fusion",
   description:
-    "AI Fusion helps businesses, schools, and entrepreneurs learn AI and implement it into their operations. AI made simple, innovation for everyone.",
+    "AI Fusion helps small and family-run businesses in Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
   icons: {
     icon: [
       { url: "/favicon.ico" },

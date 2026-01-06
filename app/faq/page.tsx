@@ -10,63 +10,7 @@ interface FAQItem {
   answer: string
 }
 
-const individualTrainingFAQs: FAQItem[] = [
-  {
-    question: "What is AI Fusion?",
-    answer:
-      "AI Fusion is an AI education and training provider. We specialize in making artificial intelligence accessible and practical for individuals, businesses, and organizations of all sizes.",
-  },
-  {
-    question: "Who are the courses suitable for?",
-    answer:
-      "Our courses are designed for everyone - from complete beginners with no technical background to professionals looking to integrate AI into their business. We offer tailored training for individuals, businesses, and educational institutions.",
-  },
-  {
-    question: "Do I need any technical background to attend?",
-    answer:
-      "No technical background is required! Our 'AI for Beginners' course is specifically designed for people with no prior knowledge of AI. We explain everything in simple, easy-to-understand terms.",
-  },
-  {
-    question: "What topics do you cover in your courses?",
-    answer:
-      "We cover a wide range of AI topics including ChatGPT, AI tools for business, content creation with AI, automation, AI for marketing, AI for education, and practical AI implementation strategies.",
-  },
-  {
-    question: "Are the courses online or in-person?",
-    answer:
-      "We offer both online and in-person training options. Check our 'Upcoming Courses' page for specific course formats and dates.",
-  },
-  {
-    question: "How long are the courses?",
-    answer:
-      "Course lengths vary depending on the program. Our introductory courses typically run for 1 hour, while comprehensive business training can be customized to your needs.",
-  },
-  {
-    question: "Do you offer the FREE 15-minute consultation?",
-    answer:
-      "Yes! We offer a FREE 15-minute consultation where we can discuss your AI learning goals and recommend the best course for you. You can book this through our Stan Store link on the home page, or drop us an email info@aifusion.ie, or by contacting us directly through the contact form on our website.",
-  },
-  {
-    question: "What are the FREE guides about?",
-    answer:
-      "Our FREE guides cover various AI topics including; FREE AI App Guide, FREE Small Business Guide to AI. You can download these from our Stan Store, link on Homepage.",
-  },
-  {
-    question: "How do I book a course?",
-    answer:
-      "You can book a course by clicking the 'Book Now' button on any course page, or by contacting us directly through the contact form. We'll guide you through the registration process.",
-  },
-  {
-    question: "Do you offer ongoing support after the course?",
-    answer:
-      "We provide post-course support to help you implement what you've learned. You'll also have access to our community and resources.",
-  },
-  {
-    question: "How can I stay updated on new courses and AI news?",
-    answer:
-      "Follow us on Facebook and TikTok (@aifusionireland) for the latest updates, tips, and course announcements. You can also contact us to join our mailing list.",
-  },
-]
+const individualTrainingFAQs: FAQItem[] = []
 
 const businessServicesFAQs: FAQItem[] = [
   {
@@ -137,7 +81,7 @@ const businessServicesFAQs: FAQItem[] = [
   {
     question: "How can I get started?",
     answer:
-      "You can: Book a free Discovery Call through our contact form; Arrange an on-site consultation; Or attend one of our AI Courses. From there, we'll create a tailored AI Action Plan specific to your business.",
+      "You can: Book a free Discovery Call through our contact form; Arrange an on-site consultation. From there, we'll create a tailored AI Action Plan specific to your business.",
   },
 ]
 
@@ -174,20 +118,6 @@ export default function FAQPage() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">Individual Training</h2>
-          <div className="space-y-6">
-            {individualTrainingFAQs.map((faq, index) => (
-              <Card key={index} className="bg-navy-900/50 border-navy-800">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-white mb-3">{faq.question}</h3>
-                  <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Business Services</h2>
           <div className="space-y-6">
@@ -208,20 +138,12 @@ export default function FAQPage() {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold text-white mb-4">Still have questions?</h2>
               <p className="text-gray-300 mb-6">Can't find the answer you're looking for? Our team is here to help!</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="https://stan.store/AIFusion"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setIsContactDialogOpen(true)}
                   className="inline-flex items-center justify-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
                 >
                   Book FREE Consultation
-                </a>
-                <button
-                  onClick={() => setIsContactDialogOpen(true)}
-                  className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Contact Us
                 </button>
               </div>
             </CardContent>

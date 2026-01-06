@@ -4,18 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import {
-  GraduationCap,
-  Home,
-  Calendar,
-  Menu,
-  Facebook,
-  HelpCircle,
-  Briefcase,
-  Mail,
-  BookOpen,
-  Star,
-} from "lucide-react"
+import { GraduationCap, Home, Menu, Facebook, HelpCircle, Briefcase, Mail, BookOpen, Star } from "lucide-react"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import NavLink from "@/components/nav-link"
 import ContactDialog from "@/components/contact-dialog"
@@ -75,10 +64,6 @@ const SiteHeader = () => {
               <NavLink href="/ai-training" className="flex items-center gap-1.5">
                 <GraduationCap className="h-4 w-4" />
                 AI Courses
-              </NavLink>
-              <NavLink href="/upcoming-courses" className="flex items-center gap-1.5">
-                <Calendar className="h-4 w-4" />
-                Upcoming Courses
               </NavLink>
               <NavLink href="/business-services" className="flex items-center gap-1.5">
                 <Briefcase className="h-4 w-4" />
@@ -142,10 +127,6 @@ const SiteHeader = () => {
                   <NavLink href="/ai-training" className="flex items-center gap-2 p-2">
                     <GraduationCap className="h-4 w-4" />
                     AI Courses
-                  </NavLink>
-                  <NavLink href="/upcoming-courses" className="flex items-center gap-2 p-2">
-                    <Calendar className="h-4 w-4" />
-                    Upcoming Courses
                   </NavLink>
                   <NavLink href="/business-services" className="flex items-center gap-2 p-2">
                     <Briefcase className="h-4 w-4" />

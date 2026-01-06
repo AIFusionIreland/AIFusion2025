@@ -142,14 +142,10 @@ function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
   }
 
   const getRequiredFields = () => {
-    const required = ["name", "email"]
+    const required = ["name", "email", "message"]
 
     if (formData.inquiryType.startsWith("course-")) {
       required.push("phone")
-    }
-
-    if (formData.inquiryType === "general") {
-      required.push("message")
     }
 
     if (formData.inquiryType === "business-services") {
@@ -437,8 +433,8 @@ function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                   <div className="mt-6">
                     <div className="relative w-32 h-32 mx-auto lg:mx-0">
                       <Image
-                        src="/images/ai-fusion-representative.png"
-                        alt="AI Fusion Representative"
+                        src="/images/donna-profile.jpeg"
+                        alt="Donna - AI Fusion Representative"
                         fill
                         className="rounded-full object-cover border-2 border-purple-600"
                       />
@@ -486,20 +482,17 @@ function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
                         <SelectContent className="bg-navy-800 border-navy-700">
-                          <SelectItem value="course-beginners" className="text-white hover:bg-navy-700">
-                            AI for Beginners Course
+                          <SelectItem value="strategy-call" className="text-white hover:bg-navy-700">
+                            Book 15 minute AI Strategy call
                           </SelectItem>
-                          <SelectItem value="course-content-creators" className="text-white hover:bg-navy-700">
-                            AI Content Creators Course
-                          </SelectItem>
-                          <SelectItem value="course-vibe-coding" className="text-white hover:bg-navy-700">
-                            AI Vibe Coding – Build Your Website Course
-                          </SelectItem>
-                          <SelectItem value="business-services" className="text-white hover:bg-navy-700">
-                            Query on your Business Services
+                          <SelectItem value="training-query" className="text-white hover:bg-navy-700">
+                            AI Training Query
                           </SelectItem>
                           <SelectItem value="general" className="text-white hover:bg-navy-700">
                             General Inquiry
+                          </SelectItem>
+                          <SelectItem value="business-services" className="text-white hover:bg-navy-700">
+                            Business Services Inquiry
                           </SelectItem>
                         </SelectContent>
                       </Select>
@@ -660,29 +653,27 @@ function ContactDialog({ open, onOpenChange }: ContactDialogProps) {
                       </>
                     )}
 
-                    {/* Message field - required for general inquiries */}
-                    {formData.inquiryType === "general" && (
-                      <div>
-                        <Label htmlFor="message" className="text-gray-200">
-                          Message *
-                        </Label>
-                        <Textarea
-                          id="message"
-                          placeholder="Tell us about your inquiry..."
-                          rows={4}
-                          value={formData.message}
-                          onChange={(e) => handleInputChange("message", e.target.value)}
-                          onBlur={() => handleBlur("message")}
-                          className={`${getInputStyling("message", !!errors.message)} resize-none`}
-                        />
-                        {errors.message && touched.message && (
-                          <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
-                            <AlertCircle className="h-4 w-4" />
-                            {errors.message}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                    {/* Message field */}
+                    <div>
+                      <Label htmlFor="message" className="text-gray-200">
+                        Message *
+                      </Label>
+                      <Textarea
+                        id="message"
+                        placeholder="Tell us about your inquiry..."
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => handleInputChange("message", e.target.value)}
+                        onBlur={() => handleBlur("message")}
+                        className={`${getInputStyling("message", !!errors.message)} resize-none`}
+                      />
+                      {errors.message && touched.message && (
+                        <p className="mt-1 text-red-500 text-sm flex items-center gap-1">
+                          <AlertCircle className="h-4 w-4" />
+                          {errors.message}
+                        </p>
+                      )}
+                    </div>
 
                     <Button
                       type="submit"

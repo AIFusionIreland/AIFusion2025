@@ -14,11 +14,7 @@ export default function NavLink({ href, children, className }: NavLinkProps) {
   const pathname = usePathname()
   const router = useRouter()
 
-  // More precise active state logic
-  const isActive =
-    pathname === href ||
-    (href !== "/" && pathname.startsWith(href)) ||
-    (href === "/upcoming-courses" && pathname === "/upcoming-courses")
+  const isActive = pathname === href || (href !== "/" && pathname.startsWith(href))
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()

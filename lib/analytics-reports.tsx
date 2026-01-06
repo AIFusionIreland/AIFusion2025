@@ -336,8 +336,8 @@ export async function generateMockData(period: ReportPeriod): Promise<AnalyticsD
       { path: "/", views: Math.floor(baseViews * variance * 0.4) },
       { path: "/ai-training", views: Math.floor(baseViews * variance * 0.25) },
       { path: "/business", views: Math.floor(baseViews * variance * 0.15) },
-      { path: "/upcoming-courses", views: Math.floor(baseViews * variance * 0.12) },
-      { path: "/services", views: Math.floor(baseViews * variance * 0.08) },
+      { path: "/services", views: Math.floor(baseViews * variance * 0.12) },
+      { path: "/contact", views: Math.floor(baseViews * variance * 0.08) },
     ],
     trafficByHour: Array.from({ length: 24 }, (_, hour) => ({
       hour,

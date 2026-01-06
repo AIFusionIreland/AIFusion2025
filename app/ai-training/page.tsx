@@ -29,6 +29,7 @@ import SiteHeader from "@/components/site-header"
 
 export default function AITrainingPage() {
   const [isEnrollFormOpen, setIsEnrollFormOpen] = useState(false)
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -322,13 +323,13 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                   </li>
                 </ul>
                 <div className="mt-6">
-                  <Link
-                    href="/upcoming-courses"
+                  <button
+                    onClick={() => setIsContactDialogOpen(true)}
                     className="inline-flex items-center text-purple-600 hover:text-purple-500 font-medium transition-colors"
                   >
-                    View Upcoming Online Courses
+                    Book an Online Course
                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  </button>
                 </div>
                 <div className="bg-purple-100 p-4 rounded-lg">
                   <p className="text-purple-800 font-medium">Perfect for: Busy professionals and remote learners</p>
@@ -554,6 +555,101 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                     className="flex-1 bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Submitting..." : "Submit Enrollment"}
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Contact Dialog */}
+        <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
+          <DialogContent className="sm:max-w-[500px] bg-navy-900 border-navy-800 max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-medium text-white">Book an Online Course</h2>
+              </div>
+              <form onSubmit={handleEnrollSubmit} className="space-y-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name" className="text-sm font-medium text-gray-200">
+                      Full Name *
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="mt-1 bg-navy-800 border-navy-700 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email" className="text-sm font-medium text-gray-200">
+                      Email Address *
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="mt-1 bg-navy-800 border-navy-700 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message" className="text-sm font-medium text-gray-200">
+                      Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={4}
+                      className="mt-1 bg-navy-800 border-navy-700 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400 resize-none"
+                      placeholder="Tell us about your AI learning goals, preferred training format, or any questions you have..."
+                    />
+                  </div>
+                </div>
+
+                {submitStatus === "success" && (
+                  <div className="bg-green-900/50 border border-green-700 rounded-lg p-4">
+                    <p className="text-green-200 text-sm">
+                      ✓ Enrollment request submitted successfully! We'll contact you soon.
+                    </p>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="bg-red-900/50 border border-red-700 rounded-lg p-4">
+                    <p className="text-red-200 text-sm">
+                      ✗ There was an error submitting your request. Please try again.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex gap-3 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsContactDialogOpen(false)}
+                    className="flex-1 border-navy-700 text-gray-200 hover:text-white hover:bg-navy-800"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || !formData.name || !formData.email}
+                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit"}
                   </Button>
                 </div>
               </form>

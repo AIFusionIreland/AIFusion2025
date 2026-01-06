@@ -11,12 +11,6 @@ export const metadata: Metadata = {
 export default function TestimonialsPage() {
   const testimonials = [
     {
-      name: "Breid",
-      date: "September 2025",
-      quote:
-        "I had just heard loads of people chatting about chat GPT never actually used it myself but I can see the relevance and help it could be for different reasons I obviously need to get more involved with that type future work and assistance but was good to see an insight into this.....",
-    },
-    {
       name: "Maria",
       date: "September 2025",
       quote:
