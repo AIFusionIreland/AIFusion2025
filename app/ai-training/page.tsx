@@ -99,7 +99,7 @@ This enrollment request was submitted through the AI Fusion AI Training page.
             <div className="text-center space-y-6">
               <div className="flex justify-center mb-8">
                 <Image
-                  src="/images/ai-fusion-classroom-training.jpg"
+                  src="/images/donna-ai-training.jpeg"
                   alt="AI Fusion Classroom Training"
                   width={400}
                   height={300}
@@ -439,30 +439,6 @@ This enrollment request was submitted through the AI Fusion AI Training page.
                   </li>
                 </ul>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Course Feedback Section */}
-        <section className="py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-4xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white mb-4">
-                AI for Beginners Course Feedback
-              </h2>
-              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-                See what our students are saying about their AI learning experience
-              </p>
-            </div>
-
-            <div className="flex justify-center">
-              <Image
-                src="/images/ai-beginners-feedback.png"
-                alt="AI for Beginners Course Feedback - Student testimonials showing 5-star reviews"
-                width={600}
-                height={900}
-                className="rounded-2xl shadow-2xl"
-              />
             </div>
           </div>
         </section>
