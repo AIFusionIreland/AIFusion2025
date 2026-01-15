@@ -134,15 +134,6 @@ export default function Home() {
                   <Calendar className="w-5 h-5" />
                   Book a Free 15-Minute AI Strategy Call
                 </button>
-                <a
-                  href="https://stan.store/AIFusion"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border-2 border-white/30 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg text-lg"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                  Download the Small Business AI Quick-Start Guide
-                </a>
               </div>
             </div>
           </div>
@@ -163,7 +154,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/resturant-20and-20ai.png"
+                  src="/images/resturant-20and-2020ai.png"
                   alt="Restaurant using AI technology for customer service in Ireland"
                   className="w-full h-64 object-cover"
                 />
@@ -253,7 +244,7 @@ export default function Home() {
               </div>
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/woman-20relaxing-20while-20ai-20wroks.jpeg"
+                  src="/images/woman-20relaxing-20while-20ai-20works.jpeg"
                   alt="Business owner relaxing while AI automation handles tasks"
                   className="w-full h-full object-cover"
                 />
