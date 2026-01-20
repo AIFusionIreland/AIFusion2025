@@ -154,7 +154,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/resturant-20and-2020ai.png"
+                  src="/images/resturant-20and-20ai.png"
                   alt="Restaurant using AI technology for customer service in Ireland"
                   className="w-full h-64 object-cover"
                 />
