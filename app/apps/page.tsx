@@ -3,7 +3,9 @@
 import SiteHeader from "@/components/site-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Users, Fuel } from "lucide-react"
+import { ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import Image from "next/image"
 
 export default function AppsPage() {
@@ -23,12 +25,11 @@ export default function AppsPage() {
         </div>
       </section>
 
-      {/* Apps Grid Section */}
+      {/* Apps Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Fuel the Gap App */}
-            <Card className="bg-navy-900 border-navy-700 hover:border-green-500 transition-all duration-300 group overflow-hidden">
+        <div className="max-w-xl mx-auto">
+          {/* Fuel the Gap App */}
+          <Card className="bg-navy-900 border-navy-700 hover:border-green-500 transition-all duration-300 group overflow-hidden">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-navy-800 flex items-center justify-center">
@@ -93,9 +94,17 @@ export default function AppsPage() {
                     </li>
                   </ul>
                 </div>
+
+                <div className="mt-6 pt-6 border-t border-navy-700">
+                  <Button asChild className="w-full bg-green-600 hover:bg-green-700 text-white">
+                    <Link href="https://fuel-the-gap.replit.app/" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Launch App
+                    </Link>
+                  </Button>
+                </div>
               </CardContent>
             </Card>
-          </div>
         </div>
       </section>
     </div>
