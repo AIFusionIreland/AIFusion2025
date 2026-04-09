@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { GraduationCap, Home, Menu, Facebook, HelpCircle, Briefcase, Mail, BookOpen, Star } from "lucide-react"
+import { GraduationCap, Home, Menu, Facebook, HelpCircle, Briefcase, Mail, BookOpen, Star, AppWindow } from "lucide-react"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import NavLink from "@/components/nav-link"
 import ContactDialog from "@/components/contact-dialog"
@@ -69,6 +69,10 @@ const SiteHeader = () => {
                 <Briefcase className="h-4 w-4" />
                 Business Services
               </NavLink>
+              <NavLink href="/apps" className="flex items-center gap-1.5">
+                <AppWindow className="h-4 w-4" />
+                Apps
+              </NavLink>
               <NavLink href="/blog" className="flex items-center gap-1.5">
                 <BookOpen className="h-4 w-4" />
                 Blog
@@ -131,6 +135,10 @@ const SiteHeader = () => {
                   <NavLink href="/business-services" className="flex items-center gap-2 p-2">
                     <Briefcase className="h-4 w-4" />
                     Business Services
+                  </NavLink>
+                  <NavLink href="/apps" className="flex items-center gap-2 p-2">
+                    <AppWindow className="h-4 w-4" />
+                    Apps
                   </NavLink>
                   <NavLink href="/blog" className="flex items-center gap-2 p-2">
                     <BookOpen className="h-4 w-4" />
