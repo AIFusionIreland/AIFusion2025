@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import SiteHeader from "@/components/site-header"
 import { Quote, Star } from "lucide-react"
 
@@ -63,6 +64,14 @@ export default function TestimonialsPage() {
                   className="bg-navy-900/50 border border-navy-800 rounded-lg p-8 hover:border-green-500/50 transition-all duration-300 relative"
                 >
                   <div className="flex items-start gap-4 mb-6">
+                    <div className="w-24 h-16 relative flex-shrink-0 bg-white rounded-md overflow-hidden">
+                      <Image
+                        src="/images/mcdaids-logo.jpeg"
+                        alt="McDaids Logo"
+                        fill
+                        className="object-contain p-1"
+                      />
+                    </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-white">{testimonial.name}</h3>
                       <p className="text-sm text-green-400 font-medium">{testimonial.business}</p>
