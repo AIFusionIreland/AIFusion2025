@@ -3,7 +3,7 @@
 import SiteHeader from "@/components/site-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
@@ -105,6 +105,45 @@ export default function AppsPage() {
                 </div>
               </CardContent>
             </Card>
+
+          {/* Video Thumbnails Section */}
+          <div className="mt-12">
+            <h2 className="text-xl font-semibold text-white mb-6 text-center">Watch Videos</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {/* TikTok Video 1 */}
+              <Link 
+                href="https://vm.tiktok.com/ZNR4Bft87/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group relative aspect-[9/16] bg-navy-800 rounded-lg overflow-hidden border border-navy-700 hover:border-green-500 transition-all duration-300"
+              >
+                <div className="absolute inset-0 flex items-center justify-center bg-navy-800">
+                  <Image
+                    src="/images/fuel-the-gap-logo.jpeg"
+                    alt="Fuel the Gap Video"
+                    fill
+                    className="object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                  />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-green-600/90 flex items-center justify-center group-hover:bg-green-500 transition-colors">
+                    <Play className="w-5 h-5 text-white ml-0.5" />
+                  </div>
+                </div>
+                <div className="absolute bottom-2 left-2 right-2">
+                  <Badge className="bg-black/60 text-white text-xs">TikTok</Badge>
+                </div>
+              </Link>
+
+              {/* Placeholder for future videos */}
+              <div className="aspect-[9/16] bg-navy-800/50 rounded-lg border border-dashed border-navy-700 flex items-center justify-center">
+                <span className="text-gray-500 text-sm">More coming soon</span>
+              </div>
+              <div className="hidden sm:flex aspect-[9/16] bg-navy-800/50 rounded-lg border border-dashed border-navy-700 items-center justify-center">
+                <span className="text-gray-500 text-sm">More coming soon</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
