@@ -31,13 +31,13 @@ export default function AppsPage() {
           {/* Fuel the Gap App */}
           <Card className="bg-navy-900 border-navy-700 hover:border-green-500 transition-all duration-300 group overflow-hidden">
               <CardHeader className="pb-4">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-navy-800 flex items-center justify-center">
+                <div className="flex flex-col items-center mb-4">
+                  <div className="w-32 h-32 rounded-xl overflow-hidden bg-navy-800 flex items-center justify-center mb-4">
                     <Image
                       src="/images/fuel-the-gap-logo.jpeg"
                       alt="Fuel the Gap Logo"
-                      width={80}
-                      height={80}
+                      width={128}
+                      height={128}
                       className="object-cover"
                     />
                   </div>
@@ -45,10 +45,11 @@ export default function AppsPage() {
                     Live
                   </Badge>
                 </div>
-                <CardTitle className="text-white text-xl group-hover:text-green-400 transition-colors">
+                <CardTitle className="text-white text-xl group-hover:text-green-400 transition-colors text-center">
                   Fuel the Gap
                 </CardTitle>
-                <CardDescription className="text-gray-400">Community App</CardDescription>
+                <CardDescription className="text-gray-400 text-center">Community App</CardDescription>
+                <p className="text-sm text-gray-500 text-center mt-2">Launched April 2026</p>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-300 mb-4">
