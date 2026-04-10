@@ -160,9 +160,30 @@ export default function AppsPage() {
                   <Badge className="bg-black/60 text-white text-xs">TikTok</Badge>
                 </div>
               </Link>
-              <div className="hidden sm:flex aspect-[9/16] bg-navy-800/50 rounded-lg border border-dashed border-navy-700 items-center justify-center">
-                <span className="text-gray-500 text-sm">More coming soon</span>
-              </div>
+              {/* TikTok Video 3 */}
+              <Link 
+                href="https://vm.tiktok.com/ZNR457DH1/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hidden sm:block group relative aspect-[9/16] bg-navy-800 rounded-lg overflow-hidden border border-navy-700 hover:border-green-500 transition-all duration-300"
+              >
+                <div className="absolute inset-0 flex items-center justify-center bg-navy-800">
+                  <Image
+                    src="/images/fuel-the-gap-logo.jpeg"
+                    alt="Fuel the Gap Video"
+                    fill
+                    className="object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                  />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-green-600/90 flex items-center justify-center group-hover:bg-green-500 transition-colors">
+                    <Play className="w-5 h-5 text-white ml-0.5" />
+                  </div>
+                </div>
+                <div className="absolute bottom-2 left-2 right-2">
+                  <Badge className="bg-black/60 text-white text-xs">TikTok</Badge>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
