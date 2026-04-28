@@ -46,6 +46,7 @@ export default function FuelPricesDonegalPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
+  const [debugInfo, setDebugInfo] = useState<string>("")
 
   useEffect(() => {
     async function fetchPrices() {
@@ -53,13 +54,21 @@ export default function FuelPricesDonegalPage() {
         const response = await fetch("https://fuel-the-gap.replit.app/api/prices")
         if (!response.ok) throw new Error("Failed to fetch prices")
         
-        const data: FuelPrice[] = await response.json()
+        const rawData = await response.json()
+        
+        // Handle if the API wraps data in an object
+        const data: FuelPrice[] = Array.isArray(rawData) ? rawData : (rawData.data || rawData.prices || [])
+        
+        const fuelTypes = [...new Set(data.map(p => p.fuelType))]
+        const currencies = [...new Set(data.map(p => p.currency))]
+        
+        setDebugInfo(`Total records: ${data.length}, Fuel types: ${fuelTypes.join(', ')}, Currencies: ${currencies.join(', ')}`)
         
         // Filter for Donegal prices (EUR currency)
         const donegalPrices = data.filter(p => p.currency === "EUR")
         
         // Process prices by fuel type (case-insensitive matching)
-        const diesel = donegalPrices.filter(p => p.fuelType.toLowerCase() === "diesel")
+        const diesel = donegalPrices.filter(p => p.fuelType?.toLowerCase() === "diesel")
         const petrol = donegalPrices.filter(p => p.fuelType.toLowerCase() === "petrol")
         const heatingOil = donegalPrices.filter(p => p.fuelType.toLowerCase() === "home_heating_oil")
 
@@ -152,6 +161,12 @@ export default function FuelPricesDonegalPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
             Current Fuel Prices in Donegal
           </h2>
+          
+          {debugInfo && (
+            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mb-6">
+              <p className="text-yellow-400 text-sm font-mono">{debugInfo}</p>
+            </div>
+          )}
           
           {loading ? (
             <div className="flex items-center justify-center py-12">
