@@ -112,7 +112,7 @@ export default function FuelPricesDerryPage() {
   }, [])
 
   const formatPrice = (price: number) => {
-    return `${price.toFixed(1)}p`
+    return price.toFixed(1)
   }
 
   return (
