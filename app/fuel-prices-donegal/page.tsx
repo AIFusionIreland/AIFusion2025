@@ -111,8 +111,8 @@ export default function FuelPricesDonegalPage() {
     fetchPrices()
   }, [])
 
-  const formatPrice = (priceInCents: number) => {
-    return `€${(priceInCents / 1000).toFixed(2)}`
+  const formatPrice = (price: number) => {
+    return `${price.toFixed(1)}c`
   }
 
   
