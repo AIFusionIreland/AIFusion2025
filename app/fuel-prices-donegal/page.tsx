@@ -46,32 +46,27 @@ export default function FuelPricesDonegalPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
-  const [debugInfo, setDebugInfo] = useState<string>("")
 
   useEffect(() => {
     async function fetchPrices() {
       try {
-        const response = await fetch("https://fuel-the-gap.replit.app/api/prices")
-        if (!response.ok) throw new Error("Failed to fetch prices")
+        // Fetch each fuel type separately with filtered queries to get all EUR prices
+        const [dieselRes, petrolRes, heatingOilRes] = await Promise.all([
+          fetch("https://fuel-the-gap.replit.app/api/prices?currency=EUR&fuelType=diesel"),
+          fetch("https://fuel-the-gap.replit.app/api/prices?currency=EUR&fuelType=petrol"),
+          fetch("https://fuel-the-gap.replit.app/api/prices?currency=EUR&fuelType=home_heating_oil")
+        ])
         
-        const rawData = await response.json()
+        if (!dieselRes.ok || !petrolRes.ok || !heatingOilRes.ok) {
+          throw new Error("Failed to fetch prices")
+        }
         
-        // Debug: Show full API response structure
-        console.log("[v0] Raw API response:", rawData)
-        setDebugInfo(`API Keys: ${Object.keys(rawData).join(', ')}, Is Array: ${Array.isArray(rawData)}, Type: ${typeof rawData}`)
+        const diesel: FuelPrice[] = await dieselRes.json()
+        const petrol: FuelPrice[] = await petrolRes.json()
+        const heatingOil: FuelPrice[] = await heatingOilRes.json()
         
-        // Handle if the API wraps data in an object
-        const data: FuelPrice[] = Array.isArray(rawData) ? rawData : (rawData.data || rawData.prices || [])
-        
-        
-        
-        // Filter for Donegal prices (EUR currency)
-        const donegalPrices = data.filter(p => p.currency === "EUR")
-        
-        // Process prices by fuel type (case-insensitive matching)
-        const diesel = donegalPrices.filter(p => p.fuelType?.toLowerCase() === "diesel")
-        const petrol = donegalPrices.filter(p => p.fuelType.toLowerCase() === "petrol")
-        const heatingOil = donegalPrices.filter(p => p.fuelType.toLowerCase() === "home_heating_oil")
+        // Combine all data for date calculation
+        const allData = [...diesel, ...petrol, ...heatingOil]
 
         const getLowestHighest = (arr: FuelPrice[]) => {
           if (arr.length === 0) return { lowest: null, highest: null, prices: arr }
@@ -90,7 +85,7 @@ export default function FuelPricesDonegalPage() {
         })
 
         // Find the most recent update
-        const allDates = data
+        const allDates = allData
           .map(p => new Date(p.updatedAt || p.reportedAt))
           .filter(d => !isNaN(d.getTime()))
         
@@ -163,11 +158,7 @@ export default function FuelPricesDonegalPage() {
             Current Fuel Prices in Donegal
           </h2>
           
-          {debugInfo && (
-            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mb-6">
-              <p className="text-yellow-400 text-sm font-mono break-all">{debugInfo}</p>
-            </div>
-          )}
+          
           
           
           
@@ -225,14 +216,7 @@ export default function FuelPricesDonegalPage() {
                       )}
                     </div>
                   ) : (
-                    <div className="space-y-3">
-                      <p className="text-gray-400">No diesel prices reported for Donegal yet</p>
-                      <Button asChild size="sm" className="bg-green-600 hover:bg-green-700">
-                        <Link href="https://fuel-the-gap.replit.app/" target="_blank">
-                          Be the first to report
-                        </Link>
-                      </Button>
-                    </div>
+                    <p className="text-gray-500">No diesel prices available</p>
                   )}
                 </CardContent>
               </Card>
