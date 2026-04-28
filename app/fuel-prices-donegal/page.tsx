@@ -46,7 +46,6 @@ export default function FuelPricesDonegalPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
-  const [debugInfo, setDebugInfo] = useState<string>("")
 
   useEffect(() => {
     async function fetchPrices() {
@@ -59,12 +58,7 @@ export default function FuelPricesDonegalPage() {
         // Handle if the API wraps data in an object
         const data: FuelPrice[] = Array.isArray(rawData) ? rawData : (rawData.data || rawData.prices || [])
         
-        const fuelTypes = [...new Set(data.map(p => p.fuelType))]
-        const currencies = [...new Set(data.map(p => p.currency))]
-        const eurPrices = data.filter(p => p.currency === "EUR")
-        const eurFuelTypes = [...new Set(eurPrices.map(p => p.fuelType))]
         
-        setDebugInfo(`Total: ${data.length}, EUR: ${eurPrices.length}, EUR Fuel Types: ${eurFuelTypes.join(', ')}, All Fuel types: ${fuelTypes.join(', ')}`)
         
         // Filter for Donegal prices (EUR currency)
         const donegalPrices = data.filter(p => p.currency === "EUR")
@@ -164,11 +158,7 @@ export default function FuelPricesDonegalPage() {
             Current Fuel Prices in Donegal
           </h2>
           
-          {debugInfo && (
-            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mb-6">
-              <p className="text-yellow-400 text-sm font-mono">{debugInfo}</p>
-            </div>
-          )}
+          
           
           {loading ? (
             <div className="flex items-center justify-center py-12">
@@ -224,7 +214,14 @@ export default function FuelPricesDonegalPage() {
                       )}
                     </div>
                   ) : (
-                    <p className="text-gray-500">No diesel prices reported yet</p>
+                    <div className="space-y-3">
+                      <p className="text-gray-400">No diesel prices reported for Donegal yet</p>
+                      <Button asChild size="sm" className="bg-green-600 hover:bg-green-700">
+                        <Link href="https://fuel-the-gap.replit.app/" target="_blank">
+                          Be the first to report
+                        </Link>
+                      </Button>
+                    </div>
                   )}
                 </CardContent>
               </Card>
