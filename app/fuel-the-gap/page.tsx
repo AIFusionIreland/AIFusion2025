@@ -18,9 +18,14 @@ export default function FuelTheGapPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Fuel the Gap</h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-6">
               A crowd-sourced app for local fuel prices in Derry and Donegal. Find the cheapest fuel near you with real-time community updates.
             </p>
+            <Button asChild variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+              <Link href="/fuel-prices-donegal">
+                View Today&apos;s Fuel Prices in Donegal
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
