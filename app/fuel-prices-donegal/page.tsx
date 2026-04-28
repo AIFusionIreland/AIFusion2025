@@ -409,18 +409,11 @@ export default function FuelPricesDonegalPage() {
           <p className="text-gray-300 max-w-2xl mx-auto mb-6">
             Fuel the Gap relies on people like you sharing prices. It only takes a few seconds to submit a price and help others save money.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="bg-green-600 hover:bg-green-700 text-white">
-              <Link href="https://fuel-the-gap.replit.app/" target="_blank" rel="noopener noreferrer">
-                Submit a Price
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="border-gray-600 text-gray-300 hover:bg-navy-800">
-              <Link href="/fuel-the-gap">
-                Learn More
-              </Link>
-            </Button>
-          </div>
+          <Button asChild className="bg-green-600 hover:bg-green-700 text-white">
+            <Link href="https://fuel-the-gap.replit.app/" target="_blank" rel="noopener noreferrer">
+              Submit a Price
+            </Link>
+          </Button>
         </div>
       </section>
 
