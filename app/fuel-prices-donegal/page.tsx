@@ -310,44 +310,7 @@ export default function FuelPricesDonegalPage() {
         </div>
       </section>
 
-      {/* Comparison Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-            Donegal vs Derry Prices
-          </h2>
-          <Card className="bg-navy-900 border-navy-700">
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="text-center">
-                  <Badge className="bg-green-500/20 text-green-400 border-green-500/30 mb-3">
-                    Donegal (EUR)
-                  </Badge>
-                  <p className="text-3xl font-bold text-white mb-2">
-                    {prices?.diesel.lowest ? formatPrice(prices.diesel.lowest.pricePerLitre) : "€1.45"}/L
-                  </p>
-                  <p className="text-gray-400">Cheapest diesel</p>
-                </div>
-                <div className="text-center">
-                  <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 mb-3">
-                    Derry (GBP)
-                  </Badge>
-                  <p className="text-3xl font-bold text-white mb-2">Check App</p>
-                  <p className="text-gray-400">Compare in Fuel the Gap</p>
-                </div>
-              </div>
-              <div className="mt-6 pt-6 border-t border-navy-700 text-center">
-                <p className="text-gray-400 mb-2">
-                  <strong className="text-white">Remember:</strong> Currency exchange rates affect real savings.
-                </p>
-                <p className="text-sm text-gray-500">
-                  Use Fuel the Gap to compare prices in both EUR and GBP to find the best deal for you.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      
 
       {/* App Promotion Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-900/30 to-navy-950">
