@@ -115,10 +115,7 @@ export default function FuelPricesDonegalPage() {
     return `€${(priceInCents / 1000).toFixed(2)}`
   }
 
-  const calculateSavings = (lowest: number, highest: number) => {
-    const diff = (highest - lowest) / 1000
-    return `${diff.toFixed(0)}c`
-  }
+  
 
   return (
     <div className="min-h-screen bg-navy-950">
@@ -188,32 +185,14 @@ export default function FuelPricesDonegalPage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   {prices?.diesel.lowest ? (
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm text-gray-400">Lowest Price</p>
-                        <p className="text-2xl font-bold text-green-400">
-                          {formatPrice(prices.diesel.lowest.pricePerLitre)}/L
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {prices.diesel.lowest.stationName}, {prices.diesel.lowest.town}
-                        </p>
-                      </div>
-                      {prices.diesel.highest && prices.diesel.highest.id !== prices.diesel.lowest.id && (
-                        <>
-                          <div>
-                            <p className="text-sm text-gray-400">Highest Price</p>
-                            <p className="text-xl text-red-400">
-                              {formatPrice(prices.diesel.highest.pricePerLitre)}/L
-                            </p>
-                          </div>
-                          <div className="pt-2 border-t border-navy-700">
-                            <p className="text-sm text-gray-400">Potential Savings</p>
-                            <p className="text-lg font-semibold text-green-400">
-                              {calculateSavings(prices.diesel.lowest.pricePerLitre, prices.diesel.highest.pricePerLitre)} per litre
-                            </p>
-                          </div>
-                        </>
-                      )}
+                    <div>
+                      <p className="text-sm text-gray-400">Lowest Price</p>
+                      <p className="text-2xl font-bold text-green-400">
+                        {formatPrice(prices.diesel.lowest.pricePerLitre)}/L
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {prices.diesel.lowest.stationName}, {prices.diesel.lowest.town}
+                      </p>
                     </div>
                   ) : (
                     <p className="text-gray-500">No diesel prices available</p>
@@ -231,32 +210,14 @@ export default function FuelPricesDonegalPage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   {prices?.petrol.lowest ? (
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm text-gray-400">Lowest Price</p>
-                        <p className="text-2xl font-bold text-green-400">
-                          {formatPrice(prices.petrol.lowest.pricePerLitre)}/L
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {prices.petrol.lowest.stationName}, {prices.petrol.lowest.town}
-                        </p>
-                      </div>
-                      {prices.petrol.highest && prices.petrol.highest.id !== prices.petrol.lowest.id && (
-                        <>
-                          <div>
-                            <p className="text-sm text-gray-400">Highest Price</p>
-                            <p className="text-xl text-red-400">
-                              {formatPrice(prices.petrol.highest.pricePerLitre)}/L
-                            </p>
-                          </div>
-                          <div className="pt-2 border-t border-navy-700">
-                            <p className="text-sm text-gray-400">Potential Savings</p>
-                            <p className="text-lg font-semibold text-green-400">
-                              {calculateSavings(prices.petrol.lowest.pricePerLitre, prices.petrol.highest.pricePerLitre)} per litre
-                            </p>
-                          </div>
-                        </>
-                      )}
+                    <div>
+                      <p className="text-sm text-gray-400">Lowest Price</p>
+                      <p className="text-2xl font-bold text-green-400">
+                        {formatPrice(prices.petrol.lowest.pricePerLitre)}/L
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {prices.petrol.lowest.stationName}, {prices.petrol.lowest.town}
+                      </p>
                     </div>
                   ) : (
                     <p className="text-gray-500">No petrol prices reported yet</p>
@@ -274,32 +235,14 @@ export default function FuelPricesDonegalPage() {
                 </CardHeader>
                 <CardContent className="text-center">
                   {prices?.heatingOil.lowest ? (
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm text-gray-400">Lowest Price (per litre)</p>
-                        <p className="text-2xl font-bold text-green-400">
-                          {formatPrice(prices.heatingOil.lowest.pricePerLitre)}/L
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {prices.heatingOil.lowest.stationName}, {prices.heatingOil.lowest.town}
-                        </p>
-                      </div>
-                      {prices.heatingOil.highest && prices.heatingOil.highest.id !== prices.heatingOil.lowest.id && (
-                        <>
-                          <div>
-                            <p className="text-sm text-gray-400">Highest Price</p>
-                            <p className="text-xl text-red-400">
-                              {formatPrice(prices.heatingOil.highest.pricePerLitre)}/L
-                            </p>
-                          </div>
-                          <div className="pt-2 border-t border-navy-700">
-                            <p className="text-sm text-gray-400">Savings on 500L</p>
-                            <p className="text-lg font-semibold text-green-400">
-                              €{(((prices.heatingOil.highest.pricePerLitre - prices.heatingOil.lowest.pricePerLitre) / 1000) * 500).toFixed(0)}
-                            </p>
-                          </div>
-                        </>
-                      )}
+                    <div>
+                      <p className="text-sm text-gray-400">Lowest Price (per litre)</p>
+                      <p className="text-2xl font-bold text-green-400">
+                        {formatPrice(prices.heatingOil.lowest.pricePerLitre)}/L
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {prices.heatingOil.lowest.stationName}, {prices.heatingOil.lowest.town}
+                      </p>
                     </div>
                   ) : (
                     <p className="text-gray-500">No heating oil prices reported yet</p>
