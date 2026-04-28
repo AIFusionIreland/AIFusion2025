@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import SiteHeader from "@/components/site-header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -16,16 +17,103 @@ import {
   Star,
   ExternalLink,
   Droplets,
-  Flame
+  Flame,
+  Loader2
 } from "lucide-react"
 
+interface FuelPrice {
+  id: number
+  fuelType: string
+  currency: string
+  pricePerLitre: number
+  stationName: string
+  address: string
+  town: string
+  county: string
+  postcode?: string
+  reportedAt: string
+  updatedAt: string | null
+}
+
+interface ProcessedPrices {
+  diesel: { lowest: FuelPrice | null; highest: FuelPrice | null; prices: FuelPrice[] }
+  petrol: { lowest: FuelPrice | null; highest: FuelPrice | null; prices: FuelPrice[] }
+  heatingOil: { lowest: FuelPrice | null; highest: FuelPrice | null; prices: FuelPrice[] }
+}
+
 export default function FuelPricesDonegalPage() {
-  const lastUpdated = new Date().toLocaleDateString('en-IE', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  })
+  const [prices, setPrices] = useState<ProcessedPrices | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<string>("")
+
+  useEffect(() => {
+    async function fetchPrices() {
+      try {
+        const response = await fetch("https://fuel-the-gap.replit.app/api/prices")
+        if (!response.ok) throw new Error("Failed to fetch prices")
+        
+        const data: FuelPrice[] = await response.json()
+        
+        // Filter for Donegal prices (EUR currency)
+        const donegalPrices = data.filter(p => p.currency === "EUR")
+        
+        // Process prices by fuel type
+        const diesel = donegalPrices.filter(p => p.fuelType === "diesel")
+        const petrol = donegalPrices.filter(p => p.fuelType === "petrol")
+        const heatingOil = donegalPrices.filter(p => p.fuelType === "home_heating_oil")
+
+        const getLowestHighest = (arr: FuelPrice[]) => {
+          if (arr.length === 0) return { lowest: null, highest: null, prices: arr }
+          const sorted = [...arr].sort((a, b) => a.pricePerLitre - b.pricePerLitre)
+          return { 
+            lowest: sorted[0], 
+            highest: sorted[sorted.length - 1],
+            prices: arr
+          }
+        }
+
+        setPrices({
+          diesel: getLowestHighest(diesel),
+          petrol: getLowestHighest(petrol),
+          heatingOil: getLowestHighest(heatingOil)
+        })
+
+        // Find the most recent update
+        const allDates = data
+          .map(p => new Date(p.updatedAt || p.reportedAt))
+          .filter(d => !isNaN(d.getTime()))
+        
+        if (allDates.length > 0) {
+          const mostRecent = new Date(Math.max(...allDates.map(d => d.getTime())))
+          setLastUpdated(mostRecent.toLocaleDateString('en-IE', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          }))
+        }
+      } catch (err) {
+        setError("Unable to load live prices. Please try again later.")
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPrices()
+  }, [])
+
+  const formatPrice = (priceInCents: number) => {
+    return `€${(priceInCents / 1000).toFixed(2)}`
+  }
+
+  const calculateSavings = (lowest: number, highest: number) => {
+    const diff = (highest - lowest) / 1000
+    return `${diff.toFixed(0)}c`
+  }
 
   return (
     <div className="min-h-screen bg-navy-950">
@@ -35,7 +123,7 @@ export default function FuelPricesDonegalPage() {
       <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-navy-900 via-navy-950 to-green-900">
         <div className="max-w-4xl mx-auto text-center">
           <Badge className="bg-green-500/20 text-green-400 border-green-500/30 mb-4">
-            Updated Daily
+            Live Prices from Fuel the Gap
           </Badge>
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 text-balance">
             Cheapest Fuel Prices in Donegal Today
@@ -46,10 +134,12 @@ export default function FuelPricesDonegalPage() {
           <p className="text-gray-400 max-w-2xl mx-auto mb-6">
             Fuel prices vary across Donegal. Save <strong className="text-green-400">€5–€15 per fill</strong> by checking before you buy.
           </p>
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-6">
-            <Clock className="w-4 h-4" />
-            <span>Last Updated: {lastUpdated}</span>
-          </div>
+          {lastUpdated && (
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-6">
+              <Clock className="w-4 h-4" />
+              <span>Last Updated: {lastUpdated}</span>
+            </div>
+          )}
           <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 max-w-md mx-auto">
             <p className="text-red-400 font-semibold">Don&apos;t fill up before checking!</p>
           </div>
@@ -62,84 +152,162 @@ export default function FuelPricesDonegalPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
             Current Fuel Prices in Donegal
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Diesel */}
-            <Card className="bg-navy-900 border-navy-700">
-              <CardHeader className="text-center pb-2">
-                <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-3">
-                  <Fuel className="w-6 h-6 text-yellow-400" />
-                </div>
-                <CardTitle className="text-white">Diesel</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-400">Lowest Price</p>
-                    <p className="text-2xl font-bold text-green-400">€1.45/L</p>
+          
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 text-green-400 animate-spin" />
+              <span className="ml-3 text-gray-400">Loading live prices...</span>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-red-400 mb-4">{error}</p>
+              <Button asChild className="bg-green-600 hover:bg-green-700">
+                <Link href="https://fuel-the-gap.replit.app/" target="_blank">
+                  View prices on Fuel the Gap
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Diesel */}
+              <Card className="bg-navy-900 border-navy-700">
+                <CardHeader className="text-center pb-2">
+                  <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-3">
+                    <Fuel className="w-6 h-6 text-yellow-400" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Highest Price</p>
-                    <p className="text-xl text-red-400">€1.59/L</p>
-                  </div>
-                  <div className="pt-2 border-t border-navy-700">
-                    <p className="text-sm text-gray-400">Potential Savings</p>
-                    <p className="text-lg font-semibold text-green-400">14c per litre</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <CardTitle className="text-white">Diesel</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  {prices?.diesel.lowest ? (
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm text-gray-400">Lowest Price</p>
+                        <p className="text-2xl font-bold text-green-400">
+                          {formatPrice(prices.diesel.lowest.pricePerLitre)}/L
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {prices.diesel.lowest.stationName}, {prices.diesel.lowest.town}
+                        </p>
+                      </div>
+                      {prices.diesel.highest && prices.diesel.highest.id !== prices.diesel.lowest.id && (
+                        <>
+                          <div>
+                            <p className="text-sm text-gray-400">Highest Price</p>
+                            <p className="text-xl text-red-400">
+                              {formatPrice(prices.diesel.highest.pricePerLitre)}/L
+                            </p>
+                          </div>
+                          <div className="pt-2 border-t border-navy-700">
+                            <p className="text-sm text-gray-400">Potential Savings</p>
+                            <p className="text-lg font-semibold text-green-400">
+                              {calculateSavings(prices.diesel.lowest.pricePerLitre, prices.diesel.highest.pricePerLitre)} per litre
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">No diesel prices reported yet</p>
+                  )}
+                </CardContent>
+              </Card>
 
-            {/* Petrol */}
-            <Card className="bg-navy-900 border-navy-700">
-              <CardHeader className="text-center pb-2">
-                <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
-                  <Droplets className="w-6 h-6 text-blue-400" />
-                </div>
-                <CardTitle className="text-white">Petrol</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-400">Lowest Price</p>
-                    <p className="text-2xl font-bold text-green-400">€1.52/L</p>
+              {/* Petrol */}
+              <Card className="bg-navy-900 border-navy-700">
+                <CardHeader className="text-center pb-2">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
+                    <Droplets className="w-6 h-6 text-blue-400" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Highest Price</p>
-                    <p className="text-xl text-red-400">€1.65/L</p>
-                  </div>
-                  <div className="pt-2 border-t border-navy-700">
-                    <p className="text-sm text-gray-400">Potential Savings</p>
-                    <p className="text-lg font-semibold text-green-400">13c per litre</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <CardTitle className="text-white">Petrol</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  {prices?.petrol.lowest ? (
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm text-gray-400">Lowest Price</p>
+                        <p className="text-2xl font-bold text-green-400">
+                          {formatPrice(prices.petrol.lowest.pricePerLitre)}/L
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {prices.petrol.lowest.stationName}, {prices.petrol.lowest.town}
+                        </p>
+                      </div>
+                      {prices.petrol.highest && prices.petrol.highest.id !== prices.petrol.lowest.id && (
+                        <>
+                          <div>
+                            <p className="text-sm text-gray-400">Highest Price</p>
+                            <p className="text-xl text-red-400">
+                              {formatPrice(prices.petrol.highest.pricePerLitre)}/L
+                            </p>
+                          </div>
+                          <div className="pt-2 border-t border-navy-700">
+                            <p className="text-sm text-gray-400">Potential Savings</p>
+                            <p className="text-lg font-semibold text-green-400">
+                              {calculateSavings(prices.petrol.lowest.pricePerLitre, prices.petrol.highest.pricePerLitre)} per litre
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">No petrol prices reported yet</p>
+                  )}
+                </CardContent>
+              </Card>
 
-            {/* Heating Oil */}
-            <Card className="bg-navy-900 border-navy-700">
-              <CardHeader className="text-center pb-2">
-                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mx-auto mb-3">
-                  <Flame className="w-6 h-6 text-orange-400" />
-                </div>
-                <CardTitle className="text-white">Heating Oil</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-400">Lowest Price (500L)</p>
-                    <p className="text-2xl font-bold text-green-400">€380</p>
+              {/* Heating Oil */}
+              <Card className="bg-navy-900 border-navy-700">
+                <CardHeader className="text-center pb-2">
+                  <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center mx-auto mb-3">
+                    <Flame className="w-6 h-6 text-orange-400" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Highest Price (500L)</p>
-                    <p className="text-xl text-red-400">€450</p>
-                  </div>
-                  <div className="pt-2 border-t border-navy-700">
-                    <p className="text-sm text-gray-400">Potential Savings</p>
-                    <p className="text-lg font-semibold text-green-400">€70 per fill</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <CardTitle className="text-white">Heating Oil</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  {prices?.heatingOil.lowest ? (
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm text-gray-400">Lowest Price (per litre)</p>
+                        <p className="text-2xl font-bold text-green-400">
+                          {formatPrice(prices.heatingOil.lowest.pricePerLitre)}/L
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {prices.heatingOil.lowest.stationName}, {prices.heatingOil.lowest.town}
+                        </p>
+                      </div>
+                      {prices.heatingOil.highest && prices.heatingOil.highest.id !== prices.heatingOil.lowest.id && (
+                        <>
+                          <div>
+                            <p className="text-sm text-gray-400">Highest Price</p>
+                            <p className="text-xl text-red-400">
+                              {formatPrice(prices.heatingOil.highest.pricePerLitre)}/L
+                            </p>
+                          </div>
+                          <div className="pt-2 border-t border-navy-700">
+                            <p className="text-sm text-gray-400">Savings on 500L</p>
+                            <p className="text-lg font-semibold text-green-400">
+                              €{(((prices.heatingOil.highest.pricePerLitre - prices.heatingOil.lowest.pricePerLitre) / 1000) * 500).toFixed(0)}
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">No heating oil prices reported yet</p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* View all prices link */}
+          <div className="mt-8 text-center">
+            <Button asChild variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+              <Link href="https://fuel-the-gap.replit.app/" target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                View All Prices on Fuel the Gap
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -203,15 +371,17 @@ export default function FuelPricesDonegalPage() {
                   <Badge className="bg-green-500/20 text-green-400 border-green-500/30 mb-3">
                     Donegal (EUR)
                   </Badge>
-                  <p className="text-3xl font-bold text-white mb-2">€1.45/L</p>
-                  <p className="text-gray-400">Average diesel price</p>
+                  <p className="text-3xl font-bold text-white mb-2">
+                    {prices?.diesel.lowest ? formatPrice(prices.diesel.lowest.pricePerLitre) : "€1.45"}/L
+                  </p>
+                  <p className="text-gray-400">Cheapest diesel</p>
                 </div>
                 <div className="text-center">
                   <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30 mb-3">
                     Derry (GBP)
                   </Badge>
-                  <p className="text-3xl font-bold text-white mb-2">£1.38/L</p>
-                  <p className="text-gray-400">Average diesel price</p>
+                  <p className="text-3xl font-bold text-white mb-2">Check App</p>
+                  <p className="text-gray-400">Compare in Fuel the Gap</p>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-navy-700 text-center">
@@ -414,10 +584,7 @@ export default function FuelPricesDonegalPage() {
             Fuel the Gap is a local app built for Donegal and Derry communities. Our mission is simple: help people save money on fuel by providing real-time, crowd-sourced price information.
           </p>
           <p className="text-gray-500 text-sm">
-            Created by{" "}
-            <Link href="/" className="text-green-400 hover:text-green-300 transition-colors">
-              AI Fusion
-            </Link>
+            Built by <Link href="/" className="text-green-400 hover:underline">AI Fusion Ireland</Link>
           </p>
         </div>
       </section>
