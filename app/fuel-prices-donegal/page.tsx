@@ -112,7 +112,7 @@ export default function FuelPricesDonegalPage() {
   }, [])
 
   const formatPrice = (price: number) => {
-    return price.toFixed(1)
+    return (price / 10).toFixed(1)
   }
 
   

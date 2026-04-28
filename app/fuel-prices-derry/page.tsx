@@ -46,7 +46,6 @@ export default function FuelPricesDerryPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
-  const [debugInfo, setDebugInfo] = useState<string>("")
 
   useEffect(() => {
     async function fetchPrices() {
@@ -66,10 +65,7 @@ export default function FuelPricesDerryPage() {
         const petrol: FuelPrice[] = await petrolRes.json()
         const heatingOil: FuelPrice[] = await heatingOilRes.json()
         
-        // Debug: show raw price value from API
-        if (diesel.length > 0) {
-          setDebugInfo(`Raw API price: ${diesel[0].pricePerLitre}, Type: ${typeof diesel[0].pricePerLitre}`)
-        }
+        
         
         // Combine all data for date calculation
         const allData = [...diesel, ...petrol, ...heatingOil]
@@ -118,7 +114,7 @@ export default function FuelPricesDerryPage() {
   }, [])
 
   const formatPrice = (price: number) => {
-    return price.toFixed(1)
+    return (price / 10).toFixed(1)
   }
 
   return (
@@ -159,11 +155,7 @@ export default function FuelPricesDerryPage() {
             Current Fuel Prices in Derry
           </h2>
           
-          {debugInfo && (
-            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mb-6">
-              <p className="text-yellow-400 text-sm font-mono">{debugInfo}</p>
-            </div>
-          )}
+          
           
           {loading ? (
             <div className="flex items-center justify-center py-12">
