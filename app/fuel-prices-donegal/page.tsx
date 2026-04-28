@@ -46,6 +46,7 @@ export default function FuelPricesDonegalPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<string>("")
+  const [debugInfo, setDebugInfo] = useState<string>("")
 
   useEffect(() => {
     async function fetchPrices() {
@@ -54,6 +55,10 @@ export default function FuelPricesDonegalPage() {
         if (!response.ok) throw new Error("Failed to fetch prices")
         
         const rawData = await response.json()
+        
+        // Debug: Show full API response structure
+        console.log("[v0] Raw API response:", rawData)
+        setDebugInfo(`API Keys: ${Object.keys(rawData).join(', ')}, Is Array: ${Array.isArray(rawData)}, Type: ${typeof rawData}`)
         
         // Handle if the API wraps data in an object
         const data: FuelPrice[] = Array.isArray(rawData) ? rawData : (rawData.data || rawData.prices || [])
@@ -157,6 +162,12 @@ export default function FuelPricesDonegalPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
             Current Fuel Prices in Donegal
           </h2>
+          
+          {debugInfo && (
+            <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 mb-6">
+              <p className="text-yellow-400 text-sm font-mono break-all">{debugInfo}</p>
+            </div>
+          )}
           
           
           
