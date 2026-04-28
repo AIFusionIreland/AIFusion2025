@@ -58,10 +58,10 @@ export default function FuelPricesDonegalPage() {
         // Filter for Donegal prices (EUR currency)
         const donegalPrices = data.filter(p => p.currency === "EUR")
         
-        // Process prices by fuel type
-        const diesel = donegalPrices.filter(p => p.fuelType === "diesel")
-        const petrol = donegalPrices.filter(p => p.fuelType === "petrol")
-        const heatingOil = donegalPrices.filter(p => p.fuelType === "home_heating_oil")
+        // Process prices by fuel type (case-insensitive matching)
+        const diesel = donegalPrices.filter(p => p.fuelType.toLowerCase() === "diesel")
+        const petrol = donegalPrices.filter(p => p.fuelType.toLowerCase() === "petrol")
+        const heatingOil = donegalPrices.filter(p => p.fuelType.toLowerCase() === "home_heating_oil")
 
         const getLowestHighest = (arr: FuelPrice[]) => {
           if (arr.length === 0) return { lowest: null, highest: null, prices: arr }
