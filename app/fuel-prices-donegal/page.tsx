@@ -62,9 +62,9 @@ export default function FuelPricesDonegalPage() {
         const fuelTypes = [...new Set(data.map(p => p.fuelType))]
         const currencies = [...new Set(data.map(p => p.currency))]
         const eurPrices = data.filter(p => p.currency === "EUR")
-        const eurDiesel = eurPrices.filter(p => p.fuelType?.toLowerCase() === "diesel")
+        const eurFuelTypes = [...new Set(eurPrices.map(p => p.fuelType))]
         
-        setDebugInfo(`Total: ${data.length}, EUR: ${eurPrices.length}, EUR Diesel: ${eurDiesel.length}, Fuel types: ${fuelTypes.join(', ')}, Currencies: ${currencies.join(', ')}`)
+        setDebugInfo(`Total: ${data.length}, EUR: ${eurPrices.length}, EUR Fuel Types: ${eurFuelTypes.join(', ')}, All Fuel types: ${fuelTypes.join(', ')}`)
         
         // Filter for Donegal prices (EUR currency)
         const donegalPrices = data.filter(p => p.currency === "EUR")
