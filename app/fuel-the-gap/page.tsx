@@ -21,11 +21,18 @@ export default function FuelTheGapPage() {
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-6">
               A crowd-sourced app for local fuel prices in Derry and Donegal. Find the cheapest fuel near you with real-time community updates.
             </p>
-            <Button asChild variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
-              <Link href="/fuel-prices-donegal">
-                View Today&apos;s Fuel Prices in Donegal
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+                <Link href="/fuel-prices-donegal">
+                  View Today&apos;s Fuel Prices in Donegal
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                <Link href="/fuel-prices-derry">
+                  View Today&apos;s Fuel Prices in Derry
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
