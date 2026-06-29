@@ -171,6 +171,77 @@ export default function Home() {
           </div>
         </section>
 
+        {/* AI Training Workshops - moved higher for local booking focus */}
+        <section className="py-20 md:py-24 bg-navy-950">
+          <div className="container px-4 md:px-6 max-w-6xl">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <GraduationCap className="w-10 h-10 text-purple-400" />
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
+                  AI Training Workshops in Donegal & Northwest Ireland
+                </h2>
+                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
+                  Practical, jargon-free AI training workshops for non-technical teams. Available online and in-person
+                  across Donegal, Derry and Northwest Ireland. We focus on tools your staff actually use day to day.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Hands-on training with real business scenarios</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">No technical jargon — clear, practical instruction</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Online and in-person options available</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Focused on tools teams use every day</span>
+                  </li>
+                </ul>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button
+                    onClick={() => handleNavigation("/ai-training-donegal")}
+                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
+                  >
+                    AI Training in Donegal
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    onClick={() => handleNavigation("/upcoming-courses")}
+                    variant="outline"
+                    className="inline-flex items-center gap-2 border-purple-500 text-purple-300 hover:bg-purple-500/10 font-bold py-3 px-6 rounded-lg transition-all duration-300"
+                  >
+                    View Training Courses
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src="/images/ai-20training-202.jpeg"
+                  alt="AI Training Workshops in Donegal and Northwest Ireland"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="flex justify-center mt-12">
+              <div className="w-full max-w-sm mx-auto">
+                <img
+                  src="/images/ai-20training-20participant-20reviews.png"
+                  alt="AI Training participant reviews"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* AI Strategy Section */}
         <section className="py-20 md:py-24 bg-navy-900">
           <div className="container px-4 md:px-6 max-w-6xl">
@@ -292,66 +363,6 @@ export default function Home() {
                   src="/images/ai-20chatbot.jpeg"
                   alt="AI Chatbot Support for Small Business Websites"
                   className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 md:py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <GraduationCap className="w-10 h-10 text-purple-400" />
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Training Workshops for Business Teams
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  Practical, jargon-free AI training workshops for non-technical teams. Available online and in-person
-                  across Donegal, Derry and Northwest Ireland. We focus on tools your staff actually use day to day.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Hands-on training with real business scenarios</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">No technical jargon — clear, practical instruction</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Online and in-person options available</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Focused on tools teams use every day</span>
-                  </li>
-                </ul>
-                <Button
-                  onClick={() => handleNavigation("/upcoming-courses")}
-                  className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
-                >
-                  View Training Courses
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/ai-20training-202.jpeg"
-                  alt="AI Training Workshops for Business Teams"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="flex justify-center mt-12">
-              <div className="w-full max-w-sm mx-auto">
-                <img
-                  src="/images/ai-20training-20participant-20reviews.png"
-                  alt="AI Training participant reviews"
-                  className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
