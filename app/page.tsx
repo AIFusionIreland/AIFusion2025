@@ -9,7 +9,7 @@ import PricingDialog from "@/components/pricing-dialog"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import { Button } from "@/components/ui/button"
-import { Bot, Calendar, GraduationCap, CheckCircle, ArrowRight } from "lucide-react"
+import { Bot, Calendar, GraduationCap, CheckCircle, ArrowRight, MapPin, Phone, Mail } from "lucide-react"
 
 export default function Home() {
   const [isPricingOpen, setIsPricingOpen] = useState(false)
@@ -113,16 +113,16 @@ export default function Home() {
 
               <div className="space-y-6 animate-text-slide-up max-w-4xl" style={{ animationDelay: "0.5s" }}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight drop-shadow-lg text-balance">
-                  AI Consultant for Small Businesses in Ireland
+                  AI Consultant for Small Businesses in Donegal & Northwest Ireland
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 font-medium text-pretty">
                   Practical AI solutions that save time, reduce costs, and help your business grow — without technical
                   overwhelm.
                 </p>
                 <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-3xl mx-auto text-pretty">
-                  AI Fusion helps small and family-run businesses in Ireland use AI in simple, practical ways. From AI
-                  automation for SMEs to AI chatbot support for small business websites, we focus on real business
-                  results — not jargon.
+                  AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland use AI
+                  in simple, practical ways. From AI automation for SMEs to AI chatbot support for small business
+                  websites, we focus on real business results — not jargon.
                 </p>
               </div>
 
@@ -143,11 +143,12 @@ export default function Home() {
           <div className="container px-4 md:px-6 max-w-6xl">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 text-balance">
-                AI for Small Business Owners in Ireland
+                AI for Small Business Owners in Donegal & Northwest Ireland
               </h2>
               <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto text-pretty">
-                AI Fusion works with retail, hospitality, trades, and family-run businesses across Ireland. We
-                understand real-world pressures and deliver affordable, practical AI solutions tailored to SMEs.
+                AI Fusion works with retail, hospitality, trades, and family-run businesses across Donegal, Derry and
+                Northwest Ireland. We understand real-world pressures and deliver affordable, practical AI solutions
+                tailored to local SMEs.
               </p>
             </div>
 
@@ -164,6 +165,60 @@ export default function Home() {
                   src="/images/hardware-20store.png"
                   alt="Irish hardware store business owner using AI tools"
                   className="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* AI Training Workshops - moved higher for local booking focus */}
+        <section className="py-20 md:py-24 bg-navy-950">
+          <div className="container px-4 md:px-6 max-w-6xl">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <GraduationCap className="w-10 h-10 text-purple-400" />
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
+                  AI Training Workshops in Donegal & Northwest Ireland
+                </h2>
+                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
+                  Practical, jargon-free AI training workshops for non-technical teams. Available online and in-person
+                  across Donegal, Derry and Northwest Ireland. We focus on tools your staff actually use day to day.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Hands-on training with real business scenarios</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">No technical jargon — clear, practical instruction</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Online and in-person options available</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <span className="text-gray-200">Focused on tools teams use every day</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src="/images/ai-20training-202.jpeg"
+                  alt="AI Training Workshops in Donegal and Northwest Ireland"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="flex justify-center mt-12">
+              <div className="w-full max-w-sm mx-auto">
+                <img
+                  src="/images/ai-20training-20participant-20reviews.png"
+                  alt="AI Training participant reviews"
+                  className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
@@ -297,66 +352,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-20 md:py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <GraduationCap className="w-10 h-10 text-purple-400" />
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Training Workshops for Business Teams
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  Practical, jargon-free AI training workshops for non-technical teams. Available online and in-person
-                  across Ireland. We focus on tools your staff actually use day to day.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Hands-on training with real business scenarios</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">No technical jargon — clear, practical instruction</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Online and in-person options available</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Focused on tools teams use every day</span>
-                  </li>
-                </ul>
-                <Button
-                  onClick={() => handleNavigation("/upcoming-courses")}
-                  className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
-                >
-                  View Training Courses
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/ai-20training-202.jpeg"
-                  alt="AI Training Workshops for Business Teams"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-            <div className="flex justify-center mt-12">
-              <div className="w-full max-w-sm mx-auto">
-                <img
-                  src="/images/ai-20training-20participant-20reviews.png"
-                  alt="AI Training participant reviews"
-                  className="w-full h-auto object-contain drop-shadow-2xl"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Why Small Businesses Choose AI Fusion */}
         <section className="py-20 md:py-24 bg-gradient-to-br from-navy-900 via-navy-950 to-purple-950">
           <div className="container px-4 md:px-6 max-w-6xl">
@@ -371,8 +366,8 @@ export default function Home() {
                 <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">Based in Ireland</h3>
-                <p className="text-gray-200">Local expertise for Irish businesses</p>
+                <h3 className="text-xl font-bold text-white mb-3">Based in Donegal</h3>
+                <p className="text-gray-200">Local expertise for businesses across Northwest Ireland</p>
               </div>
 
               <div className="bg-gradient-to-br from-purple-900/40 to-navy-900/40 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-6 text-center">
@@ -402,6 +397,50 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Areas Served Section */}
+        <section className="py-20 md:py-24 bg-navy-950">
+          <div className="container px-4 md:px-6 max-w-6xl">
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <MapPin className="w-10 h-10 text-purple-400" />
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 text-balance">
+                Areas We Serve
+              </h2>
+              <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto text-pretty">
+                AI Fusion is based in County Donegal and works with small businesses throughout Donegal, Derry and the
+                wider Northwest of Ireland — both online and in-person. Whether you&apos;re in a town or a rural
+                community, we bring practical AI support to your doorstep.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {[
+                "Letterkenny",
+                "Donegal Town",
+                "Buncrana",
+                "Ballybofey",
+                "Derry / Londonderry",
+                "Inishowen",
+                "Bundoran",
+                "Carndonagh",
+                "Lifford",
+                "Dungloe",
+                "Strabane",
+                "Northwest Ireland",
+              ].map((area) => (
+                <div
+                  key={area}
+                  className="flex items-center gap-2 bg-gradient-to-br from-purple-900/40 to-navy-900/40 backdrop-blur-sm border border-purple-500/30 rounded-lg px-4 py-3"
+                >
+                  <MapPin className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                  <span className="text-gray-200 text-sm md:text-base">{area}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-20 md:py-24 bg-gradient-to-r from-navy-900 via-purple-900 to-navy-900">
           <div className="container px-4 md:px-6 max-w-4xl">
@@ -410,7 +449,8 @@ export default function Home() {
                 Ready to Transform Your Business with AI?
               </h2>
               <p className="text-lg md:text-xl text-gray-300 mb-8">
-                Join Irish businesses already saving time and growing with practical AI solutions
+                Join businesses across Donegal, Derry and Northwest Ireland already saving time and growing with
+                practical AI solutions
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button
@@ -428,28 +468,46 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-navy-800 bg-navy-975 py-12">
-        <div className="container flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center">
-            <AIFusionTextLogo className="h-12" showText={true} />
+<footer className="border-t border-navy-800 bg-navy-975 py-12">
+          <div className="container flex flex-col gap-8">
+            <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+              <div className="flex flex-col gap-4">
+                <AIFusionTextLogo className="h-12" showText={true} />
+                <address className="flex flex-col gap-2 text-sm text-gray-300 not-italic">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>Based in Donegal, Ireland</span>
+                  </div>
+                  <a href="tel:+353876856131" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Phone className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>087 685 6131</span>
+                  </a>
+                  <a href="mailto:info@aifusion.ie" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Mail className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>info@aifusion.ie</span>
+                  </a>
+                </address>
+              </div>
+              <div className="flex gap-6">
+                <button
+                  onClick={() => handleNavigation("/privacy")}
+                  className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
+                >
+                  Privacy Policy
+                </button>
+                <button
+                  onClick={() => handleNavigation("/terms")}
+                  className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
+                >
+                  Terms of Service
+                </button>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 border-t border-navy-800 pt-6">
+              © {new Date().getFullYear()} AI Fusion. All rights reserved.
+            </p>
           </div>
-          <p className="text-sm text-gray-300">© {new Date().getFullYear()} AI Fusion. All rights reserved.</p>
-          <div className="flex gap-6">
-            <button
-              onClick={() => handleNavigation("/privacy")}
-              className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Privacy Policy
-            </button>
-            <button
-              onClick={() => handleNavigation("/terms")}
-              className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Terms of Service
-            </button>
-          </div>
-        </div>
-      </footer>
+        </footer>
 
       <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen} />
       <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />

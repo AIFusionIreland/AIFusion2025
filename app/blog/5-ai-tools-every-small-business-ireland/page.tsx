@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     "OpusClip",
     "AI for Irish businesses",
   ],
+  alternates: {
+    canonical: "/blog/5-ai-tools-every-small-business-ireland",
+  },
 }
 
 export default function BlogPost() {

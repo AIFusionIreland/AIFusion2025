@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     "AI business Ireland",
     "AI Fusion blog",
   ],
+  alternates: {
+    canonical: "/blog",
+  },
 }
 
 export default function BlogPage() {

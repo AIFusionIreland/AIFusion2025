@@ -7,9 +7,24 @@ import { Suspense } from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "AI Consultant for Small Business in Ireland | AI Fusion",
+  metadataBase: new URL("https://aifusion.ie"),
+  title: "AI Consultant for Small Business in Donegal & Northwest Ireland | AI Fusion",
   description:
-    "AI Fusion helps small and family-run businesses in Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+    "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+  alternates: {
+    canonical: "/",
+  },
+  keywords: [
+    "AI consultant Donegal",
+    "AI training Donegal",
+    "AI consultant Derry",
+    "AI training Northwest Ireland",
+    "AI for small business Ireland",
+    "AI automation SMEs Ireland",
+    "AI chatbot small business",
+    "AI workshops Donegal",
+    "AI consultant Northern Ireland",
+  ],
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -34,6 +49,41 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#1e1b4b" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "@id": "https://www.aifusion.ie/#organization",
+              name: "AI Fusion",
+              description:
+                "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions, including AI automation, chatbots, staff training and AI strategy.",
+              url: "https://www.aifusion.ie",
+              email: "info@aifusion.ie",
+              telephone: "+353876856131",
+              image: "https://www.aifusion.ie/apple-touch-icon.png",
+              priceRange: "€€",
+              address: {
+                "@type": "PostalAddress",
+                addressRegion: "County Donegal",
+                addressCountry: "IE",
+              },
+              areaServed: [
+                { "@type": "AdministrativeArea", name: "County Donegal" },
+                { "@type": "City", name: "Derry" },
+                { "@type": "Place", name: "Northwest Ireland" },
+              ],
+              knowsAbout: [
+                "AI consulting",
+                "AI training",
+                "AI automation",
+                "AI chatbots",
+                "AI strategy for small business",
+              ],
+            }),
+          }}
+        />
       </head>
       <body className={inter.className}>
         <Suspense fallback={<div>Loading...</div>}>
