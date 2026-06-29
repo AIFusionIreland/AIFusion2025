@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     "AI governance Ireland",
     "AI Act compliance",
   ],
+  alternates: {
+    canonical: "/blog/eu-ai-act-ireland-small-business",
+  },
 }
 
 export default function EUAIActBlogPost() {

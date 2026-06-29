@@ -7,9 +7,13 @@ import { Suspense } from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
+  metadataBase: new URL("https://aifusion.ie"),
   title: "AI Consultant for Small Business in Donegal & Northwest Ireland | AI Fusion",
   description:
     "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
     "AI consultant Donegal",
     "AI training Donegal",
