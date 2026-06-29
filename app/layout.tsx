@@ -7,9 +7,20 @@ import { Suspense } from "react"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "AI Consultant for Small Business in Ireland | AI Fusion",
+  title: "AI Consultant for Small Business in Donegal & Northwest Ireland | AI Fusion",
   description:
-    "AI Fusion helps small and family-run businesses in Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+    "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+  keywords: [
+    "AI consultant Donegal",
+    "AI training Donegal",
+    "AI consultant Derry",
+    "AI training Northwest Ireland",
+    "AI for small business Ireland",
+    "AI automation SMEs Ireland",
+    "AI chatbot small business",
+    "AI workshops Donegal",
+    "AI consultant Northern Ireland",
+  ],
   icons: {
     icon: [
       { url: "/favicon.ico" },
