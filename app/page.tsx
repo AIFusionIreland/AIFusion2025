@@ -9,7 +9,7 @@ import PricingDialog from "@/components/pricing-dialog"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import { Button } from "@/components/ui/button"
-import { Bot, Calendar, GraduationCap, CheckCircle, ArrowRight, MapPin } from "lucide-react"
+import { Bot, Calendar, GraduationCap, CheckCircle, ArrowRight, MapPin, Phone, Mail } from "lucide-react"
 
 export default function Home() {
   const [isPricingOpen, setIsPricingOpen] = useState(false)
@@ -485,28 +485,46 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-navy-800 bg-navy-975 py-12">
-        <div className="container flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center">
-            <AIFusionTextLogo className="h-12" showText={true} />
+<footer className="border-t border-navy-800 bg-navy-975 py-12">
+          <div className="container flex flex-col gap-8">
+            <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+              <div className="flex flex-col gap-4">
+                <AIFusionTextLogo className="h-12" showText={true} />
+                <address className="flex flex-col gap-2 text-sm text-gray-300 not-italic">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>Based in Donegal, Ireland</span>
+                  </div>
+                  <a href="tel:+353876856131" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Phone className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>087 685 6131</span>
+                  </a>
+                  <a href="mailto:info@aifusion.ie" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Mail className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                    <span>info@aifusion.ie</span>
+                  </a>
+                </address>
+              </div>
+              <div className="flex gap-6">
+                <button
+                  onClick={() => handleNavigation("/privacy")}
+                  className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
+                >
+                  Privacy Policy
+                </button>
+                <button
+                  onClick={() => handleNavigation("/terms")}
+                  className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
+                >
+                  Terms of Service
+                </button>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 border-t border-navy-800 pt-6">
+              © {new Date().getFullYear()} AI Fusion. All rights reserved.
+            </p>
           </div>
-          <p className="text-sm text-gray-300">© {new Date().getFullYear()} AI Fusion. All rights reserved.</p>
-          <div className="flex gap-6">
-            <button
-              onClick={() => handleNavigation("/privacy")}
-              className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Privacy Policy
-            </button>
-            <button
-              onClick={() => handleNavigation("/terms")}
-              className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
-            >
-              Terms of Service
-            </button>
-          </div>
-        </div>
-      </footer>
+        </footer>
 
       <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen} />
       <ContactDialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen} />
