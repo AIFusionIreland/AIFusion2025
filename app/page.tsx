@@ -204,23 +204,6 @@ export default function Home() {
                     <span className="text-gray-200">Focused on tools teams use every day</span>
                   </li>
                 </ul>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    onClick={() => handleNavigation("/ai-training-donegal")}
-                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
-                  >
-                    AI Training in Donegal
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                  <Button
-                    onClick={() => handleNavigation("/upcoming-courses")}
-                    variant="outline"
-                    className="inline-flex items-center gap-2 border-purple-500 text-purple-300 hover:bg-purple-500/10 font-bold py-3 px-6 rounded-lg transition-all duration-300"
-                  >
-                    View Training Courses
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </div>
               </div>
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
