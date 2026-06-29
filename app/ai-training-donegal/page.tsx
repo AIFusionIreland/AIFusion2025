@@ -1,26 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import { Button } from "@/components/ui/button"
-import { GraduationCap, CheckCircle, ArrowRight, MapPin, Calendar, Users, Laptop, Building2 } from "lucide-react"
+import { GraduationCap, CheckCircle, MapPin, Calendar, Users, Laptop, Building2 } from "lucide-react"
 
 export default function AiTrainingDonegalPage() {
-  const router = useRouter()
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  const handleNavigation = (path: string) => {
-    router.push(path)
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }, 100)
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-navy-975">
@@ -53,14 +44,6 @@ export default function AiTrainingDonegalPage() {
                 >
                   <Calendar className="w-5 h-5" />
                   Book AI Training
-                </Button>
-                <Button
-                  onClick={() => handleNavigation("/upcoming-courses")}
-                  variant="outline"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-purple-500 text-purple-300 hover:bg-purple-500/10 font-bold py-4 px-8 rounded-xl transition-all duration-300 text-lg bg-transparent"
-                >
-                  View Upcoming Courses
-                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </div>
             </div>
@@ -222,15 +205,6 @@ export default function AiTrainingDonegalPage() {
                 >
                   <Calendar className="w-5 h-5" />
                   Book AI Training
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 bg-transparent"
-                  onClick={() => handleNavigation("/upcoming-courses")}
-                >
-                  View Upcoming Courses
-                  <ArrowRight className="w-5 h-5" />
                 </Button>
               </div>
             </div>
