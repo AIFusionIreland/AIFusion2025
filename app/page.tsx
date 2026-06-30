@@ -303,48 +303,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* AI Strategy Section */}
-        <section className="py-20 md:py-24 bg-navy-900">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden shadow-2xl order-2 lg:order-1">
-                <img
-                  src="/images/chatbot-20for-20hardware-20store.png"
-                  alt="AI Strategy for small businesses"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="space-y-6 order-1 lg:order-2">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Strategy for Small Retail and Hospitality Businesses
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  Our AI strategy process includes discovery, prioritization, roadmap, and implementation. We help you
-                  avoid wasted spend and focus on high-impact use cases that deliver real results.
-                </p>
-                <div className="space-y-4">
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">1. Discovery</h3>
-                    <p className="text-gray-200">Understand your business challenges and opportunities</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">2. Prioritization</h3>
-                    <p className="text-gray-200">Identify high-impact AI solutions for your business</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">3. Roadmap</h3>
-                    <p className="text-gray-200">Create a practical implementation plan</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">4. Implementation</h3>
-                    <p className="text-gray-200">Deploy AI tools and train your team</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Why Small Businesses Choose AI Fusion */}
         <section className="py-20 md:py-24 bg-gradient-to-br from-navy-900 via-navy-950 to-purple-950">
           <div className="container px-4 md:px-6 max-w-6xl">
