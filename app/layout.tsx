@@ -10,7 +10,7 @@ export const metadata = {
   metadataBase: new URL("https://aifusion.ie"),
   title: "AI Training Donegal & Derry | Workshops for Businesses, Schools & Community Groups – AI Fusion",
   description:
-    "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+    "Practical, jargon-free AI training and workshops in Donegal & Derry for family-run businesses, schools, community groups and government-funded programmes. We also offer AI consultancy and strategy for SMEs.",
   alternates: {
     canonical: "/",
   },
