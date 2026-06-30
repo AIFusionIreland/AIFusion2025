@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "AI Training for Schools & Young People in Donegal & Derry | AI Fusion",
     description:
       "Engaging, age-appropriate AI and digital literacy workshops for schools, youth groups and young people across Donegal and Derry.",
-    url: "https://www.aifusion.ie/schools-ai-training-donegal",
+    url: "https://aifusion.ie/schools-ai-training-donegal",
     siteName: "AI Fusion",
     locale: "en_IE",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     images: ["/images/ai-education.jpg"],
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/schools-ai-training-donegal",
+    canonical: "https://aifusion.ie/schools-ai-training-donegal",
   },
   robots: {
     index: true,

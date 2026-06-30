@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Community & Digital Inclusion AI Training in Donegal & Derry | AI Fusion",
     description:
       "Accessible AI and digital skills training for community groups, older adults, New Irish and Ukrainian communities, and government-funded digital inclusion programmes across Donegal and Derry.",
-    url: "https://www.aifusion.ie/community-ai-training-donegal",
+    url: "https://aifusion.ie/community-ai-training-donegal",
     siteName: "AI Fusion",
     locale: "en_IE",
     type: "website",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     images: ["/images/community-connection.jpg"],
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/community-ai-training-donegal",
+    canonical: "https://aifusion.ie/community-ai-training-donegal",
   },
   robots: {
     index: true,

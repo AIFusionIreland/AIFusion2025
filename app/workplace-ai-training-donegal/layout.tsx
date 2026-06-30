@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Workplace & Staff AI Training in Donegal & Derry | AI Fusion",
     description:
       "Practical, jargon-free AI training for employees and family-run businesses across Donegal and Derry. On-site and online options.",
-    url: "https://www.aifusion.ie/workplace-ai-training-donegal",
+    url: "https://aifusion.ie/workplace-ai-training-donegal",
     siteName: "AI Fusion",
     locale: "en_IE",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     images: ["/images/ai-fusion-team.jpg"],
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/workplace-ai-training-donegal",
+    canonical: "https://aifusion.ie/workplace-ai-training-donegal",
   },
   robots: {
     index: true,

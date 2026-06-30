@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cheapest Fuel Prices in Derry Today | Fuel the Gap",
     description: "Find the cheapest diesel, petrol and heating oil prices in Derry. Save £5-£15 per fill with real-time community-powered prices.",
-    url: "https://www.aifusion.ie/fuel-prices-derry",
+    url: "https://aifusion.ie/fuel-prices-derry",
     siteName: "AI Fusion",
     locale: "en_GB",
     type: "website",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     images: ["/images/fuel-the-gap-logo.jpeg"]
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/fuel-prices-derry"
+    canonical: "https://aifusion.ie/fuel-prices-derry"
   },
   robots: {
     index: true,

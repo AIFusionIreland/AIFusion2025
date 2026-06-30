@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cheapest Fuel Prices in Donegal Today | Fuel the Gap",
     description: "Find the cheapest diesel, petrol and heating oil prices in Donegal. Save €5-€15 per fill with real-time community-powered prices.",
-    url: "https://www.aifusion.ie/fuel-prices-donegal",
+    url: "https://aifusion.ie/fuel-prices-donegal",
     siteName: "AI Fusion",
     locale: "en_IE",
     type: "website",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     images: ["/images/fuel-the-gap-logo.jpeg"]
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/fuel-prices-donegal"
+    canonical: "https://aifusion.ie/fuel-prices-donegal"
   },
   robots: {
     index: true,
