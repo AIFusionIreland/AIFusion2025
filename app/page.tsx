@@ -113,7 +113,7 @@ export default function Home() {
 
               <div className="space-y-6 animate-text-slide-up max-w-4xl" style={{ animationDelay: "0.5s" }}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight drop-shadow-lg text-balance">
-                  AI Consultant for Small Businesses in Donegal & Northwest Ireland
+                  AI Training for Businesses, Schools & Community Groups in Donegal & Derry
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 font-medium text-pretty">
                   Practical AI solutions that save time, reduce costs, and help your business grow — without technical
