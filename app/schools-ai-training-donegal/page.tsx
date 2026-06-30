@@ -57,8 +57,8 @@ export default function SchoolsAiTrainingPage() {
               <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
                 AI Fusion delivers hands-on AI and digital literacy workshops for primary and post-primary schools,
                 Youthreach centres and youth groups across Donegal and Derry. Building on community education work in the
-                Northwest — including projects with groups such as Newtownstewart 2000 — we make AI approachable and
-                exciting for young people, while keeping safety and responsible use at the centre of every session.
+                Northwest, we make AI approachable and exciting for young people, while keeping safety and responsible
+                use at the centre of every session.
               </p>
               <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
                 Workshops are tailored to the age group and curriculum, and can be delivered in your classroom, computer
