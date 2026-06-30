@@ -101,27 +101,6 @@ export function ContactClientPage() {
                   </div>
                 </CardContent>
               </Card>
-
-              {/* Business Hours */}
-              <Card className="bg-[#1a1f3a]/80 border-[#00d9ff]/20">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-4">Business Hours</h3>
-                  <div className="space-y-2 text-gray-300">
-                    <div className="flex justify-between">
-                      <span>Monday - Friday:</span>
-                      <span className="text-white">9:00 AM - 5:00 PM</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saturday:</span>
-                      <span className="text-white">By Appointment</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sunday:</span>
-                      <span className="text-white">Closed</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
         </div>
