@@ -116,13 +116,14 @@ export default function Home() {
                   AI Training for Businesses, Schools & Community Groups in Donegal & Derry
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 font-medium text-pretty">
-                  Practical AI solutions that save time, reduce costs, and help your business grow — without technical
-                  overwhelm.
+                  Practical, jargon-free AI and digital skills training — built around the people in the room, not
+                  technical overwhelm.
                 </p>
                 <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-3xl mx-auto text-pretty">
-                  AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland use AI
-                  in simple, practical ways. From AI automation for SMEs to AI chatbot support for small business
-                  websites, we focus on real business results — not jargon.
+                  AI Fusion works with family-run businesses wanting their staff trained, local authorities and
+                  government bodies funding digital inclusion programmes, community organisations supporting Ukrainian
+                  residents and older people, and schools across Donegal and Derry. From AI digital skills workshops for
+                  community groups to staff training for SMEs, we focus on real, practical results.
                 </p>
               </div>
 
