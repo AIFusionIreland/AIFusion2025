@@ -124,7 +124,7 @@ export default function Home() {
 
               <div className="space-y-6 animate-text-slide-up max-w-4xl" style={{ animationDelay: "0.5s" }}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight drop-shadow-lg text-balance">
-                  AI Training for Businesses, Schools & Community Groups in Donegal & Derry
+                  AI and Digital Training for Businesses, Schools & Community Groups in Donegal & Derry
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 font-medium text-pretty">
                   Practical, jargon-free AI and digital skills training — built around the people in the room, not

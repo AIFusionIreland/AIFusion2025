@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   metadataBase: new URL("https://aifusion.ie"),
-  title: "AI Training Workshops for Small Business | Donegal & Northwest Ireland | AI Fusion",
+  title: "AI Training Donegal & Derry | Workshops for Businesses, Schools & Community Groups – AI Fusion",
   description:
     "AI Fusion delivers practical, jargon-free AI training workshops for small and family-run businesses across Donegal, Derry and Northwest Ireland. Hands-on staff training, AI strategy and automation support. Book a free 15-minute AI strategy call.",
   alternates: {
