@@ -11,7 +11,6 @@ import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import { Button } from "@/components/ui/button"
 import {
-  Bot,
   Calendar,
   GraduationCap,
   CheckCircle,
@@ -341,91 +340,6 @@ export default function Home() {
                     <p className="text-gray-200">Deploy AI tools and train your team</p>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 md:py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Automation for SMEs
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  AI helps reduce admin, improve scheduling and rota management, speed up customer responses, simplify
-                  invoicing, and improve stock and inventory workflows. Save time and focus on what matters most.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Reduce administrative tasks by 50% or more</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Automate scheduling, rotas, and staff management</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Streamline invoicing and payment processing</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Improve stock control and inventory management</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/woman-20relaxing-20while-20ai-20works.jpeg"
-                  alt="Business owner relaxing while AI automation handles tasks"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 md:py-24 bg-gradient-to-br from-purple-950 via-navy-950 to-navy-900">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <Bot className="w-10 h-10 text-purple-400" />
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Chatbot Support for Small Business Websites
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  AI chatbots answer FAQs, capture leads, assist with bookings and scheduling, and reduce phone/email
-                  workload. No coding required — simple setup and customization for your business.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Answer customer questions 24/7 automatically</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Capture leads and qualify potential customers</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Handle bookings and appointment scheduling</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Reduce phone calls and email inquiries</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/ai-20chatbot.jpeg"
-                  alt="AI Chatbot Support for Small Business Websites"
-                  className="w-full h-full object-cover"
-                />
               </div>
             </div>
           </div>
