@@ -5,11 +5,22 @@ import AIFusionLogo from "@/components/ai-fusion-logo"
 import AIFusionTextLogo from "@/components/ai-fusion-text-logo"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import PricingDialog from "@/components/pricing-dialog"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import { Button } from "@/components/ui/button"
-import { Bot, Calendar, GraduationCap, CheckCircle, ArrowRight, MapPin, Phone, Mail } from "lucide-react"
+import {
+  Calendar,
+  GraduationCap,
+  CheckCircle,
+  ArrowRight,
+  MapPin,
+  Phone,
+  Mail,
+  Briefcase,
+  HeartHandshake,
+} from "lucide-react"
 
 export default function Home() {
   const [isPricingOpen, setIsPricingOpen] = useState(false)
@@ -113,16 +124,17 @@ export default function Home() {
 
               <div className="space-y-6 animate-text-slide-up max-w-4xl" style={{ animationDelay: "0.5s" }}>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight drop-shadow-lg text-balance">
-                  AI Consultant for Small Businesses in Donegal & Northwest Ireland
+                  AI Training for Businesses, Schools & Community Groups in Donegal & Derry
                 </h1>
                 <p className="text-xl md:text-2xl text-gray-200 font-medium text-pretty">
-                  Practical AI solutions that save time, reduce costs, and help your business grow — without technical
-                  overwhelm.
+                  Practical, jargon-free AI and digital skills training — built around the people in the room, not
+                  technical overwhelm.
                 </p>
                 <p className="text-lg md:text-xl text-gray-100 leading-relaxed max-w-3xl mx-auto text-pretty">
-                  AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland use AI
-                  in simple, practical ways. From AI automation for SMEs to AI chatbot support for small business
-                  websites, we focus on real business results — not jargon.
+                  AI Fusion works with family-run businesses wanting their staff trained, local authorities and
+                  government bodies funding digital inclusion programmes, community organisations supporting Ukrainian
+                  residents and older people, and schools across Donegal and Derry. From AI digital skills workshops for
+                  community groups to staff training for SMEs, we focus on real, practical results.
                 </p>
               </div>
 
@@ -225,129 +237,68 @@ export default function Home() {
           </div>
         </section>
 
-        {/* AI Strategy Section */}
+        {/* Training by Audience */}
         <section className="py-20 md:py-24 bg-navy-900">
           <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="rounded-2xl overflow-hidden shadow-2xl order-2 lg:order-1">
-                <img
-                  src="/images/chatbot-20for-20hardware-20store.png"
-                  alt="AI Strategy for small businesses"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="space-y-6 order-1 lg:order-2">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Strategy for Small Retail and Hospitality Businesses
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  Our AI strategy process includes discovery, prioritization, roadmap, and implementation. We help you
-                  avoid wasted spend and focus on high-impact use cases that deliver real results.
-                </p>
-                <div className="space-y-4">
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">1. Discovery</h3>
-                    <p className="text-gray-200">Understand your business challenges and opportunities</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">2. Prioritization</h3>
-                    <p className="text-gray-200">Identify high-impact AI solutions for your business</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">3. Roadmap</h3>
-                    <p className="text-gray-200">Create a practical implementation plan</p>
-                  </div>
-                  <div className="bg-navy-900/50 backdrop-blur-sm p-4 rounded-lg border border-purple-500/20">
-                    <h3 className="font-bold text-white mb-2">4. Implementation</h3>
-                    <p className="text-gray-200">Deploy AI tools and train your team</p>
-                  </div>
-                </div>
-              </div>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 text-balance">
+                AI Training for Every Group in the Northwest
+              </h2>
+              <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto text-pretty">
+                We tailor AI and digital skills training to who&apos;s in the room — from busy workplaces to community
+                groups and schools across Donegal and Derry.
+              </p>
             </div>
-          </div>
-        </section>
-
-        <section className="py-20 md:py-24 bg-navy-950">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Automation for SMEs
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  AI helps reduce admin, improve scheduling and rota management, speed up customer responses, simplify
-                  invoicing, and improve stock and inventory workflows. Save time and focus on what matters most.
-                </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Reduce administrative tasks by 50% or more</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Automate scheduling, rotas, and staff management</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Streamline invoicing and payment processing</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Improve stock control and inventory management</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/woman-20relaxing-20while-20ai-20works.jpeg"
-                  alt="Business owner relaxing while AI automation handles tasks"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 md:py-24 bg-gradient-to-br from-purple-950 via-navy-950 to-navy-900">
-          <div className="container px-4 md:px-6 max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <Bot className="w-10 h-10 text-purple-400" />
+            <div className="grid md:grid-cols-3 gap-8">
+              <Link
+                href="/workplace-ai-training-donegal"
+                className="group flex flex-col bg-gradient-to-br from-purple-900/40 to-navy-950/40 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-8 transition-all duration-300 hover:border-purple-400/60 hover:-translate-y-1"
+              >
+                <div className="w-14 h-14 bg-purple-600 rounded-full flex items-center justify-center mb-5">
+                  <Briefcase className="w-7 h-7 text-white" />
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-balance">
-                  AI Chatbot Support for Small Business Websites
-                </h2>
-                <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
-                  AI chatbots answer FAQs, capture leads, assist with bookings and scheduling, and reduce phone/email
-                  workload. No coding required — simple setup and customization for your business.
+                <h3 className="text-xl font-bold text-white mb-3">Workplaces & Staff</h3>
+                <p className="text-gray-200 leading-relaxed flex-1">
+                  Hands-on AI training for employees and family-run businesses, delivered on-site or online.
                 </p>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Answer customer questions 24/7 automatically</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Capture leads and qualify potential customers</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Handle bookings and appointment scheduling</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
-                    <span className="text-gray-200">Reduce phone calls and email inquiries</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/ai-20chatbot.jpeg"
-                  alt="AI Chatbot Support for Small Business Websites"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+                <span className="inline-flex items-center gap-2 text-purple-300 font-semibold mt-5 group-hover:gap-3 transition-all">
+                  Staff Training
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+              <Link
+                href="/community-ai-training-donegal"
+                className="group flex flex-col bg-gradient-to-br from-purple-900/40 to-navy-950/40 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-8 transition-all duration-300 hover:border-purple-400/60 hover:-translate-y-1"
+              >
+                <div className="w-14 h-14 bg-purple-600 rounded-full flex items-center justify-center mb-5">
+                  <HeartHandshake className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Community & Funded Programmes</h3>
+                <p className="text-gray-200 leading-relaxed flex-1">
+                  Digital inclusion training for community groups, older adults and New Irish &amp; Ukrainian
+                  communities.
+                </p>
+                <span className="inline-flex items-center gap-2 text-purple-300 font-semibold mt-5 group-hover:gap-3 transition-all">
+                  Community Training
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+              <Link
+                href="/schools-ai-training-donegal"
+                className="group flex flex-col bg-gradient-to-br from-purple-900/40 to-navy-950/40 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-8 transition-all duration-300 hover:border-purple-400/60 hover:-translate-y-1"
+              >
+                <div className="w-14 h-14 bg-purple-600 rounded-full flex items-center justify-center mb-5">
+                  <GraduationCap className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">Schools & Young People</h3>
+                <p className="text-gray-200 leading-relaxed flex-1">
+                  Engaging, age-appropriate AI and digital literacy workshops for schools and youth groups.
+                </p>
+                <span className="inline-flex items-center gap-2 text-purple-300 font-semibold mt-5 group-hover:gap-3 transition-all">
+                  Schools Training
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
             </div>
           </div>
         </section>

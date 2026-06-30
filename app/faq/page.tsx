@@ -10,6 +10,34 @@ interface FAQItem {
   answer: string
 }
 
+const generalFAQs: FAQItem[] = [
+  {
+    question: "Who does AI Fusion train?",
+    answer:
+      "AI Fusion trains employees at family-run and small businesses, community groups, schools, and government-funded programmes across Donegal and Derry — including sessions designed for older adults and the Ukrainian community.",
+  },
+  {
+    question: "Where is AI Fusion based?",
+    answer:
+      "AI Fusion is based in County Donegal, Ireland, and delivers training in person across Donegal and Derry, and online anywhere.",
+  },
+  {
+    question: "Does AI Fusion offer training for community groups and government-funded programmes?",
+    answer:
+      "Yes. AI Fusion works with councils, local development bodies, and community organisations to deliver digital skills and AI training, including programmes supporting older adults and New Irish communities.",
+  },
+  {
+    question: "Does AI Fusion still offer AI consultancy for businesses?",
+    answer:
+      "Yes — alongside training, AI Fusion offers a smaller AI strategy consultancy service for businesses wanting a tailored roadmap for adopting AI.",
+  },
+  {
+    question: "Is the training suitable for people with no technical background?",
+    answer:
+      "Yes — all sessions are designed to be plain-spoken and practical, with no assumed technical knowledge.",
+  },
+]
+
 const individualTrainingFAQs: FAQItem[] = []
 
 const businessServicesFAQs: FAQItem[] = [
@@ -88,7 +116,7 @@ const businessServicesFAQs: FAQItem[] = [
 export default function FAQPage() {
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
 
-  const allFAQs = [...individualTrainingFAQs, ...businessServicesFAQs]
+  const allFAQs = [...generalFAQs, ...individualTrainingFAQs, ...businessServicesFAQs]
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -116,6 +144,20 @@ export default function FAQPage() {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Find answers to common questions about AI Fusion's courses, training, and services
           </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">AI Training in Donegal &amp; Derry</h2>
+          <div className="space-y-6">
+            {generalFAQs.map((faq, index) => (
+              <Card key={index} className="bg-navy-900/50 border-navy-800">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-bold text-white mb-3">{faq.question}</h3>
+                  <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         <div className="max-w-4xl mx-auto">

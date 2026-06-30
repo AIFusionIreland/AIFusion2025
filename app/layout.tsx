@@ -8,9 +8,9 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   metadataBase: new URL("https://aifusion.ie"),
-  title: "AI Consultant for Small Business in Donegal & Northwest Ireland | AI Fusion",
+  title: "AI Training Donegal & Derry | Workshops for Businesses, Schools & Community Groups – AI Fusion",
   description:
-    "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions. AI automation, chatbots, staff training & AI strategy for SMEs. Book a free AI strategy call.",
+    "Practical, jargon-free AI training and workshops in Donegal & Derry for family-run businesses, schools, community groups and government-funded programmes. We also offer AI consultancy and strategy for SMEs.",
   alternates: {
     canonical: "/",
   },
@@ -55,14 +55,14 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
-              "@id": "https://www.aifusion.ie/#organization",
+              "@id": "https://aifusion.ie/#organization",
               name: "AI Fusion",
               description:
                 "AI Fusion helps small and family-run businesses in Donegal, Derry and across Northwest Ireland implement practical AI solutions, including AI automation, chatbots, staff training and AI strategy.",
-              url: "https://www.aifusion.ie",
+              url: "https://aifusion.ie",
               email: "info@aifusion.ie",
               telephone: "+353876856131",
-              image: "https://www.aifusion.ie/apple-touch-icon.png",
+              image: "https://aifusion.ie/apple-touch-icon.png",
               priceRange: "€€",
               address: {
                 "@type": "PostalAddress",

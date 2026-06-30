@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "AI Training Workshops in Donegal & Northwest Ireland | AI Fusion",
     description:
       "Practical, jargon-free AI training for small businesses and teams across Donegal, Derry and Northwest Ireland. Online and in-person options available.",
-    url: "https://www.aifusion.ie/ai-training-donegal",
+    url: "https://aifusion.ie/ai-training-donegal",
     siteName: "AI Fusion",
     locale: "en_IE",
     type: "website",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     images: ["/images/ai-20training-202.jpeg"],
   },
   alternates: {
-    canonical: "https://www.aifusion.ie/ai-training-donegal",
+    canonical: "https://aifusion.ie/ai-training-donegal",
   },
   robots: {
     index: true,
