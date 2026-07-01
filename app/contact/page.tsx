@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Contact Us | AI Fusion",
   description:
     "Get in touch with AI Fusion. Visit us in Donegal, Ireland or reach out via email for AI training and business consultancy services.",
+  alternates: {
+    canonical: "https://aifusion.ie/contact",
+  },
 }
 
 import { ContactClientPage } from "./contact-client"
