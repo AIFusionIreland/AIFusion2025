@@ -29,7 +29,7 @@ export default function BlogPage() {
       title: "What Happens in an AI Fusion Training Session",
       excerpt:
         "A behind-the-scenes look at how AI Fusion plans and delivers tailored digital skills training — using a recent Digital Skills for Beginners workshop for ERNACT at Eglinton Community Centre as an example.",
-      date: "2025-11-19",
+      date: "2026-07-01",
       author: "Donna Cregan",
       category: "Training",
       slug: "what-happens-in-ai-fusion-training-session",

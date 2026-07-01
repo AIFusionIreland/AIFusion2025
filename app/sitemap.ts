@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = [
     {
       slug: "what-happens-in-ai-fusion-training-session",
-      lastModified: new Date("2025-11-19"),
+      lastModified: new Date("2026-07-01"),
     },
     {
       slug: "5-ai-tools-every-small-business-ireland",

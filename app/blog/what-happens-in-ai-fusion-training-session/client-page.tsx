@@ -13,7 +13,7 @@ export default function TrainingSessionBlogClient() {
   const router = useRouter()
 
   const handleViewServices = () => {
-    router.push("/business-services")
+    router.push("/community-ai-training-donegal")
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" })
     }, 100)
@@ -41,7 +41,7 @@ export default function TrainingSessionBlogClient() {
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                19th November 2025
+                1st July 2026
               </span>
               <span className="flex items-center gap-1">
                 <User className="h-4 w-4" />
