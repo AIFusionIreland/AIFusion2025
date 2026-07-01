@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Community & Digital Inclusion AI Training in Donegal & Derry | AI Fusion",
+  title: "Community AI Training Donegal & Derry | AI Fusion",
   description:
-    "AI and digital skills training for community groups, charities and government-funded digital inclusion programmes in Donegal and Derry. Accessible sessions for older adults, New Irish and Ukrainian communities, and people getting online for the first time.",
+    "Accessible AI and digital skills training for community groups and funded programmes in Donegal and Derry, including older adults and New Irish communities.",
   keywords: [
     "digital inclusion training Donegal",
     "community AI training Derry",

@@ -7,6 +7,44 @@ export const metadata: Metadata = {
   title: "Client Feedback | AI Fusion Testimonials",
   description: "Read feedback from businesses and participants of AI Fusion's training courses in Ireland.",
   keywords: "AI training testimonials, AI for beginners feedback, AI course reviews Ireland, business AI training",
+  openGraph: {
+    title: "Client Feedback | AI Fusion Testimonials",
+    description:
+      "Read feedback from businesses and participants of AI Fusion's AI and digital skills training across Donegal and Derry.",
+    url: "https://aifusion.ie/testimonials",
+    siteName: "AI Fusion",
+    locale: "en_IE",
+    type: "website",
+    images: [
+      {
+        url: "/images/ai-20training-20participant-20reviews.png",
+        width: 800,
+        height: 600,
+        alt: "Feedback from AI Fusion training participants",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Client Feedback | AI Fusion Testimonials",
+    description:
+      "Read feedback from businesses and participants of AI Fusion's AI and digital skills training across Donegal and Derry.",
+    images: ["/images/ai-20training-20participant-20reviews.png"],
+  },
+  alternates: {
+    canonical: "https://aifusion.ie/testimonials",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
 
 export default function TestimonialsPage() {

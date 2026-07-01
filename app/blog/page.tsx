@@ -18,12 +18,22 @@ export const metadata: Metadata = {
     "AI Fusion blog",
   ],
   alternates: {
-    canonical: "/blog",
+    canonical: "https://aifusion.ie/blog",
   },
 }
 
 export default function BlogPage() {
   const blogPosts = [
+    {
+      id: 3,
+      title: "What Happens in an AI Fusion Training Session",
+      excerpt:
+        "A behind-the-scenes look at how AI Fusion plans and delivers tailored digital skills training — using a recent Digital Skills for Beginners workshop for ERNACT at Eglinton Community Centre as an example.",
+      date: "2026-07-01",
+      author: "Donna Cregan",
+      category: "Training",
+      slug: "what-happens-in-ai-fusion-training-session",
+    },
     {
       id: 1,
       title: "5 AI Tools Every Small Business in Ireland Should Know",

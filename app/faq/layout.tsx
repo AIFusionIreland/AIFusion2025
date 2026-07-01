@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "Answers to common questions about AI training across Donegal and Derry.",
   },
   alternates: {
-    canonical: "/faq",
+    canonical: "https://aifusion.ie/faq",
   },
   robots: {
     index: true,

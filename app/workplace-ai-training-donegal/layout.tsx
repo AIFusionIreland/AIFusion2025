@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Workplace & Staff AI Training in Donegal & Derry | AI Fusion",
   description:
-    "On-site and online AI training for employees and family-run businesses across Donegal and Derry. Practical, jargon-free workshops that upskill your whole team — from front-of-house to management.",
+    "On-site and online AI training for employees and family-run businesses across Donegal and Derry. Practical, jargon-free workshops for your whole team.",
   keywords: [
     "workplace AI training Donegal",
     "staff AI training Derry",
