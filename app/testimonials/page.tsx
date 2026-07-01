@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Client Feedback | AI Fusion Testimonials",
   description: "Read feedback from businesses and participants of AI Fusion's training courses in Ireland.",
   keywords: "AI training testimonials, AI for beginners feedback, AI course reviews Ireland, business AI training",
+  alternates: {
+    canonical: "/testimonials",
+  },
 }
 
 export default function TestimonialsPage() {
