@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "AI Fusion blog",
   ],
   alternates: {
-    canonical: "https://www.aifusion.ie/blog",
+    canonical: "https://aifusion.ie/blog",
   },
 }
 
