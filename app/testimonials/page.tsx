@@ -53,6 +53,40 @@ export default function TestimonialsPage() {
           </div>
         </section>
 
+        {/* Training Feedback Section */}
+        <section className="py-16 px-4">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">Training Feedback</h2>
+            <div className="grid gap-8">
+              <div className="bg-navy-900/50 border border-navy-800 rounded-lg p-8 hover:border-purple-600/50 transition-all duration-300 relative">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-24 h-16 relative flex-shrink-0 rounded-md overflow-hidden">
+                    <Image src="/images/ernact-logo.png" alt="ERNACT Logo" fill className="object-contain" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white">Roksana Oliinyk</h3>
+                    <p className="text-sm text-purple-400 font-medium">ERNACT</p>
+                    <p className="text-sm text-gray-400">Digital Skills for Beginners Workshop</p>
+                  </div>
+                  <Quote className="h-8 w-8 text-purple-600/30" />
+                </div>
+
+                <p className="text-gray-300 leading-relaxed text-pretty">
+                  {
+                    "It was a pleasure to work with Donna Cregan from AI Fusion. Donna delivered a very engaging and supportive Digital Skills for Beginners workshop, and we really appreciated her professional and friendly approach."
+                  }
+                </p>
+
+                <div className="flex gap-1 mt-6 justify-end">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Business Services Feedback Section */}
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-4xl">
