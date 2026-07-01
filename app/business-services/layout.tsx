@@ -4,7 +4,7 @@ import type React from "react"
 export const metadata: Metadata = {
   title: "Business Services in Donegal & Derry | AI Fusion",
   description:
-    "AI Fusion's business services for small and family-run businesses across Donegal, Derry and Northwest Ireland — from website improvements and online presence to practical AI adoption.",
+    "AI Fusion's business services for small and family-run businesses across Donegal, Derry and Northwest Ireland — from online presence to AI adoption.",
   keywords: [
     "business services Donegal",
     "AI business services Derry",
