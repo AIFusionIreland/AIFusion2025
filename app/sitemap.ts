@@ -41,12 +41,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...blogPostEntries,
     {
-      url: `${baseUrl}/ai-training`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/ai-training-donegal`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -72,12 +66,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/business-services`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,

@@ -61,7 +61,7 @@ const SiteHeader = () => {
                 <Home className="h-4 w-4" />
                 Home
               </NavLink>
-              <NavLink href="/ai-training" className="flex items-center gap-1.5">
+              <NavLink href="/ai-training-donegal" className="flex items-center gap-1.5">
                 <GraduationCap className="h-4 w-4" />
                 AI Courses
               </NavLink>
@@ -128,7 +128,7 @@ const SiteHeader = () => {
                     <Home className="h-4 w-4" />
                     Home
                   </NavLink>
-                  <NavLink href="/ai-training" className="flex items-center gap-2 p-2">
+                  <NavLink href="/ai-training-donegal" className="flex items-center gap-2 p-2">
                     <GraduationCap className="h-4 w-4" />
                     AI Courses
                   </NavLink>
