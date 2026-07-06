@@ -122,8 +122,8 @@ export default function CommunityAiTrainingPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="rounded-2xl overflow-hidden shadow-2xl order-2 lg:order-1">
                 <img
-                  src="/images/community-connection.jpg"
-                  alt="Community digital inclusion AI training group in Donegal"
+                  src="/images/svnp-digital-skills-beginners-eglinton.jpg"
+                  alt="Digital Skills for Beginners community AI training session at Eglinton Community Centre"
                   className="w-full h-full object-cover"
                 />
               </div>
