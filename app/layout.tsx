@@ -8,14 +8,14 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   metadataBase: new URL("https://aifusion.ie"),
-  title: "AI Training Donegal & Derry | AI Fusion",
+  title: "Digital & AI Training Donegal & Derry | AI Fusion",
   description:
     "Practical AI & digital skills training for small businesses, schools and community groups across Donegal and Derry. Book a free strategy call.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "AI Training Donegal & Derry | AI Fusion",
+    title: "Digital & AI Training Donegal & Derry | AI Fusion",
     description:
       "Practical AI & digital skills training for small businesses, schools and community groups across Donegal and Derry. Book a free strategy call.",
     url: "https://aifusion.ie",
@@ -33,7 +33,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Training Donegal & Derry | AI Fusion",
+    title: "Digital & AI Training Donegal & Derry | AI Fusion",
     description:
       "Practical AI & digital skills training for small businesses, schools and community groups across Donegal and Derry.",
     images: ["/images/ai-fusion-classroom-training.jpg"],
