@@ -14,6 +14,30 @@ export const metadata = {
   alternates: {
     canonical: "/",
   },
+  openGraph: {
+    title: "AI Training Donegal & Derry | AI Fusion",
+    description:
+      "Practical AI & digital skills training for small businesses, schools and community groups across Donegal and Derry. Book a free strategy call.",
+    url: "https://aifusion.ie",
+    siteName: "AI Fusion",
+    locale: "en_IE",
+    type: "website",
+    images: [
+      {
+        url: "/images/ai-fusion-classroom-training.jpg",
+        width: 1200,
+        height: 630,
+        alt: "AI Fusion delivering practical AI and digital skills training in Donegal",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Training Donegal & Derry | AI Fusion",
+    description:
+      "Practical AI & digital skills training for small businesses, schools and community groups across Donegal and Derry.",
+    images: ["/images/ai-fusion-classroom-training.jpg"],
+  },
   keywords: [
     "AI consultant Donegal",
     "AI training Donegal",
