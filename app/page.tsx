@@ -9,6 +9,7 @@ import Link from "next/link"
 import PricingDialog from "@/components/pricing-dialog"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import TrainingVideoSection from "@/components/training-video-section"
 import { Button } from "@/components/ui/button"
 import {
   Calendar,
@@ -150,6 +151,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <TrainingVideoSection />
 
         <section className="py-20 md:py-24 bg-gradient-to-br from-navy-900 via-navy-950 to-purple-950">
           <div className="container px-4 md:px-6 max-w-6xl">
