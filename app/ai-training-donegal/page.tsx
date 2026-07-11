@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import TrainingVideoSection from "@/components/training-video-section"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, CheckCircle, MapPin, Calendar, Users, Laptop, Building2 } from "lucide-react"
 
@@ -65,6 +66,8 @@ export default function AiTrainingDonegalPage() {
             </div>
           </div>
         </section>
+
+        <TrainingVideoSection />
 
         {/* What You'll Learn */}
         <section className="py-20 md:py-24 bg-navy-950">
