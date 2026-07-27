@@ -29,7 +29,7 @@ export default function BlogPage() {
       title: "Small Screens, Big Confidence: SVNP's First Digital Skills Session in Eglinton",
       excerpt:
         "Inside the Smart Village Network Project's first Digital Skills for Beginners session in Eglinton, delivered by AI Fusion for ERNACT — practical, device-specific help for older learners across Donegal and Derry.",
-      date: "2026-07-10",
+      date: "2026-07-25",
       author: "Donna Cregan",
       category: "Community",
       slug: "svnp-eglinton-digital-skills-first-session",

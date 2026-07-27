@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = [
     {
       slug: "svnp-eglinton-digital-skills-first-session",
-      lastModified: new Date("2026-07-10"),
+      lastModified: new Date("2026-07-25"),
     },
     {
       slug: "what-happens-in-ai-fusion-training-session",

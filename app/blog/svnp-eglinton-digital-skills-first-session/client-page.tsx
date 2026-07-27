@@ -41,7 +41,7 @@ export default function SvnpEglintonBlogClient() {
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4" />
-                10th July 2026
+                25th July 2026
               </span>
               <span className="flex items-center gap-1">
                 <User className="h-4 w-4" />
