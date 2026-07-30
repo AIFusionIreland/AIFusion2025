@@ -66,7 +66,7 @@ export default function SvnpEglintonBlogClient() {
           {/* Article Content */}
           <div className="prose prose-invert prose-lg max-w-none">
             <p className="text-gray-300 leading-relaxed mb-6">
-              When nine retirees settled into the Eglinton Community Centre for a three-hour digital skills workshop,
+              When ten retirees settled into the Eglinton Community Centre for a three-hour digital skills workshop,
               none of them arrived expecting a lecture. What they got instead was something the Smart Village Network
               Project (SVNP) is built to deliver: practical, tailored help that meets people exactly where they are with
               the devices they already own.
