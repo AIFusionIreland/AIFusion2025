@@ -154,7 +154,7 @@ export default function RetrofitFlightplanBlogClient() {
 
             <p className="text-gray-300 leading-relaxed mb-6">
               What made this team a little different from the start was how we came together. Each of us had our own
-              separate relationship with The Inishowen Innovation Hub in Buncrana (The ii) — some regulars, some
+              separate relationship with Inishowen Innovation in Buncrana (the ii) — some regulars, some
               occasional visitors, some connected through other projects entirely. When Anne Marie put the call out to
               join the TechIreland AI Challenge, we jumped at the chance. Several of us had never actually met before
               that first call. Getting to work alongside people we might never have crossed paths with in day-to-day
@@ -217,7 +217,7 @@ export default function RetrofitFlightplanBlogClient() {
 
             <p className="text-gray-300 leading-relaxed mb-8">
               And somehow, in amongst all of that, we also managed to have lives outside the hackathon! Some of us were
-              able to meet in person at the ii Hub in Buncrana, where Anne Marie provided us with a fantastic space to
+              able to meet in person at the ii in Buncrana, where Anne Marie provided us with a fantastic space to
               work together — complete with all the facilities we needed, a screen for those joining virtually, and,
               importantly, plenty of coffee to keep us going.
             </p>
@@ -247,7 +247,7 @@ export default function RetrofitFlightplanBlogClient() {
 
             <h2 className="text-3xl font-bold text-white mt-12 mb-6">Pitch Day</h2>
             <p className="text-gray-300 leading-relaxed mb-6">
-              On presentation day, we all gathered at the Alpha Hub in the CoLab space at ATU Letterkenny. There were 11
+              On presentation day, we all gathered at the CoLab space at ATU Letterkenny. There were 11
               teams from Donegal and the Northwest, and it was fantastic to see so many people getting involved. The
               atmosphere was brilliant — everyone was excited, enthusiastic and eager to see what could be achieved. We
               were also lucky to have access to facilities where we could do some last-minute preparation (thanks to
@@ -262,11 +262,11 @@ export default function RetrofitFlightplanBlogClient() {
   <figure className="my-8">
   <img
   src="/images/retrofit-flightplan-pitch-day.jpeg"
-  alt="A packed room at the Alpha Hub in CoLab, ATU Letterkenny during the National AI Challenge pitch day, with teams seated at tables and a presenter speaking beside screens displaying project visuals."
+  alt="A packed room at the CoLab space, ATU Letterkenny during the National AI Challenge pitch day, with teams seated at tables and a presenter speaking beside screens displaying project visuals."
   className="w-full rounded-lg border border-purple-600/30"
   />
   <figcaption className="mt-3 text-center text-sm text-gray-400">
-  Teams gathered at the Alpha Hub in CoLab, ATU Letterkenny for pitch day.
+  Teams gathered at the CoLab space, ATU Letterkenny for pitch day.
   </figcaption>
   </figure>
   
