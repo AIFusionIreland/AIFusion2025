@@ -164,10 +164,21 @@ export default function RetrofitFlightplanBlogClient() {
             <p className="text-gray-300 leading-relaxed mb-8">
               Then it was time to watch the other teams present. There were some genuinely amazing and innovative ideas,
               brilliant presentations, and a real sense of just how much can be achieved in two weeks when you bring
-              together AI, technology, industry knowledge and the talent that exists across the Northwest.
-            </p>
+  together AI, technology, industry knowledge and the talent that exists across the Northwest.
+  </p>
 
-            <h2 className="text-3xl font-bold text-white mt-12 mb-6">Retrofit Flightplan Takes the Stage</h2>
+  <figure className="my-8">
+  <img
+  src="/images/retrofit-flightplan-pitch-day.jpeg"
+  alt="A packed room at the Alpha Hub in CoLab, ATU Letterkenny during the National AI Challenge pitch day, with teams seated at tables and a presenter speaking beside screens displaying project visuals."
+  className="w-full rounded-lg border border-purple-600/30"
+  />
+  <figcaption className="mt-3 text-center text-sm text-gray-400">
+  Teams gathered at the Alpha Hub in CoLab, ATU Letterkenny for pitch day.
+  </figcaption>
+  </figure>
+  
+  <h2 className="text-3xl font-bold text-white mt-12 mb-6">Retrofit Flightplan Takes the Stage</h2>
             <p className="text-gray-300 leading-relaxed mb-6">
               Then it was our turn. The Retrofit Flightplan team gathered together, with Piaras driving the demo and me
               delivering the presentation.
