@@ -142,6 +142,17 @@ export default function RetrofitFlightplanBlogClient() {
               because they believed in the idea and wanted to see what we could create together.
             </p>
 
+            <figure className="my-8">
+              <img
+                src="/images/retrofit-flightplan-team-work.jpeg"
+                alt="Two members of the Retrofit Flightplan team working together in an office at the North West Regional Development Initiative, viewed through a glass door bearing the Derry City &amp; Strabane District Council branding."
+                className="w-full rounded-lg border border-purple-600/30"
+              />
+              <figcaption className="mt-3 text-center text-sm text-gray-400">
+                Team work in action during the final weekend push.
+              </figcaption>
+            </figure>
+
             <h2 className="text-3xl font-bold text-white mt-12 mb-6">Pitch Day</h2>
             <p className="text-gray-300 leading-relaxed mb-6">
               On presentation day, we all gathered at the Alpha Hub in the CoLab space at ATU Letterkenny. There were 11
