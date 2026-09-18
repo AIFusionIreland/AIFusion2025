@@ -83,7 +83,7 @@ export default function RetrofitFlightplanBlogClient() {
                   <li>
                     <span className="text-gray-300">Claire Irwin</span> — Irwin Consulting (
                     <a
-                      href="https://www.irwinconsulting.ie"
+                      href="http://www.irwinconsulting.ie"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
@@ -96,7 +96,7 @@ export default function RetrofitFlightplanBlogClient() {
                     <span className="text-gray-300">Donna Cregan</span> — AI Fusion, Digital &amp; AI Training Donegal
                     &amp; Derry (
                     <a
-                      href="https://www.aifusion.ie"
+                      href="http://aifusion.ie"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
@@ -108,7 +108,7 @@ export default function RetrofitFlightplanBlogClient() {
                   <li>
                     <span className="text-gray-300">Susan McLaughlin</span> — Love a little HOME (
                     <a
-                      href="https://www.lovealittle.ie"
+                      href="http://www.lovealittle.ie"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
@@ -121,7 +121,7 @@ export default function RetrofitFlightplanBlogClient() {
                     <span className="text-gray-300">Anne Marie McLaughlin</span> — The ii Buncrana, Inishowen Innovation
                     (
                     <a
-                      href="https://www.inishowaninnovation.com"
+                      href="http://www.theii.com"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
@@ -134,7 +134,7 @@ export default function RetrofitFlightplanBlogClient() {
                     <span className="text-gray-300">Shane Doherty</span> — Shane Doherty Architecture, Clonmany County
                     Donegal (
                     <a
-                      href="https://www.shanedohertyarchitecture.com"
+                      href="http://sdarchitecture.ie"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
