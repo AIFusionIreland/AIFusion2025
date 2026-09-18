@@ -6,6 +6,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Blog posts with their published dates
   const blogPosts = [
     {
+      slug: "retrofit-flightplan-ai-challenge-journey",
+      lastModified: new Date("2026-09-18"),
+    },
+    {
       slug: "svnp-eglinton-digital-skills-first-session",
       lastModified: new Date("2026-07-25"),
     },
