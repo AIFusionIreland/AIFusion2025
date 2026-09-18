@@ -55,6 +55,98 @@ export default function RetrofitFlightplanBlogClient() {
 
           {/* Article Content */}
           <div className="prose prose-invert prose-lg max-w-none">
+            <figure className="mb-8">
+              <img
+                src="/images/retrofit-flightplan-team.jpeg"
+                alt="The Retrofit Flightplan team holding a TechIreland National AI Challenge 2026 banner in front of an Alpha Innovation backdrop"
+                className="w-full rounded-lg border border-purple-600/30"
+              />
+              <figcaption className="mt-4 text-sm text-gray-400">
+                <span className="block mb-2">The Retrofit Flightplan team (left to right):</span>
+                <ul className="space-y-1 not-prose">
+                  <li>
+                    <span className="text-gray-300">Piaras Casey</span> — Auto-Mate Consultants, AI Automation &amp; Web
+                    Design Derry (
+                    <a
+                      href="https://auto-mateconsultants.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      Auto-mate Consultants
+                    </a>
+                    )
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Ross</span> — Cyber Security Consultant
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Claire Irwin</span> — Irwin Consulting (
+                    <a
+                      href="https://www.irwinconsulting.ie"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      Irwin Consulting
+                    </a>
+                    )
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Donna Cregan</span> — AI Fusion, Digital &amp; AI Training Donegal
+                    &amp; Derry (
+                    <a
+                      href="https://www.aifusion.ie"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      AI Fusion
+                    </a>
+                    )
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Susan McLaughlin</span> — Love a little HOME (
+                    <a
+                      href="https://www.lovealittle.ie"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      Love A Little
+                    </a>
+                    )
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Anne Marie McLaughlin</span> — The ii Buncrana, Inishowen Innovation
+                    (
+                    <a
+                      href="https://www.inishowaninnovation.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      inspiring imagination
+                    </a>
+                    )
+                  </li>
+                  <li>
+                    <span className="text-gray-300">Shane Doherty</span> — Shane Doherty Architecture, Clonmany County
+                    Donegal (
+                    <a
+                      href="https://www.shanedohertyarchitecture.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 underline"
+                    >
+                      Shane Doherty Architecture
+                    </a>
+                    )
+                  </li>
+                </ul>
+              </figcaption>
+            </figure>
+
             <p className="text-gray-300 leading-relaxed mb-8">
               When we first came together for Challenge 13 of the TechIreland AI Hackathon, we knew we had a big task
               ahead of us: two weeks to take an idea, shape it into something useful, and build an MVP.
