@@ -25,6 +25,16 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const blogPosts = [
     {
+      id: 5,
+      title: "Retrofit Flightplan – Our AI Challenge Journey",
+      excerpt:
+        "How a team connected through the Inishowen Innovation Hub in Buncrana took on Challenge 13 of the TechIreland AI Hackathon — building Retrofit Flightplan, an AI-powered MVP to help homeowners and BER assessors navigate the retrofit journey, in just two weeks.",
+      date: "2026-09-18",
+      author: "AI Fusion Team",
+      category: "AI Projects",
+      slug: "retrofit-flightplan-ai-challenge-journey",
+    },
+    {
       id: 4,
       title: "Small Screens, Big Confidence: SVNP's First Digital Skills Session in Eglinton",
       excerpt:
