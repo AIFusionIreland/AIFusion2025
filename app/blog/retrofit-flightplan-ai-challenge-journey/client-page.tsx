@@ -178,7 +178,19 @@ export default function RetrofitFlightplanBlogClient() {
   </figcaption>
   </figure>
   
-  <h2 className="text-3xl font-bold text-white mt-12 mb-6">Retrofit Flightplan Takes the Stage</h2>
+            <h2 className="text-3xl font-bold text-white mt-12 mb-6">Retrofit Flightplan Takes the Stage</h2>
+
+            <figure className="my-8">
+              <img
+                src="/images/retrofit-flightplan-presentation.jpeg"
+                alt="The Retrofit Flightplan team presenting at the National AI Challenge, with a team member reading the pitch beside the ALPHA innovation backdrop and a screen showing the project's retrofit slide, as the audience looks on."
+                className="w-full rounded-lg border border-purple-600/30"
+              />
+              <figcaption className="mt-3 text-center text-sm text-gray-400">
+                The Retrofit Flightplan team delivering their pitch to the judges and audience.
+              </figcaption>
+            </figure>
+
             <p className="text-gray-300 leading-relaxed mb-6">
               Then it was our turn. The Retrofit Flightplan team gathered together, with Piaras driving the demo and me
               delivering the presentation.
