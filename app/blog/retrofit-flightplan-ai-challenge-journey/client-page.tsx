@@ -68,7 +68,7 @@ export default function RetrofitFlightplanBlogClient() {
                     <span className="text-gray-300">Piaras Casey</span> — Auto-Mate Consultants, AI Automation &amp; Web
                     Design Derry (
                     <a
-                      href="https://auto-mateconsultants.com"
+                      href="https://auto-mateconsultants.co.uk"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-400 hover:text-purple-300 underline"
