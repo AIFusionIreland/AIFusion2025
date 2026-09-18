@@ -171,9 +171,10 @@ export default function RetrofitFlightplanBlogClient() {
             <p className="text-gray-300 leading-relaxed mb-8">
               The mix of people who answered that call was a big part of why it worked. Industry expertise on retrofit
               came from Claire and Shane, alongside AI consultants, project managers, architects, one-stop-shop owners,
-              business owners and homeowners. Different backgrounds, different experience, different day jobs: one shared
-              goal!
-            </p>
+  business owners and homeowners. Different backgrounds, different experience, different day jobs: one shared
+  goal! Most of us were based locally too an Inishowen and Derry team, which made the in-person sessions in
+  Buncrana all the easier to pull together.
+  </p>
 
             <h2 className="text-3xl font-bold text-white mt-12 mb-6">Getting Started</h2>
             <p className="text-gray-300 leading-relaxed mb-6">
