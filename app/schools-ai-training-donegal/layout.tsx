@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "AI Training for Schools in Donegal & Derry | AI Fusion",
   description:
-    "Age-appropriate AI and digital literacy workshops for schools and youth groups across Donegal and Derry, helping students and teachers use AI safely.",
+    "Age-appropriate AI and digital literacy workshops for schools and youth groups across Donegal and Derry. Priced per visit, not per student.",
   keywords: [
     "AI training for schools Donegal",
     "AI workshops young people Derry",

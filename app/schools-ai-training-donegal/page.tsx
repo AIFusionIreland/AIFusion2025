@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import CostBlock from "@/components/cost-block"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, CheckCircle, MapPin, Calendar, BookOpen, ShieldCheck, Lightbulb, ArrowRight } from "lucide-react"
 
@@ -143,6 +144,22 @@ export default function SchoolsAiTrainingPage() {
           </div>
         </section>
 
+        <CostBlock
+          heading="What a school workshop costs"
+          intro="Workshops are priced per visit, not per student — so a whole year group costs the same as one class. From €350 for a half-day primary workshop, from €450 for post-primary, and from €400 for a teacher CPD session."
+          closingText="Not sure what would work for your year group?"
+          closingLink={{ href: "/contact", label: "Ask us" }}
+        >
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white">Where school budgets come from</h3>
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
+              {
+                "Schools rarely have a dedicated budget line for this, and that's fine — we've seen workshops funded from subject and digital-learning budgets, parents' associations, credit union and local business sponsorship, ETB and education centre CPD budgets, and occasionally a combination. If you tell us what's available, we'll tell you honestly what will fit inside it."
+              }
+            </p>
+          </div>
+        </CostBlock>
+
         {/* Consultancy / cross-link (short, secondary) */}
         <section className="py-16 md:py-20 bg-navy-950">
           <div className="container px-4 md:px-6 max-w-4xl">
@@ -153,6 +170,15 @@ export default function SchoolsAiTrainingPage() {
               <p className="text-base md:text-lg text-gray-200 leading-relaxed text-pretty max-w-2xl mx-auto">
                 Beyond schools, AI Fusion delivers staff training for businesses, digital inclusion training for
                 community groups, and tailored AI consultancy across Donegal and Derry.
+              </p>
+              <p className="text-base md:text-lg text-gray-200 leading-relaxed text-pretty max-w-2xl mx-auto">
+                {"If you're a local business or community group rather than a school, most of our work can be funded — "}
+                <Link
+                  href="/ai-grants-donegal"
+                  className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+                >
+                  see the funding routes →
+                </Link>
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
                 <Button

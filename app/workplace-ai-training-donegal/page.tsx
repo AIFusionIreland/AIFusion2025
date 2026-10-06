@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import CostBlock from "@/components/cost-block"
 import { Button } from "@/components/ui/button"
 import { Briefcase, CheckCircle, MapPin, Calendar, Users, Laptop, Building2, ArrowRight } from "lucide-react"
 
@@ -148,6 +149,51 @@ export default function WorkplaceAiTrainingPage() {
             </div>
           </div>
         </section>
+
+        <CostBlock
+          heading="What will staff training cost you?"
+          intro="Priced per workshop, not per head — so training twenty people costs the same as training five. And for employers there's a second funding route most people miss: the Skillnet Upskill SME Training Grant pays €204.30 per training day, per employee, towards salary costs. Subject to eligibility and approval."
+          columns={{
+            format: "Format",
+            price: "Indicative price",
+            netCost: "Net cost after Grow Digital funding",
+          }}
+          rows={[
+            {
+              format: "Half-day workshop — on-site at your premises, up to 12 staff",
+              price: "from €600",
+              netCost: "from €300",
+            },
+            { format: "Full-day workshop — on-site, up to 12 staff", price: "from €1,100", netCost: "from €550" },
+            { format: "Online half-day — live, up to 12 staff", price: "from €500", netCost: "from €250" },
+            { format: "Multi-day rollout or 20+ staff", price: "quoted per project", netCost: "quoted per project" },
+          ]}
+          tableNote="Net costs assume Grow Digital funding at 50% of eligible costs, up to a maximum grant of €5,000, and require a completed Digital for Business assessment first — which is free to your business. Subject to eligibility and approval. All figures exclude VAT."
+          included={[
+            "Scheduled around shifts, quiet periods and busy seasons",
+            "Built around the tools your team already uses — no coding, no jargon",
+            "A follow-up reference sheet for every member of staff",
+            "A recording if the session is delivered online",
+            "A written quote before anything starts",
+          ]}
+          closingText="Want a written quote for your team size?"
+          closingLink={{ href: "/contact", label: "Get in touch" }}
+        >
+          <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty mt-12">
+            <strong className="text-white">
+              The salary rebate is the part most employers haven&apos;t heard of.
+            </strong>
+            {
+              " If your staff are trained through an approved Skillnet programme, the Upskill SME Training Grant contributes €204.30 per training day per employee towards their salary — for a team of five over two days, that's €2,043 back. It can be stacked on top of the LEO route. Subject to eligibility and approval. "
+            }
+            <Link
+              href="/ai-grants-donegal"
+              className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+            >
+              See the funding routes →
+            </Link>
+          </p>
+        </CostBlock>
 
         {/* Consultancy (short, secondary) */}
         <section className="py-16 md:py-20 bg-navy-950">

@@ -3,11 +3,13 @@
 import { Card, CardContent } from "@/components/ui/card"
 import ContactDialog from "@/components/contact-dialog"
 import SiteHeader from "@/components/site-header"
+import Link from "next/link"
 import { useState } from "react"
 
 interface FAQItem {
   question: string
   answer: string
+  showFundingLink?: boolean
 }
 
 const generalFAQs: FAQItem[] = [
@@ -39,6 +41,48 @@ const generalFAQs: FAQItem[] = [
 ]
 
 const individualTrainingFAQs: FAQItem[] = []
+
+const fundingFAQs: FAQItem[] = [
+  {
+    question: "Can my business get a grant for AI training or consultancy?",
+    answer:
+      "Usually, yes — but almost never in one step. The route most Donegal businesses use starts with a Digital for Business assessment, which is free to your business and produces a report showing where AI would actually pay off. That report is what unlocks the Grow Digital Voucher, which funds 50% of eligible costs up to a maximum grant of €5,000, and covers both software and the training or IT configuration to get it working. If your staff train through an approved Skillnet programme, you can also claim €204.30 per training day, per employee, towards their salary. Subject to eligibility and approval. Before you commit to anything, we'll tell you honestly which of these you're likely to qualify for — including if the answer is none of them.",
+    showFundingLink: true,
+  },
+  {
+    question: "What is the Grow Digital Voucher worth, and what does it cover?",
+    answer:
+      "It funds 50% of eligible costs, with a minimum grant of €500 and a maximum of €5,000 per application. You can be approved for up to two projects, to a cumulative grant value of €5,000. It covers software and the training or IT configuration needed to make it work — which is exactly what we do. You must have completed a Digital for Business project within the previous two years. Subject to eligibility and approval.",
+    showFundingLink: true,
+  },
+  {
+    question: "What is Digital for Business — and is it really free?",
+    answer:
+      "It's a LEO-funded assessment, and yes, it's genuinely free to your business. An independent consultant reviews how you work and produces a report identifying where digital tools and AI would make a measurable difference. It's the prerequisite for the Grow Digital Voucher, which is why it's the right first step even if you never spend another euro. One thing worth knowing: the LEO appoints the consultant, so we can't promise it'll be us. We'll still tell you honestly whether it's worth doing.",
+  },
+  {
+    question: "Does my business qualify for these grants?",
+    answer:
+      "The common requirements: between 1 and 50 paid employees; trading for at least six months; registered in a Local Enterprise Office area; not a current Enterprise Ireland or IDA client; solvent and tax compliant, with a Tax Reference and Tax Clearance Access Number. Some sectors are excluded — primary agriculture, fishing and aquaculture, gambling, adult entertainment, tobacco, coal and steel, commercial semi-state bodies, trade associations and Chambers, and charitable-status companies that don't meet the trading criteria. If you're not sure which side of the line you're on, a 15-minute call will settle it. Subject to eligibility and approval.",
+    showFundingLink: true,
+  },
+  {
+    question: "Is there a grant that covers staff salaries while they train?",
+    answer:
+      "Yes — the Skillnet Upskill SME Training Grant contributes €204.30 per training day, per employee, towards salary costs. It applies to businesses with 2–250 employees, and the training has to be delivered through an approved programme with a Skillnet network. Two things people get wrong: individuals can't claim it themselves, and it rebates salary rather than course fees — so it stacks on top of the LEO route rather than replacing it. For a team of five over two days, that's €2,043 back. Subject to eligibility and approval.",
+  },
+  {
+    question: "Can schools or community groups get these grants?",
+    answer:
+      "No. The LEO vouchers are for businesses with paid employees — schools aren't eligible, and neither are community groups or charities. Community and digital inclusion work is funded differently: through programmes such as LEADER, PEACEPLUS, local development companies, library services, ETBs and local authority initiatives. If you're running a funded programme, we deliver into it and provide the attendance and outcomes reporting your funder asks for. Schools usually fund workshops from subject or digital-learning budgets, parents' associations, or local sponsorship.",
+  },
+  {
+    question: "What if I don't qualify, or don't want to wait for approval?",
+    answer:
+      "Then you get the same work at the quoted price, and we'll tell you that before you commit rather than after. It's worth knowing the other routes exist: Enterprise Ireland's AI and Digital Discovery funding covers up to 80% of project cost, capped at a €5,000 grant, for EI clients; the EI Mentor Grant covers up to 10 mentoring sessions to a total of €1,750; InterTradeIreland runs fully funded all-island SME programmes; and the AIM Centre in Sligo runs a six-week hybrid AI Accelerator at 80% funding through De Minimis. None of these are ours to approve, and all are subject to eligibility and approval — but if one fits, we'll point you at it.",
+    showFundingLink: true,
+  },
+]
 
 const businessServicesFAQs: FAQItem[] = [
   {
@@ -87,11 +131,6 @@ const businessServicesFAQs: FAQItem[] = [
       "Yes — we specialize in helping SMEs and family-run companies use AI affordably. Our focus is on practical solutions that deliver visible value, not big, expensive enterprise systems.",
   },
   {
-    question: "Can my business get a grant for this training or AI consultancy?",
-    answer:
-      "Yes! AI Fusion can help you prepare your Grow Digital application, write your project proposal, and ensure your business meets all eligibility requirements for funding.",
-  },
-  {
     question: "Can you provide training for my entire team?",
     answer:
       "Yes! We offer customized corporate training programs for businesses of all sizes. Contact us to discuss your specific requirements and we'll create a tailored training plan for your team.",
@@ -104,19 +143,19 @@ const businessServicesFAQs: FAQItem[] = [
   {
     question: "Where are you located?",
     answer:
-      "AI Fusion is based in Inishowen, Donegal, Ireland, and we serve clients across the country and internationally through our online training programs.",
+      "AI Fusion is based in County Donegal, Ireland, and we serve clients across the country and internationally through our online training programs.",
   },
   {
     question: "How can I get started?",
     answer:
-      "You can: Book a free Discovery Call through our contact form; Arrange an on-site consultation. From there, we'll create a tailored AI Action Plan specific to your business.",
+      "You can: Book a 15-minute call through our contact page; Arrange an on-site consultation. From there, we'll create a tailored AI Action Plan specific to your business.",
   },
 ]
 
 export default function FAQPage() {
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
 
-  const allFAQs = [...generalFAQs, ...individualTrainingFAQs, ...businessServicesFAQs]
+  const allFAQs = [...generalFAQs, ...individualTrainingFAQs, ...fundingFAQs, ...businessServicesFAQs]
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -160,6 +199,28 @@ export default function FAQPage() {
           </div>
         </div>
 
+        <div className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">Funding &amp; Grants</h2>
+          <div className="space-y-6">
+            {fundingFAQs.map((faq, index) => (
+              <Card key={index} className="bg-navy-900/50 border-navy-800">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-bold text-white mb-3">{faq.question}</h3>
+                  <p className="text-gray-300 leading-relaxed">{faq.answer}</p>
+                  {faq.showFundingLink && (
+                    <Link
+                      href="/ai-grants-donegal"
+                      className="mt-3 inline-block font-semibold text-purple-400 hover:text-purple-300 transition-colors"
+                    >
+                      {"See the funding routes →"}
+                    </Link>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Business Services</h2>
           <div className="space-y-6">
@@ -185,7 +246,7 @@ export default function FAQPage() {
                   onClick={() => setIsContactDialogOpen(true)}
                   className="inline-flex items-center justify-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors"
                 >
-                  Book FREE Consultation
+                  Book a 15-minute call
                 </button>
               </div>
             </CardContent>

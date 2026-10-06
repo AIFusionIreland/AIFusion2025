@@ -4,8 +4,24 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import CostBlock from "@/components/cost-block"
 import { Button } from "@/components/ui/button"
 import { HeartHandshake, CheckCircle, MapPin, Calendar, Users, Accessibility, Globe, ArrowRight } from "lucide-react"
+
+const communityFundingPoints = [
+  {
+    title: "Programme funding",
+    body: "Most of this work sits inside an existing programme: LEADER, PEACEPLUS, a local development company, a library service, an ETB or a local authority initiative. If you're already running a funded programme, we deliver into it.",
+  },
+  {
+    title: "We quote to your budget",
+    body: "Tell us the budget you're working to and we'll design sessions to fit it. Half-day community sessions start from €450, full days from €850, and we're happy to be named as a line item in a funding application.",
+  },
+  {
+    title: "Reporting included",
+    body: "Attendance records, outcomes summaries and evaluation notes, in whatever format your funder asks for. We've delivered into publicly funded programmes before and know what the paperwork needs to look like.",
+  },
+]
 
 export default function CommunityAiTrainingPage() {
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
@@ -180,6 +196,26 @@ export default function CommunityAiTrainingPage() {
             </div>
           </div>
         </section>
+
+        <CostBlock
+          heading="How community training is funded — and what it costs"
+          intro="Community and digital inclusion work is funded differently to business training. The LEO business vouchers aren't available to community groups and charities, so if someone tells you to claim a Grow Digital Voucher for a community programme, they're wrong."
+          closingText="Working to a programme budget or writing an application?"
+          closingLink={{ href: "/contact", label: "Talk to us about scope" }}
+          className="bg-navy-950"
+        >
+          <div className="grid md:grid-cols-3 gap-8">
+            {communityFundingPoints.map((point) => (
+              <div
+                key={point.title}
+                className="bg-gradient-to-br from-purple-900/40 to-navy-900/40 backdrop-blur-sm border-2 border-purple-500/30 rounded-xl p-8 text-center"
+              >
+                <h3 className="text-xl font-bold text-white mb-3">{point.title}</h3>
+                <p className="text-gray-200">{point.body}</p>
+              </div>
+            ))}
+          </div>
+        </CostBlock>
 
         {/* Consultancy (short, secondary) */}
         <section className="py-16 md:py-20 bg-navy-900">

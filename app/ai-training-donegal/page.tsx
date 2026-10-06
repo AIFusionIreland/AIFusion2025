@@ -4,8 +4,40 @@ import { useState, useEffect } from "react"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import TrainingVideoSection from "@/components/training-video-section"
+import CostBlock, { type CostBlockProps } from "@/components/cost-block"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, CheckCircle, MapPin, Calendar, Users, Laptop, Building2 } from "lucide-react"
+
+const trainingCost: CostBlockProps = {
+  heading: "What will this cost you?",
+  intro:
+    "Sessions are priced per workshop, not per head — so the more of your team you put in the room, the cheaper it gets per person. And most Donegal businesses don't pay the full figure: LEO and Skillnet funding can cover a large part of it.",
+  columns: {
+    format: "Format",
+    price: "Indicative price",
+    netCost: "Net cost after Grow Digital funding",
+  },
+  rows: [
+    { format: "Half-day workshop — on your premises, up to 10 staff", price: "from €600", netCost: "from €300" },
+    { format: "Full-day workshop — on your premises, up to 10 staff", price: "from €1,100", netCost: "from €550" },
+    { format: "Online half-day — live, up to 10 staff", price: "from €500", netCost: "from €250" },
+    { format: "One-to-one coaching — per hour", price: "from €120", netCost: "—" },
+  ],
+  tableNote:
+    "Net costs assume Grow Digital funding at 50% of eligible costs, up to a maximum grant of €5,000. Grow Digital requires a completed Digital for Business assessment first — which is free to your business. Subject to eligibility and approval. All figures exclude VAT.",
+  included: [
+    "A short call beforehand, so the session is built around your tools and your work — not a generic slide deck",
+    "Hands-on practice with the AI tools your team will actually use",
+    "A follow-up reference sheet your staff can keep",
+    "A recording of the session if it's delivered online",
+    "A written quote before anything starts — no deposit until you've seen it",
+  ],
+  fundingNote:
+    "There's more than one route. The Skillnet Upskill SME Training Grant can add €204.30 per training day, per employee, towards salary costs — and it can be stacked on top of the LEO route. Subject to eligibility and approval.",
+  fundingLink: { href: "/ai-grants-donegal", label: "See the funding routes →" },
+  closingText: "Not sure what your team needs? A 15-minute call usually settles it.",
+  closingLink: { href: "/contact", label: "Book a call" },
+}
 
 export default function AiTrainingDonegalPage() {
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false)
@@ -60,7 +92,7 @@ export default function AiTrainingDonegalPage() {
               </h2>
               <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
                 AI Fusion is based in County Donegal and works with retail, hospitality, trades, and family-run
-                businesses throughout Donegal, Derry and Northwest Ireland. Our workshops are designed for non-technical
+                businesses throughout Donegal, Derry and Northwest Ireland. Our AI training courses and workshops are designed for non-technical
                 teams — no coding, no jargon, just practical AI skills your staff can use the very next day.
               </p>
             </div>
@@ -147,6 +179,8 @@ export default function AiTrainingDonegalPage() {
             </div>
           </div>
         </section>
+
+        <CostBlock {...trainingCost} />
 
         {/* Areas Served */}
         <section className="py-20 md:py-24 bg-navy-950">
