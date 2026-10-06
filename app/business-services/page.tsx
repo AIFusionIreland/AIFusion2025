@@ -21,6 +21,45 @@ import {
 } from "lucide-react"
 import ContactDialog from "@/components/contact-dialog"
 
+type StartOption = {
+  heading: string
+  price: string
+  body: string
+  bullets: string[]
+  netCost?: string
+  link?: { href: string; label: string }
+}
+
+const startOptions: StartOption[] = [
+  {
+    heading: "Start with the funded assessment",
+    price: "€0 to your business",
+    body: "The LEO's Digital for Business assessment is free to your business. An independent consultant reviews how you work and produces a report showing where AI would actually pay off — and it's the same report that unlocks the Grow Digital Voucher, which is what makes everything below cheaper. The LEO appoints the consultant, so we can't promise it'll be us. But it's the right first step either way, and we'll tell you honestly if it isn't.",
+    bullets: [
+      "Free to your business",
+      "Open to businesses with 1–50 paid employees",
+      "Prerequisite for the Grow Digital Voucher",
+    ],
+    link: { href: "/ai-grants-donegal", label: "See the funding routes →" },
+  },
+  {
+    heading: "Train your team",
+    price: "From €600 per half-day · from €1,100 per full day",
+    body: "Hands-on training for up to 10 staff, built around the tools and the work your team actually has in front of them. In person across Donegal and Derry, or online. Nobody leaves with a certificate and no idea what to do on Monday morning.",
+    bullets: ["Up to 10 staff", "In person or online", "Tailored to your sector", "Follow-up reference sheet included"],
+    netCost:
+      "Net cost from €300 after Grow Digital funding, if you've completed a Digital for Business assessment.",
+  },
+  {
+    heading: "Run the 6-week AI Business Pilot",
+    price: "From €2,500",
+    body: "For businesses that want AI implemented rather than explained. It's the four-stage pilot described below, plus a custom AI toolkit and a written handover so your team can keep it running without us.",
+    bullets: ["Six weeks", "Discovery, tool selection, implementation, review", "Custom AI toolkit", "Written handover"],
+    netCost:
+      "Net cost from €1,250 after Grow Digital funding, if you've completed a Digital for Business assessment.",
+  },
+]
+
 export default function BusinessServicesPage() {
   const [isContactOpen, setIsContactOpen] = useState(false)
 
@@ -32,7 +71,7 @@ export default function BusinessServicesPage() {
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-navy-900 via-navy-950 to-purple-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Business Services</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">AI Business Services for Donegal & Derry Businesses</h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
               Comprehensive AI solutions tailored to help your business thrive in the digital age. From strategy to
               implementation, we're with you every step of the way.
@@ -219,6 +258,71 @@ export default function BusinessServicesPage() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Three Ways to Start Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Three ways to start — and what each one costs
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              {
+                "Every project is quoted individually, so treat these as starting points rather than a price list. Most of our Donegal clients don't pay the full figure: LEO funding can cover up to 50% of eligible costs, up to a maximum grant of €5,000, subject to eligibility and approval."
+              }
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {startOptions.map((option) => (
+              <Card
+                key={option.heading}
+                className="bg-navy-900 border-navy-700 hover:border-purple-500 transition-colors"
+              >
+                <CardHeader>
+                  <CardTitle className="text-white text-xl">{option.heading}</CardTitle>
+                  <p className="text-white text-xl font-semibold leading-none tracking-tight mt-2">{option.price}</p>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-gray-300 mb-4">{option.body}</CardDescription>
+                  <ul className="space-y-2 text-gray-300">
+                    {option.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-center">
+                        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                  {option.netCost && <p className="text-gray-400 text-sm mt-4">{option.netCost}</p>}
+                  {option.link && (
+                    <Link
+                      href={option.link.href}
+                      className="inline-block mt-4 text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+                    >
+                      {option.link.label}
+                    </Link>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <p className="text-gray-400 text-sm max-w-3xl mx-auto text-center mt-12">
+            All figures are indicative starting points and exclude VAT. Funding is up to 50% of eligible costs, to a
+            maximum grant of €5,000, subject to eligibility and approval. Larger projects and ongoing advisory are quoted
+            per project, typically from €750 per day.
+          </p>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto text-center mt-6">
+            {"Not sure which one fits? A 15-minute call usually settles it. "}
+            <Link
+              href="/contact"
+              className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+            >
+              Book a call
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -465,13 +569,6 @@ export default function BusinessServicesPage() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-navy-950 border-t border-navy-800">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-400 text-sm">© 2025 AI Fusion. All rights reserved. | Inishowen, Donegal, Ireland</p>
         </div>
       </section>
 

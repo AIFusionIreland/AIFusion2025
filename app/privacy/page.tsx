@@ -155,12 +155,6 @@ export default function PrivacyPolicy() {
           <BackToHomeButton variant="default" size="lg" className="bg-purple-600 hover:bg-purple-700 text-white" />
         </div>
       </main>
-
-      <footer className="border-t border-navy-800 bg-navy-975 py-8">
-        <div className="container text-center text-sm text-gray-400">
-          <p>© {new Date().getFullYear()} AI Fusion. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   )
 }

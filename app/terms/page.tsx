@@ -138,11 +138,6 @@ export default function TermsOfService() {
         </div>
       </main>
 
-      <footer className="border-t border-navy-800 bg-navy-975 py-8">
-        <div className="container text-center text-sm text-gray-400">
-          <p>© {new Date().getFullYear()} AI Fusion. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   )
 }
