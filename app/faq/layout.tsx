@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import type React from "react"
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions | AI Training Donegal & Derry | AI Fusion",
+  title: { absolute: "AI Training & Grant FAQs Donegal & Derry | AI Fusion" },
   description:
-    "Answers to common questions about AI Fusion's AI training and workshops for businesses, schools, community groups and government-funded programmes across Donegal and Derry.",
+    "Grants for AI training in Donegal and Derry — what you qualify for, what it covers and what it costs. Plus answers on training, workshops and consultancy.",
   keywords: [
     "AI Fusion FAQ",
     "AI training questions Donegal",
