@@ -148,12 +148,13 @@ export default function Home() {
                   <Calendar className="w-5 h-5" />
                   Check what your AI project would cost after funding
                 </button>
-                <Link
-                  href="/ai-grants-donegal"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-purple-400/60 bg-transparent text-purple-200 hover:bg-purple-500/10 hover:text-white font-bold py-4 px-8 rounded-xl text-lg transition-colors"
+                {/* TODO: enable after grants page is built — make this a <Link href="/ai-grants-donegal"> */}
+                <span
+                  aria-disabled="true"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-purple-400/60 bg-transparent text-purple-200 font-bold py-4 px-8 rounded-xl text-lg cursor-default"
                 >
                   See the grants you can claim →
-                </Link>
+                </span>
               </div>
             </div>
           </div>
@@ -186,14 +187,8 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="text-center mt-6">
-              <Link
-                href="/ai-grants-donegal"
-                className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
-              >
-                See all the grants your business can claim →
-              </Link>
-            </p>
+            {/* TODO: enable after grants page is built — link to /ai-grants-donegal */}
+            <p className="text-center text-purple-300 font-semibold mt-6">See all the grants your business can claim →</p>
           </div>
         </section>
 

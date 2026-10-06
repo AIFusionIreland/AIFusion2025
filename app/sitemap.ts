@@ -49,12 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...blogPostEntries,
     {
-      url: `${baseUrl}/ai-grants-donegal`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/ai-training-donegal`,
       lastModified: new Date(),
       changeFrequency: "monthly",
