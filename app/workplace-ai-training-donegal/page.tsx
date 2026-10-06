@@ -146,6 +146,15 @@ export default function WorkplaceAiTrainingPage() {
                 <p className="text-gray-200">Whole-team workshops or focused coaching for owners and managers</p>
               </div>
             </div>
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto text-pretty text-center mt-12">
+              {"Training like this is often funded. "}
+              <Link
+                href="/ai-grants-donegal"
+                className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+              >
+                {"See which schemes your business qualifies for, and what you'd actually pay →"}
+              </Link>
+            </p>
           </div>
         </section>
 

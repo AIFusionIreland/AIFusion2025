@@ -513,7 +513,13 @@ export default function Home() {
                   </a>
                 </address>
               </div>
-              <div className="flex gap-6">
+              <div className="flex flex-wrap gap-6">
+                <Link
+                  href="/ai-grants-donegal"
+                  className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"
+                >
+                  Funding & Grants
+                </Link>
                 <button
                   onClick={() => handleNavigation("/privacy")}
                   className="text-sm text-gray-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-navy-975 rounded-md px-2 py-1"

@@ -154,6 +154,15 @@ export default function SchoolsAiTrainingPage() {
                 Beyond schools, AI Fusion delivers staff training for businesses, digital inclusion training for
                 community groups, and tailored AI consultancy across Donegal and Derry.
               </p>
+              <p className="text-base md:text-lg text-gray-200 leading-relaxed text-pretty max-w-2xl mx-auto">
+                {"If you're a local business or community group rather than a school, most of our work can be funded — "}
+                <Link
+                  href="/ai-grants-donegal"
+                  className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+                >
+                  see the funding routes →
+                </Link>
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
                 <Button
                   asChild

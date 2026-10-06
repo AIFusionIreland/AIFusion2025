@@ -178,6 +178,15 @@ export default function CommunityAiTrainingPage() {
                 Discuss a Funded Programme
               </Button>
             </div>
+            <p className="text-base md:text-lg text-gray-200 leading-relaxed text-pretty max-w-2xl mx-auto text-center mt-8">
+              {"Community and inclusion programmes are funded differently to business training. "}
+              <Link
+                href="/ai-grants-donegal"
+                className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+              >
+                See the routes that apply to you →
+              </Link>
+            </p>
           </div>
         </section>
 

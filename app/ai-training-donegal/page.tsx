@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
 import TrainingVideoSection from "@/components/training-video-section"
@@ -145,6 +146,15 @@ export default function AiTrainingDonegalPage() {
                 <p className="text-gray-200">Team workshops or focused one-to-one coaching to suit your needs</p>
               </div>
             </div>
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-3xl mx-auto text-pretty text-center mt-12">
+              {"Most of our Donegal clients don't pay the full cost of training. Grow Digital and Skillnet schemes can cover a large part of it — "}
+              <Link
+                href="/ai-grants-donegal"
+                className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+              >
+                see the funding routes →
+              </Link>
+            </p>
           </div>
         </section>
 

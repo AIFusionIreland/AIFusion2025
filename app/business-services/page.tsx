@@ -2,6 +2,7 @@
 
 import SiteHeader from "@/components/site-header"
 import { useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -288,6 +289,15 @@ export default function BusinessServicesPage() {
               </CardContent>
             </Card>
           </div>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto text-center mt-12">
+            {"Consultancy and pilot projects can be part-funded through LEO and Enterprise Ireland schemes. "}
+            <Link
+              href="/ai-grants-donegal"
+              className="text-purple-300 font-semibold hover:text-purple-200 underline-offset-4 hover:underline"
+            >
+              See what your project would cost after funding →
+            </Link>
+          </p>
         </div>
       </section>
 
