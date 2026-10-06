@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import SiteHeader from "@/components/site-header"
 import ContactDialog from "@/components/contact-dialog"
+import CostBlock from "@/components/cost-block"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, CheckCircle, MapPin, Calendar, BookOpen, ShieldCheck, Lightbulb, ArrowRight } from "lucide-react"
 
@@ -142,6 +143,22 @@ export default function SchoolsAiTrainingPage() {
             </div>
           </div>
         </section>
+
+        <CostBlock
+          heading="What a school workshop costs"
+          intro="Workshops are priced per visit, not per student — so a whole year group costs the same as one class. From €350 for a half-day primary workshop, from €450 for post-primary, and from €400 for a teacher CPD session."
+          closingText="Not sure what would work for your year group?"
+          closingLink={{ href: "/contact", label: "Ask us" }}
+        >
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white">Where school budgets come from</h3>
+            <p className="text-lg md:text-xl text-gray-200 leading-relaxed text-pretty">
+              {
+                "Schools rarely have a dedicated budget line for this, and that's fine — we've seen workshops funded from subject and digital-learning budgets, parents' associations, credit union and local business sponsorship, ETB and education centre CPD budgets, and occasionally a combination. If you tell us what's available, we'll tell you honestly what will fit inside it."
+              }
+            </p>
+          </div>
+        </CostBlock>
 
         {/* Consultancy / cross-link (short, secondary) */}
         <section className="py-16 md:py-20 bg-navy-950">
